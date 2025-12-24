@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cn.hoxise</groupId>
+    <artifactId>hoxise</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>hoxise</name>
+    <description>hoxise的项目</description>
+    <url></url>
+
+    <modules>
+        <module>hoxise-api</module>
+        <!--通用核心-->
+        <module>hoxise-common</module>
+        <!--系统操作-->
+        <module>hoxise-system</module>
+        <!--个人内容-->
+        <module>hoxise-self</module>
+    </modules>
+
+    <properties>
+        <revision>1.0.0</revision>
+        <java.version>17</java.version>
+        <spring.boot.version>3.1.2</spring.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+        <!--web-->
+        <springdoc.version>2.3.0</springdoc.version>
+        <knife4j.version>4.4.0</knife4j.version>
+        <!--数据库-->
+        <mysql-connector.version>8.0.28</mysql-connector.version>
+        <alibaba-druid.version>1.2.16</alibaba-druid.version>
+        <!--工具-->
+        <satoken.version>1.44.0</satoken.version> <!-- 权限认证框架 -->
+        <spring-openai.version>1.0.0-M6</spring-openai.version> <!-- spring openai -->
+        <guava.version>33.0.0-jre</guava.version>
+        <alibaba-json.version>2.0.17</alibaba-json.version>
+        <alibaba-easyexcel.version>3.3.2</alibaba-easyexcel.version>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <lombok.version>1.18.30</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <hutool.version>5.8.25</hutool.version>
+        <xingyuv-captcha.version>2.0.1</xingyuv-captcha.version> <!--验证码-->
+        <minio.version>8.5.11</minio.version>
+        <okhttp.version>4.12.0</okhttp.version>
+        <aliyun-dypnsapi20170525.version>2.0.0</aliyun-dypnsapi20170525.version> <!--短信-->
+        <spring-dotenv.version>4.0.0</spring-dotenv.version> <!--敏感AK管理工具-->
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 统一依赖管理 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-parent</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <annotationProcessorPaths>
+                        <!--lombok配置-->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <!--mapstruch编译实现-->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

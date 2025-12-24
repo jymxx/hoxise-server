@@ -1,0 +1,8 @@
+/*.iml
+target/
+
+.idea
+/.logs/
+
+.env
+/hoxise-api/.logs/

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hoxise.self.biz.dal.mapper.MovieDbBangumiMapper">
+
+    <resultMap id="BaseResultMap" type="cn.hoxise.self.biz.dal.entity.MovieDbBangumiDO">
+            <!--<id property="id" column="id" />-->
+            <!--<result property="catalogid" column="catalogid" />-->
+            <!--<result property="bangumiId" column="bangumi_id" />-->
+            <!--<result property="matchingName" column="matching_name" />-->
+            <!--<result property="subjectType" column="subject_type" />-->
+            <!--<result property="releaseDate" column="release_date" />-->
+            <!--<result property="platform" column="platform" />-->
+            <!--<result property="posterUrl" column="poster_url" />-->
+            <!--<result property="summary" column="summary" />-->
+            <!--<result property="originalName" column="original_name" />-->
+            <!--<result property="nameCn" column="name_cn" />-->
+            <!--<result property="tags" column="tags" />-->
+            <!--<result property="rating" column="rating" />-->
+            <!--<result property="metaTags" column="meta_tags" />-->
+            <!--<result property="series" column="series" />-->
+            <!--<result property="eps" column="eps" />-->
+            <!--<result property="volumes" column="volumes" />-->
+            <!--<result property="totalEpisodes" column="total_episodes" />-->
+            <!--<result property="matchingTime" column="matching_time" />-->
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,catalogid,bangumi_id,matching_name,subject_type,release_date,
+        platform,poster_url,summary,original_name,name_cn,
+        tags,rating,meta_tags,series,eps,
+        volumes,total_episodes,matching_time
+    </sql>
+</mapper>

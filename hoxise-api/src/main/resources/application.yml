@@ -1,0 +1,31 @@
+server:
+  servlet:
+    context-path: /hoxise
+
+spring:
+  profiles:
+    include: local
+  main:
+    allow-circular-references: true
+
+#springdoc-openapi接口文档配置
+springdoc:
+  swagger-ui:
+    enabled: false
+    path: /swagger-ui
+  default-flat-param-object: true
+  group-configs:
+    - group: 'system'
+      paths-to-match: '/**'
+      packages-to-scan: cn.hoxise.system
+#knife4j增强swagger文档
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
+#日志配置 默认输出级别为Info 也只配置了info warn error的日志文件输出
+logging:
+  config: classpath:logback-spring.xml
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hoxise.self.biz.dal.mapper.MovieDbBangumiActorMapper">
+
+    <resultMap id="BaseResultMap" type="cn.hoxise.self.biz.dal.entity.MovieDbBangumiActorDO">
+            <!--<id property="id" column="id" />-->
+            <!--<result property="bangumiId" column="bangumi_id" />-->
+            <!--<result property="name" column="name" />-->
+            <!--<result property="imgUrl" column="img_url" />-->
+            <!--<result property="shortSummary" column="short_summary" />-->
+            <!--<result property="career" column="career" />-->
+            <!--<result property="type" column="type" />-->
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,bangumi_id,name,img_url,short_summary,career,
+        type,created_time,updated_time
+    </sql>
+</mapper>

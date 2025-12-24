@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.hoxise</groupId>
+        <artifactId>hoxise</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>hoxise-common</artifactId>
+    <description>
+        核心通用模块
+    </description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <!--基础-->
+        <module>hoxise-common-base</module>
+        <!--日志-->
+        <module>hoxise-common-log</module>
+        <!--安全认证-->
+        <module>hoxise-common-security</module>
+        <!--文件管理-->
+        <module>hoxise-common-file</module>
+        <!--AI集成-->
+        <module>hoxise-common-ai</module>
+    </modules>
+
+</project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.hoxise</groupId>
+        <artifactId>hoxise-system</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>hoxise-system-biz</artifactId>
+    <description>普通逻辑模块</description>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-base</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-system-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--安全框架-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-security</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!-- 验证码-->
+        <dependency>
+            <groupId>com.xingyuv</groupId>
+            <artifactId>spring-boot-starter-captcha-plus</artifactId>
+            <version>${xingyuv-captcha.version}</version>
+        </dependency>
+        <!--短信(阿里云)-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dypnsapi20170525</artifactId>
+            <version>${aliyun-dypnsapi20170525.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

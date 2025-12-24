@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="1000 seconds">
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name" defaultValue="hoxise"/>
+    <timestamp key="date" datePattern="yyyyMMdd"/>
+    <property name="colorfulPattern"
+              value="%blue(%d{MM-dd HH:mm:ss}) [%boldYellow(%thread)] | %highlight(%-5level) | %boldGreen(%logger) %X{clientIp} %X{operateId} - %highlight(%msg) %n"/>
+    <property name="defaultPattern"
+              value="%d{MM-dd HH:mm:ss} [%thread] | %-5level | %logger %X{clientIp} %X{operateId} - %msg %n"/>
+    <property name="log.base_path" value=".logs"/>
+    <!-- 日志文件大小,超过这个大小将被压缩 -->
+    <property name="log.max.size" value="100MB"/>
+
+    <!--控制台输出 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${colorfulPattern}</pattern>
+            <!--            <pattern>${defaultPattern}</pattern>-->
+        </encoder>
+    </appender>
+
+    <appender name="info.appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.base_path}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${log.base_path}/archive/${spring.application.name}/info.%d{yyyyMMdd}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${log.max.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${defaultPattern}</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="warn.appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.base_path}/warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${log.base_path}/archive/${spring.application.name}/warn.%d{yyyyMMdd}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${log.max.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${defaultPattern}</pattern>
+        </layout>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="error.appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.base_path}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${log.base_path}/archive/${spring.application.name}/error.%d{yyyyMMdd}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${log.max.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${defaultPattern}</pattern>
+        </layout>
+        <!-- 下面为配置只输出error级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- http rest 请求日志 -->
+    <logger name="cn.felord.common.http.RestBodyAdvice" level="TRACE"/>
+    <logger name="cn.felord.app.mapper" level="DEBUG"/>
+
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="info.appender"/>
+        <appender-ref ref="warn.appender"/>
+        <appender-ref ref="error.appender"/>
+    </root>
+</configuration>
