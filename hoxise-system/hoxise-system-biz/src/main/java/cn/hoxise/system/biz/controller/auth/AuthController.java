@@ -5,6 +5,7 @@ import cn.hoxise.system.biz.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.system.biz.controller.auth.vo.LoginResultVO;
 import cn.hoxise.system.biz.service.auth.AuthService;
+import cn.hoxise.system.biz.utils.satoken.SaTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -42,6 +43,11 @@ public class AuthController {
     @PostMapping("/loginSms")
     public CommonResult<LoginResultVO> loginSms(@Validated AuthLoginSmsDTO authLoginSmsDTO) {
         return CommonResult.success(authService.loginSms(authLoginSmsDTO));
+    }
 
+    @Operation(summary = "验证是否登录")
+    @RequestMapping("/isLogin")
+    public CommonResult<Boolean> isLogin() {
+        return CommonResult.success(SaTokenUtil.isLogin());
     }
 }

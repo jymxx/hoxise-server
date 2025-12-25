@@ -1,6 +1,6 @@
 package cn.hoxise.self.biz.service.tmdb;
 
-import cn.hoxise.common.base.framework.StringListTypeHandler;
+import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;

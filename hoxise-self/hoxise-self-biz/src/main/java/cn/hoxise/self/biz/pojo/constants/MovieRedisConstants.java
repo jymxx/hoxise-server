@@ -16,4 +16,7 @@ public class MovieRedisConstants {
     //给影视库全量查询的缓存
     public final static String MOVIE_LIBRARY_KEY = "MovieLibraryKey";
 
+    //AI总结key缓存
+    public final static String AI_SUMMERY_PROMPT_KEY = "AiSummeryKey";
+
 }

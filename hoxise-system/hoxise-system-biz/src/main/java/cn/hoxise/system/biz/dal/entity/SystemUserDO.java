@@ -1,11 +1,9 @@
 package cn.hoxise.system.biz.dal.entity;
 
-import cn.hoxise.common.base.framework.StringListTypeHandler;
+import cn.hoxise.common.base.enums.CommonStatusEnum;
+import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import cn.hoxise.common.base.pojo.BaseDO;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,8 +22,10 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "用户表")
-@TableName(value ="sys_user")
+@TableName(value ="system_user")
 @Data
+@Builder
+@AllArgsConstructor
 public class SystemUserDO extends BaseDO implements Serializable {
 
     @TableId(value = "user_id",type = IdType.AUTO)
@@ -48,7 +50,7 @@ public class SystemUserDO extends BaseDO implements Serializable {
     private List<String> roleIds;
 
     /** 状态,0正常 1(禁止登录) */
-    private Integer status;
+    private CommonStatusEnum status;
 
     @Serial
     @TableField(exist = false)

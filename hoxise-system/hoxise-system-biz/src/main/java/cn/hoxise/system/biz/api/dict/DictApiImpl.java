@@ -1,6 +1,7 @@
 package cn.hoxise.system.biz.api.dict;
 
 import cn.hoxise.system.api.dict.DictApi;
+import cn.hoxise.system.biz.dal.entity.SystemDictDO;
 import cn.hoxise.system.biz.service.dict.SystemDictService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class DictApiImpl implements DictApi {
 
     @Override
     public String getByKey(String key) {
-        return systemDictService.getByKey(key).getDictValue();
+        SystemDictDO dict = systemDictService.getByKey(key);
+        if (dict==null){
+            return null;
+        }
+        return dict.getDictValue();
     }
 }

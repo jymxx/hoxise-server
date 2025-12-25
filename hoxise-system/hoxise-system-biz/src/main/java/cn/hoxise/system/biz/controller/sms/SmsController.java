@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +23,9 @@ public class SmsController {
     @Resource private SystemSmsService systemSmsService;
 
     @Operation(summary = "发送短信验证码")
-    @GetMapping("/send")
-    public CommonResult<Boolean> send(String mobile) {
-        systemSmsService.sendLoginVerifyCode(mobile);
+    @PostMapping("/send")
+    public CommonResult<Boolean> send(String phone) {
+        systemSmsService.sendLoginVerifyCode(phone);
         return CommonResult.ok();
     }
 

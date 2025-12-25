@@ -24,29 +24,28 @@
     <properties>
         <revision>1.0.0</revision>
         <java.version>17</java.version>
-        <spring.boot.version>3.1.2</spring.boot.version>
+        <spring.boot.version>3.4.5</spring.boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
-        <!--web-->
-        <springdoc.version>2.3.0</springdoc.version>
-        <knife4j.version>4.4.0</knife4j.version>
+        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
         <!--数据库-->
         <mysql-connector.version>8.0.28</mysql-connector.version>
-        <alibaba-druid.version>1.2.16</alibaba-druid.version>
-        <!--工具-->
+        <alibaba-druid.version>1.2.27</alibaba-druid.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <!--框架-->
         <satoken.version>1.44.0</satoken.version> <!-- 权限认证框架 -->
         <spring-openai.version>1.0.0-M6</spring-openai.version> <!-- spring openai -->
-        <guava.version>33.0.0-jre</guava.version>
-        <alibaba-json.version>2.0.17</alibaba-json.version>
-        <alibaba-easyexcel.version>3.3.2</alibaba-easyexcel.version>
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <minio.version>8.5.17</minio.version>
+        <knife4j.version>4.5.0</knife4j.version>
+        <!--工具-->
+        <guava.version>33.5.0-jre</guava.version>
+        <alibaba-json.version>2.0.60</alibaba-json.version>
+        <alibaba-easyexcel.version>4.0.3</alibaba-easyexcel.version>
         <lombok.version>1.18.30</lombok.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <hutool.version>5.8.25</hutool.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
+        <hutool.version>5.8.42</hutool.version>
         <xingyuv-captcha.version>2.0.1</xingyuv-captcha.version> <!--验证码-->
-        <minio.version>8.5.11</minio.version>
         <okhttp.version>4.12.0</okhttp.version>
         <aliyun-dypnsapi20170525.version>2.0.0</aliyun-dypnsapi20170525.version> <!--短信-->
         <spring-dotenv.version>4.0.0</spring-dotenv.version> <!--敏感AK管理工具-->
@@ -76,6 +75,11 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <!--保留编译后的参数名
+                        解决新版本(3.1.2->3.4.5)springboot请求错误的问题，新版本对controller接口的参数名要求更严格
+                        或者每个接口参数都写@RequestParam
+                    -->
+                    <parameters>true</parameters>
                     <annotationProcessorPaths>
                         <!--lombok配置-->
                         <path>
@@ -83,7 +87,7 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
-                        <!--mapstruch编译实现-->
+                        <!--mapstruch编译实现 放在lombok后面以保证兼容-->
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>

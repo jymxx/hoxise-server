@@ -32,5 +32,3 @@ mybatis-plus:
     db-config:
       id-type: auto  # 全局主键策略
   type-handlers-package: cn.hoxise.common.base.framework.mybatis.typehandler # 类型映射
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印日志

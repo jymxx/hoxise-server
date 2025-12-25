@@ -39,6 +39,7 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
             if (Objects.nonNull(userId) && Objects.isNull(baseDO.getUpdater())) {
                 baseDO.setUpdater(userId);
             }
+
         }
     }
 

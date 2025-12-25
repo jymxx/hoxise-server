@@ -1,11 +1,10 @@
 package cn.hoxise.self.biz.controller.movie.vo;
 
-import cn.hoxise.common.base.framework.StringListTypeHandler;
+import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.file.annotations.ImgFilePathFormat;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiInfoboxDO;
 import cn.hoxise.self.biz.pojo.enums.BangumiSubjectTypeEnum;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

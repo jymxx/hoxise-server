@@ -1,5 +1,6 @@
 package cn.hoxise.system.biz.service.sms;
 
+import cn.hoxise.common.base.exception.ServiceException;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.dypnsapi20170525.Client;
 import com.aliyun.dypnsapi20170525.models.*;
@@ -31,7 +32,6 @@ public class AliyunSmsClient {
 
     @PostConstruct
     protected void setClient() throws Exception {
-        System.out.println(accessKeyId+":"+accessKeySecret);
         Config config = new Config()
                 // 工程代码建议使用更安全的无 AK 方式，凭据配置方式请参见：https://help.aliyun.com/document_detail/378657.html。
                 // new`现在用spring-dotenv环境变量配置
@@ -48,7 +48,10 @@ public class AliyunSmsClient {
      * @Description: 发送验证码
      * @Date 2025-12-13 上午12:12
      */
-    public static String sendVerifyCodeAliyun(String mobile) {
+    public static SendSmsVerifyCodeResponseBody sendVerifyCodeAliyun(String mobile) {
+        if (mobile == null) {
+            throw new ServiceException("手机号码不能为空");
+        }
         SendSmsVerifyCodeRequest request = new SendSmsVerifyCodeRequest();
         request.setPhoneNumber(mobile);
         request.setSignName("速通互联验证码"); //签名
@@ -61,11 +64,7 @@ public class AliyunSmsClient {
             SendSmsVerifyCodeResponse response = client.sendSmsVerifyCode(request);
             SendSmsVerifyCodeResponseBody body = response.getBody();
             log.info(JSONObject.toJSONString(body));
-            if (body.getSuccess()){
-                return body.getModel().getRequestId();
-            }else {
-                return null;
-            }
+            return body;
         }catch (Exception error) {
             log.error("aliyun-sms发送服务异常...{0}", error);
             throw new RuntimeException("aliyun-sms发送服务异常");

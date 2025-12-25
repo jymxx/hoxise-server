@@ -6,3 +6,5 @@ target/
 
 .env
 /hoxise-api/.logs/
+
+/hoxise-api/src/test/

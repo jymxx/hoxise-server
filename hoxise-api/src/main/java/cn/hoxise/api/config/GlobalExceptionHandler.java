@@ -145,7 +145,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
-        log.error("[defaultExceptionHandler]", req);
+        log.error("[defaultExceptionHandler]{}", req);
         log.error("[defaultExceptionHandler]", ex);
         // 返回 ERROR CommonResult
         return CommonResult.error(INTERNAL_SERVER_ERROR);

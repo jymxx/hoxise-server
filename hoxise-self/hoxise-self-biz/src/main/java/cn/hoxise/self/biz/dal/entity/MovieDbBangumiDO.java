@@ -1,6 +1,6 @@
 package cn.hoxise.self.biz.dal.entity;
 
-import cn.hoxise.common.base.framework.StringListTypeHandler;
+import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import cn.hoxise.self.biz.pojo.enums.BangumiSubjectTypeEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -1,5 +1,7 @@
 package cn.hoxise.system.biz.service.sms;
 
+import cn.hoxise.common.base.exception.ServiceException;
+import com.aliyun.dypnsapi20170525.models.SendSmsVerifyCodeResponseBody;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,14 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
     // ################ 暂时只有阿里云 ############ //
 
     private void sendVerifyCodeAliyun(String mobile) {
-        String code = AliyunSmsClient.sendVerifyCodeAliyun(mobile);
-        systemSmsLogService.saveSendLog(mobile,code,"验证码(阿里云)");
+        SendSmsVerifyCodeResponseBody body  = AliyunSmsClient.sendVerifyCodeAliyun(mobile);
+        //保存日志
+        if (body.getSuccess()){
+            String code = body.getModel().getRequestId();
+            systemSmsLogService.saveSendLog(mobile,code,"验证码(阿里云)");
+        }else{
+            throw new ServiceException("短信发送失败:"+body.getMessage());
+        }
     }
 
     private boolean checkVerifyCodeAliyun(String mobile,String code) {

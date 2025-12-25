@@ -36,6 +36,11 @@
         </dependency>
         <dependency>
             <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-ai</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-system-api</artifactId>
             <version>${revision}</version>
         </dependency>

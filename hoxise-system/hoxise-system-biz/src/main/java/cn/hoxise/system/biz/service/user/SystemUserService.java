@@ -19,4 +19,9 @@ public interface SystemUserService extends IService<SystemUserDO> {
      * @date: 2023/8/27 2:04
      */
     SystemUserDO queryByUsername(String username);
+
+    SystemUserDO queryByPhoneNumber(String phoneNumber);
+
+    //注册
+    SystemUserDO register(String phoneNumber);
 }

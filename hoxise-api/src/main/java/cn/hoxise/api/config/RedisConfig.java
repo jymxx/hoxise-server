@@ -1,5 +1,6 @@
 package cn.hoxise.api.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,8 @@ import java.time.Duration;
 @EnableCaching
 public class RedisConfig {
 
+    @Value("${project.redisTimeout}")
+    private long redisTimeout;
 
     /** 开启redis注解缓存*/
     @Bean
@@ -33,7 +36,7 @@ public class RedisConfig {
                 RedisCacheConfiguration.defaultCacheConfig()
                         .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) // 使用strSerializer对key进行数据类型转换
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // 使用jacksonSeial对value的数据类型进行转换
-                        .entryTtl(Duration.ofDays(1)); // 设置默认超时时间
+                        .entryTtl(Duration.ofHours(redisTimeout)); // 设置默认超时时间
         return RedisCacheManager.builder(redisCacheWriter)
                 .cacheDefaults(defaultCacheConfig)
                 .build();
