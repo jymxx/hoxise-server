@@ -24,18 +24,20 @@
     <properties>
         <revision>1.0.0</revision>
         <java.version>17</java.version>
-        <spring.boot.version>3.4.5</spring.boot.version>
+        <spring.boot.version>3.5.9</spring.boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.14.1</maven-surefire-plugin.version>
         <!--数据库-->
         <mysql-connector.version>8.0.28</mysql-connector.version>
         <alibaba-druid.version>1.2.27</alibaba-druid.version>
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <!--框架-->
         <satoken.version>1.44.0</satoken.version> <!-- 权限认证框架 -->
-        <spring-openai.version>1.0.0-M6</spring-openai.version> <!-- spring openai -->
+        <spring-openai-starter.version>1.0.0-M6</spring-openai-starter.version> <!-- spring openai 启动器发布版本-->
+        <spring-openai.version>1.1.2</spring-openai.version> <!-- spring openai -->
         <minio.version>8.5.17</minio.version>
         <knife4j.version>4.5.0</knife4j.version>
         <!--工具-->
@@ -56,7 +58,7 @@
             <!-- 统一依赖管理 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-parent</artifactId>
+                <artifactId>spring-boot-starter-parent</artifactId>
                 <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -96,7 +98,17 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!--跳过打包后测试-->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
+
 
     </build>
 

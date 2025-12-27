@@ -65,6 +65,10 @@ public class RedisUtil {
         return redisTemplate.boundValueOps(key).get();
     }
 
+    public static void increment(String key) {
+        redisTemplate.boundValueOps(key).increment();
+    }
+
     /** 清理redis **/
     public static void clear() {
         Set<String> keys = redisTemplate.keys(Constants.ASTERISK);

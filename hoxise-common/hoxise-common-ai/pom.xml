@@ -23,9 +23,28 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--client客户端-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+            <artifactId>spring-ai-openai</artifactId>
+            <version>${spring-openai.version}</version>
+        </dependency>
+        <!--聊天记忆持久化存储-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-chat-memory-repository-jdbc</artifactId>
+            <version>${spring-openai.version}</version>
+        </dependency>
+        <!--RAG检索增强生成-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-advisors-vector-store</artifactId>
+            <version>${spring-openai.version}</version>
+        </dependency>
+        <!--向量数据库-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-vector-store-redis</artifactId>
             <version>${spring-openai.version}</version>
         </dependency>
     </dependencies>

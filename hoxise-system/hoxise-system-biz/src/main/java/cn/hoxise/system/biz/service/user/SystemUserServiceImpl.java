@@ -44,7 +44,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .status(CommonStatusEnum.ENABLE)
                 .build();
 
-        //不知道是框架版本BUG还是怎么回事，不手动设置值会有问题
+        //不知道是框架版本BUG还是怎么回事，自动插入失效
         userDO.setDeleted(false);
 
         this.save(userDO);

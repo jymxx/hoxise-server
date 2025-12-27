@@ -80,6 +80,10 @@ public class AuthServiceImpl implements AuthService {
         return realLogin(userDO);
     }
 
+    /**
+     * 检查用户状态
+     * @param systemUserDO
+     */
     private void checkStatus(SystemUserDO systemUserDO){
         //是否禁用
         if (!CommonStatusEnum.ENABLE.equals(systemUserDO.getStatus())) {

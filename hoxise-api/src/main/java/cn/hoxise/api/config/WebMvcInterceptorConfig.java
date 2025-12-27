@@ -47,20 +47,21 @@ public class WebMvcInterceptorConfig implements WebMvcConfigurer {
     }
 
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 注册 Sa-Token 拦截器，打开注解式鉴权功能
-        registry.addInterceptor(new SaInterceptor(handle -> {
-                    SaRouter.match("/**")
-                            .notMatch("/system/auth/login")
-                            // 下边的是knife4j使用的
-                            .notMatch("/doc.html")
-                            .notMatch("/webjars/**")
-                            .notMatch("/v3/api-docs/**")
-//                            .check(r -> StpUtil.checkLogin())
-                    ;
-                }))
-                .addPathPatterns("/**");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        // 注册 Sa-Token 拦截器，打开注解式鉴权功能
+//        registry.addInterceptor(new SaInterceptor(handle -> {
+//                    SaRouter.match("/**")
+//                            .notMatch("/system/auth/login")
+//                            .notMatch("/movie/ai/**")
+//                            // 下边的是knife4j使用的
+//                            .notMatch("/doc.html")
+//                            .notMatch("/webjars/**")
+//                            .notMatch("/v3/api-docs/**")
+////                            .check(r -> StpUtil.checkLogin())
+//                    ;
+//                }))
+//                .addPathPatterns("/**");
+//    }
 
 }

@@ -17,4 +17,6 @@ public interface AiRequestRecordService extends IService<AiRequestRecordDO> {
      * @date: 2025/12/25 下午3:14
      */
     void record(AiMethodEnum method,Long userid);
+
+    void aiRateLimit(Long userid);
 }

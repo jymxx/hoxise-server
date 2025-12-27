@@ -1,13 +1,16 @@
 package cn.hoxise.self.biz.service.ai;
 
-import cn.dev33.satoken.stp.StpUtil;
+import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.common.base.utils.redis.RedisUtil;
 import cn.hoxise.self.biz.pojo.enums.AiMethodEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.self.biz.dal.entity.AiRequestRecordDO;
 import cn.hoxise.self.biz.dal.mapper.AiRequestRecordMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 /**
 * @author Hoxise
@@ -28,6 +31,29 @@ public class AiRequestRecordServiceImpl extends ServiceImpl<AiRequestRecordMappe
                 .build();
         this.save(recordDO);
     }
+
+    @Override
+    public void aiRateLimit(Long userid) {
+        //后门喵
+        if(userid == 0L){
+            return;
+        }
+
+        String key = "ai_rate_limit:" + LocalDate.now() + ":"  + userid ;
+        //获取今日调用次数
+        String countStr = RedisUtil.getValue(key);
+        int count = countStr == null ? 0 : Integer.parseInt(countStr);
+        // 每日限制50次
+        if (count >= 50) {
+            throw new ServiceException("今日调用次数已达上限");
+        }
+        if (count == 0) {
+            RedisUtil.setValue(key,"1",24, TimeUnit.HOURS);
+        } else {
+            RedisUtil.increment(key);
+        }
+    }
+
 }
 
 

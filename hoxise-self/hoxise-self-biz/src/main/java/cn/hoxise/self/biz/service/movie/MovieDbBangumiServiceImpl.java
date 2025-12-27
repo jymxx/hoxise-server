@@ -58,6 +58,9 @@ public class MovieDbBangumiServiceImpl extends ServiceImpl<MovieDbBangumiMapper,
     @Override
     public MovieDetailVO detailByCatalogId(Long catalogId) {
         MovieDbBangumiDO movieDb = getByCatalogId(catalogId);
+        if (movieDb == null){
+            throw new ServiceException("未找到该数据");
+        }
         List<MovieDbBangumiInfoboxDO> service = movieDbBangumiInfoboxService.getByBangumiId(movieDb.getBangumiId());
 
         MovieDetailVO convert = MovieDbBangumiConvert.INSTANCE.convert(movieDb);

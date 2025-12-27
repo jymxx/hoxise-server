@@ -2,6 +2,7 @@ package cn.hoxise.api.config;
 
 import cn.hoxise.common.base.utils.redis.RedisUtil;
 import cn.hoxise.common.base.utils.base.LocalhostInfoUtil;
+import cn.hoxise.self.biz.service.ai.AiVectorStoreService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.annotation.Resource;
@@ -24,16 +25,18 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
 
     @Resource private LocalhostInfoUtil localhostInfoUtil;
 
-    @Resource private RedisTemplate redisTemplate;
-
     @Value("${project.isClearCache}")
     @Schema(name = "项目启动后是否清空redis缓存")
     private Boolean isClearRedis;
+
+    @Resource private AiVectorStoreService vectorStoreService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         printInfo();
         clearRedisCache();
+        //向redis推送AI向量数据
+        vectorStoreService.pushVectorStore();
     }
 
     private void printInfo() throws UnknownHostException {
