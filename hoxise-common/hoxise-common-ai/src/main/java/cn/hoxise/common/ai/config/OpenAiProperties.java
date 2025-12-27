@@ -36,7 +36,7 @@ public class OpenAiProperties {
 
     @Data
     public static class Vectorstore {
-        private boolean enabled;
+
         private Redis redis = new Redis();
         private EmbeddingModel embeddingModel = new EmbeddingModel();
 

@@ -113,7 +113,7 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
         String actorStr = actors.stream().map(MovieDbBangumiActorDO::getName).collect(Collectors.joining(","));
         //向量文本
         HashMap<String,String> textMap = new HashMap<>();
-        textMap.put("catalogid", movieDb.getCatalogid().toString());
+        textMap.put("id", movieDb.getCatalogid().toString());
         textMap.put("name", movieDb.getMatchingName());
         textMap.put("originName", movieDb.getOriginalName());
         textMap.put("tags", String.join(",", movieDb.getTags()));
@@ -126,7 +126,7 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
         textMap.put("infobox",infoBoxStr);
 
         String text = StrUtil.format("""
-                catalogid: {catalogid}
+                id: {id}
                 名称: {name},
                 原始名称: {originName},
                 标签: {tags},
@@ -139,7 +139,7 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
                 """,textMap);
 
         //元数据
-        Map<String, Object> metaMap = Map.of("catalogid", movieDb.getCatalogid()
+        Map<String, Object> metaMap = Map.of("id", movieDb.getCatalogid()
                                             , "name", movieDb.getMatchingName()
                                             , "originName", movieDb.getOriginalName()
                                             , "tags",String.join(",", movieDb.getTags())

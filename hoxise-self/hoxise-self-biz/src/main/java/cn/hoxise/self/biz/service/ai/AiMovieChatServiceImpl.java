@@ -47,7 +47,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     @Resource
     private MovieDbBangumiCharacterService characterService;
 
-    @Autowired(required = false)
+    @Autowired
     private VectorStore vectorStore;
 
     @Override
@@ -110,7 +110,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
 
         List<JSONObject> data = list.stream().map(m -> {
             JSONObject obj = new JSONObject();
-            obj.put("catalogid", m.getCatalogid());
+            obj.put("id", m.getCatalogid());
             obj.put("name", m.getMatchingName());
             obj.put("originalName", m.getOriginalName());
             return obj;

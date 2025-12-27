@@ -119,7 +119,7 @@ public class OpenAiConfig {
                 .indexName(openAiProperties.getVectorstore().getRedis().getIndexName())                // Optional: defaults to "spring-ai-index"
                 .prefix(openAiProperties.getVectorstore().getRedis().getPrefix())                  // Optional: defaults to "embedding:"
                 .metadataFields(                         // Optional: define metadata fields for filtering
-                        RedisVectorStore.MetadataField.tag("catalogid"),
+                        RedisVectorStore.MetadataField.tag("id"),
                         RedisVectorStore.MetadataField.tag("name"),
                         RedisVectorStore.MetadataField.tag("originName"),
                         RedisVectorStore.MetadataField.tag("tags"),
