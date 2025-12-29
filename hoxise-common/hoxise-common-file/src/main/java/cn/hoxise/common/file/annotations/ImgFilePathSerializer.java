@@ -6,8 +6,11 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import jakarta.annotation.Resource;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -21,13 +24,17 @@ import java.util.Objects;
 @Slf4j
 public class ImgFilePathSerializer extends JsonSerializer<Object> {
 
-    @Resource private FileStorageApi fileStorageApi;
+    private static FileStorageApi fileStorageApi;
+    @Autowired
+    public void setFileStorageApi(FileStorageApi fileStorageApi) {
+        ImgFilePathSerializer.fileStorageApi = fileStorageApi;
+    }
 
     @SneakyThrows
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
         String objectName = val==null?null:String.valueOf(val);
-        if (objectName == null){
+        if (objectName == null || fileStorageApi == null){
             gen.writeString("");
             return;
         }
@@ -36,7 +43,6 @@ public class ImgFilePathSerializer extends JsonSerializer<Object> {
             gen.writeString(Objects.requireNonNullElse(presignedUrl, objectName));
         }catch (Exception e){
             gen.writeString(objectName);
-            e.printStackTrace();
             log.error("文件路径序列化错误:{}",e.getMessage());
         }
     }

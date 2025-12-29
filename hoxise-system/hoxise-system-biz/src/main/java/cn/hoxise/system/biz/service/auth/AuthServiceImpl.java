@@ -71,12 +71,14 @@ public class AuthServiceImpl implements AuthService {
                 throw new ServiceException("验证码错误");
             }
         }
+
         SystemUserDO userDO = systemUserService.queryByPhoneNumber(authLoginSmsDTO.getPhone());
         if (userDO == null){
             //注册
             userDO = systemUserService.register(authLoginSmsDTO.getPhone());
         }
 
+        checkStatus(userDO);
         return realLogin(userDO);
     }
 

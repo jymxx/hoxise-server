@@ -21,6 +21,8 @@ public class MovieDbBangumiInfoboxDO {
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    private Long catalogid;
+
     private Long bangumiId;
 
     private String infoboxKey;

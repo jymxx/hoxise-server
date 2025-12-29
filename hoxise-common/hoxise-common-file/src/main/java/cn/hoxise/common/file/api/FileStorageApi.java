@@ -52,14 +52,11 @@ public class FileStorageApi {
     }
 
     private FileStorageService getStorageByType(FileStorageTypeEnum typeEnum){
-        switch (typeEnum){
-            case minio:
-                return applicationContext.getBean(MinioServiceImpl.class);
-            case obs:
-                return applicationContext.getBean(HuaWeiObsServiceImpl.class);
-            default:
-                return applicationContext.getBean(FileStorageService.class);
-        }
+        return switch (typeEnum) {
+            case minio -> applicationContext.getBean(MinioServiceImpl.class);
+            case obs -> applicationContext.getBean(HuaWeiObsServiceImpl.class);
+            default -> applicationContext.getBean(FileStorageService.class);
+        };
     }
 
     /**

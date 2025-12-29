@@ -23,6 +23,6 @@ public class MovieStatVO {
     //动漫电影
     private Long totalAnimeMovie;
 
-    //电视剧
-    private Long totalTV;
+    //日剧
+    private Long totalJpTV;
 }

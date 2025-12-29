@@ -1,6 +1,7 @@
 package cn.hoxise.common.base.utils.date;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -34,5 +35,19 @@ public class DateUtil {
      */
     public static LocalDateTime ofInstant(long timestampMillis){
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampMillis), ZoneId.of(TIME_ZONE_DEFAULT));
+    }
+
+    /**
+     * @Author: hoxise
+     * @Description: 时间字符串转LocalDate
+     * @param dateStr 日期字符串 不带时间
+     * @Date: 2025/8/13 上午1:14
+     */
+    public static LocalDateTime handleDateStr(String dateStr){
+        try{
+            return LocalDate.parse(dateStr, DateUtil.DATE_FORMATTER).atStartOfDay();
+        }catch (Exception e){
+            return null;
+        }
     }
 }

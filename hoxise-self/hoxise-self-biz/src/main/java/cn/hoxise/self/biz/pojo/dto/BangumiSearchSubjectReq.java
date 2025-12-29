@@ -1,5 +1,6 @@
 package cn.hoxise.self.biz.pojo.dto;
 
+import cn.hoxise.self.biz.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +44,7 @@ public class BangumiSearchSubjectReq {
     @Builder
     public static class BangumiSearchFilter {
         /**
-         * 条目类型，参照 SubjectType enum，多值之间为 `或` 的关系 {@link cn.hoxise.self.biz.pojo.enums.BangumiSubjectTypeEnum}
+         * 条目类型，参照 SubjectType enum，多值之间为 `或` 的关系 {@link BangumiSubjectTypeEnum}
          */
         private List<Integer> type;
 

@@ -1,7 +1,10 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiActorDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
 * @author Hoxise
@@ -11,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface MovieDbBangumiActorService extends IService<MovieDbBangumiActorDO> {
 
     MovieDbBangumiActorDO getByActorId(Long actorId);
+
+    List<MovieDbBangumiActorDO> listByActorIds(Collection<Long> actorIds);
 }

@@ -99,7 +99,7 @@ public class OpenAiConfig {
 
 
     /**
-     * EmbeddingModel
+     * EmbeddingModel 向量模型
      */
     @Bean
     public EmbeddingModel embeddingModel() {

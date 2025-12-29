@@ -1,7 +1,6 @@
 package cn.hoxise.api;
 
-import cn.hoxise.common.ai.api.OpenAiApi;
-import cn.hoxise.self.biz.service.movie.MovieManageService;
+import cn.hoxise.self.biz.service.movie.bangumi.MovieBangumiManageService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.document.Document;
@@ -24,7 +23,7 @@ import java.util.Map;
 public class HoxiseTest {
 
     @Resource
-    private MovieManageService movieManageService;
+    private MovieBangumiManageService movieBangumiManageService;
 
     @Autowired
     VectorStore vectorStore;
@@ -48,24 +47,24 @@ public class HoxiseTest {
     @Test
     public void scanNas() {
         //扫描本地盘
-        movieManageService.dirScan( false);
+        movieBangumiManageService.dirScan( false);
     }
 
     @Test
     public void matchingDB() {
         //匹配基本db
-        movieManageService.allMatchingBangumi(false);
+        movieBangumiManageService.allMatchingBangumi(false);
     }
 
     @Test
     public void matchingCharacters() {
         //匹配角色
-        movieManageService.matchCharacters();
+        movieBangumiManageService.matchCharacters();
     }
     @Test
     public void matchingEpisode(){
         //匹配章节信息
-        movieManageService.matchEpisode();
+        movieBangumiManageService.matchEpisode();
     }
 
 }

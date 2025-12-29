@@ -1,10 +1,10 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.self.biz.convert.MovieCharacterConvert;
-import cn.hoxise.self.biz.dal.entity.MovieDbBangumiActorDO;
 import cn.hoxise.self.biz.pojo.dto.BangumiCharacterResponse;
 import cn.hoxise.self.biz.utils.BangumiUtil;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiCharacterDO;
@@ -13,7 +13,6 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
 * @author Hoxise
@@ -33,9 +32,7 @@ public class MovieDbBangumiCharacterServiceImpl extends ServiceImpl<MovieDbBangu
 
     @Override
     public List<MovieCharactersVO> getCharacters(Long catalogId) {
-        if (catalogId == null){
-            return Collections.emptyList();
-        }
+        Assert.notNull(catalogId, "参数错误");
         //从数据库查角色信息
         List<MovieDbBangumiCharacterDO> list = this.list(Wrappers.lambdaQuery(MovieDbBangumiCharacterDO.class)
                 .eq(MovieDbBangumiCharacterDO::getCatalogid, catalogId));
@@ -65,8 +62,10 @@ public class MovieDbBangumiCharacterServiceImpl extends ServiceImpl<MovieDbBangu
         return convert;
     }
 
-
-
+    @Override
+    public void removeByCatalogId(Long catalogId) {
+        this.remove(Wrappers.lambdaQuery(MovieDbBangumiCharacterDO.class).eq(MovieDbBangumiCharacterDO::getCatalogid, catalogId));
+    }
 
 
 }

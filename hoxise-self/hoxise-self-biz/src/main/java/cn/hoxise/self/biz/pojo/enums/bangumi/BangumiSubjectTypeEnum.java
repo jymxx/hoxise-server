@@ -1,4 +1,4 @@
-package cn.hoxise.self.biz.pojo.enums;
+package cn.hoxise.self.biz.pojo.enums.bangumi;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

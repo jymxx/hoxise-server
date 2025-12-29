@@ -17,7 +17,7 @@ import lombok.Data;
 public class FileStorageDTO {
 
     @Schema(name = "或称filePath,存储文件路径名称",example = ".../.../objectName"
-            ,description = "建议数据库存储该结果值")
+            ,description = "建议数据库存储该结果值,方便迁移数据")
     private String objectName;
 
     @Schema(name = "绝对路径",example = "http://127.0.0.1:9000/minio/bucketName/objectName"

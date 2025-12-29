@@ -1,10 +1,16 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
+import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.self.biz.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.self.biz.convert.MovieDbBangumiConvert;
+import cn.hoxise.self.biz.dal.entity.MovieCatalogDO;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiInfoboxDO;
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectReq;
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
+import cn.hoxise.self.biz.pojo.enums.bangumi.BangumiSubjectTypeEnum;
+import cn.hoxise.self.biz.utils.BangumiUtil;
+import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiDO;
@@ -12,11 +18,10 @@ import cn.hoxise.self.biz.dal.mapper.MovieDbBangumiMapper;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
 * @author Hoxise
@@ -43,7 +48,6 @@ public class MovieDbBangumiServiceImpl extends ServiceImpl<MovieDbBangumiMapper,
     public List<MovieDbBangumiDO> listByCatalogId(Collection<Long> catalogIds) {
             return this.list(Wrappers.lambdaQuery(MovieDbBangumiDO.class)
                     .in(MovieDbBangumiDO::getCatalogid, catalogIds));
-
     }
 
     @Override
@@ -58,15 +62,15 @@ public class MovieDbBangumiServiceImpl extends ServiceImpl<MovieDbBangumiMapper,
     @Override
     public MovieDetailVO detailByCatalogId(Long catalogId) {
         MovieDbBangumiDO movieDb = getByCatalogId(catalogId);
-        if (movieDb == null){
-            throw new ServiceException("未找到该数据");
-        }
-        List<MovieDbBangumiInfoboxDO> service = movieDbBangumiInfoboxService.getByBangumiId(movieDb.getBangumiId());
+        Assert.notNull(movieDb, "未找到该数据");
+        List<MovieDbBangumiInfoboxDO> service = movieDbBangumiInfoboxService.getByCatalogId(catalogId);
 
         MovieDetailVO convert = MovieDbBangumiConvert.INSTANCE.convert(movieDb);
         convert.setInfobox(service);
         return convert;
     }
+
+
 
 }
 

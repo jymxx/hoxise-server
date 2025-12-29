@@ -1,11 +1,13 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiInfoboxDO;
 import cn.hoxise.self.biz.dal.mapper.MovieDbBangumiInfoboxMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,14 +21,16 @@ public class MovieDbBangumiInfoboxServiceImpl extends ServiceImpl<MovieDbBangumi
 
 
     @Override
-    public void removeByBangumiId(Long bangumiId) {
-        this.remove(Wrappers.<MovieDbBangumiInfoboxDO>lambdaQuery().eq(MovieDbBangumiInfoboxDO::getBangumiId, bangumiId));
+    public void removeByCatalogId(Long catalogid) {
+        this.remove(Wrappers.<MovieDbBangumiInfoboxDO>lambdaQuery().eq(MovieDbBangumiInfoboxDO::getCatalogid, catalogid));
     }
 
     @Override
-    public List<MovieDbBangumiInfoboxDO> getByBangumiId(Long bangumiId) {
-        return this.list(Wrappers.<MovieDbBangumiInfoboxDO>lambdaQuery().eq(MovieDbBangumiInfoboxDO::getBangumiId, bangumiId));
+    public List<MovieDbBangumiInfoboxDO> getByCatalogId(Long catalogid) {
+        return this.list(Wrappers.<MovieDbBangumiInfoboxDO>lambdaQuery().eq(MovieDbBangumiInfoboxDO::getCatalogid, catalogid));
     }
+
+
 
 
 }

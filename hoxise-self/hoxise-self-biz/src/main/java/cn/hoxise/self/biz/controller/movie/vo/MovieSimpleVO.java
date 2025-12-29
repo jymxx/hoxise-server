@@ -1,7 +1,7 @@
 package cn.hoxise.self.biz.controller.movie.vo;
 
 import cn.hoxise.common.file.annotations.ImgFilePathFormat;
-import cn.hoxise.self.biz.pojo.enums.BangumiSubjectTypeEnum;
+import cn.hoxise.self.biz.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

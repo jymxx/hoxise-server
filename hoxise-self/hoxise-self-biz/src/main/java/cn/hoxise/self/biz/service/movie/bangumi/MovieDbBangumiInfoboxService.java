@@ -1,6 +1,7 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiInfoboxDO;
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -12,7 +13,8 @@ import java.util.List;
 */
 public interface MovieDbBangumiInfoboxService extends IService<MovieDbBangumiInfoboxDO> {
 
-    void removeByBangumiId(Long bangumiId);
+    void removeByCatalogId(Long catalogId);
 
-    List<MovieDbBangumiInfoboxDO> getByBangumiId(Long bangumiId);
+    List<MovieDbBangumiInfoboxDO> getByCatalogId(Long catalogid);
+
 }

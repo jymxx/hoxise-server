@@ -1,25 +1,31 @@
 package cn.hoxise.self.biz.service.movie;
 
+import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.pojo.PageResult;
 import cn.hoxise.self.biz.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieStatVO;
 import cn.hoxise.self.biz.convert.MovieCatalogConvert;
-import cn.hoxise.self.biz.dal.entity.MovieDbBangumiDO;
-import cn.hoxise.self.biz.service.tmdb.MovieDbDO;
+import cn.hoxise.self.biz.dal.entity.*;
+import cn.hoxise.self.biz.pojo.dto.BangumiCharacterResponse;
+import cn.hoxise.self.biz.pojo.dto.BangumiEpisodesResponse;
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
+import cn.hoxise.self.biz.pojo.enums.MovieTypeEnum;
+import cn.hoxise.self.biz.service.movie.bangumi.*;
 import cn.hoxise.self.biz.pojo.constants.MovieConstants;
 import cn.hoxise.self.biz.pojo.constants.MovieRedisConstants;
-import cn.hoxise.self.biz.pojo.enums.MovieCountyEnum;
-import cn.hoxise.self.biz.service.tmdb.MovieDbService;
+import cn.hoxise.self.biz.utils.BangumiUtil;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.hoxise.self.biz.dal.entity.MovieCatalogDO;
 import cn.hoxise.self.biz.dal.mapper.MovieCatalogMapper;
 import jakarta.annotation.Resource;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,12 +41,16 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     implements MovieCatalogService{
 
     @Resource private MovieDbBangumiService movieDbBangumiService;
+    @Resource private MovieDbBangumiInfoboxService movieDbBangumiInfoboxService;
+    @Resource private MovieDbBangumiCharacterService movieDbBangumiCharacterService;
+    @Resource private MovieDbBangumiActorService movieDbBangumiActorService;
+    @Resource private MovieDbBangumiEpisodeService movieDbBangumiEpisodeService;
 
     @Override
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
         Page<MovieCatalogDO> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         return baseMapper.selectPage(page,Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory, queryDTO.getDirectory()));
+                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory, MovieTypeEnum.getByName(queryDTO.getDirectory()).getDirectory()));
     }
 
     @Override
@@ -57,7 +67,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     @Override
     @Cacheable(
             value = MovieRedisConstants.MOVIE_LIBRARY_KEY,
-            key = "{#queryDTO.pageNum, #queryDTO.directory}"
+            key = "{#queryDTO.pageNum,  #queryDTO.directory}"
     )
     public PageResult<MovieSimpleVO> libraryDBCache(MovieSimpleQueryDTO queryDTO) {
         int batchSize = 50;//一次拉五十条下去
@@ -70,9 +80,9 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     public MovieStatVO statCount(){
         MovieStatVO result = new MovieStatVO();
         result.setTotalCount(this.count());
-        result.setTotalAnime(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getDirectory,"动漫")));
-        result.setTotalAnimeMovie(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getDirectory,"动漫电影")));
-        result.setTotalTV(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).in(MovieCatalogDO::getDirectory,"日剧")));
+        result.setTotalAnime(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.anime.getDirectory())));
+        result.setTotalAnimeMovie(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.animeMovie.getDirectory())));
+        result.setTotalJpTV(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).in(MovieCatalogDO::getDirectory, MovieTypeEnum.jpTV.getDirectory())));
         return result;
     }
 
@@ -107,7 +117,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
 
     /**
      * @Author: hoxise
-     * @Description: 追加DB数据-TMDB
+     * @Description: 追加DB数据
      * @Date: 2025/12/22 下午4:44
      */
     private void addDBData(List<MovieSimpleVO> simpleVOS){

@@ -3,6 +3,7 @@ package cn.hoxise.system.biz.service.user;
 import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.system.biz.dal.entity.SystemUserDO;
 import cn.hoxise.system.biz.dal.mapper.SystemUserMapper;
+import cn.hoxise.system.enums.RoleEnum;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -40,11 +41,10 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .phoneNumber(phoneNumber)
                 .password(StrUtil.uuid())
                 .nickName(phoneNumber)
-                .roleIds(Collections.singletonList("2"))//先不配置角色 目前还没用到
+                .roleIds(Collections.singletonList(RoleEnum.USER.getCode().toString()))//默认普通角色
                 .status(CommonStatusEnum.ENABLE)
                 .build();
-
-        //不知道是框架版本BUG还是怎么回事，自动插入失效
+        //不知道是框架版本BUG还是怎么回事，自动插入失效，所以手动设置值
         userDO.setDeleted(false);
 
         this.save(userDO);

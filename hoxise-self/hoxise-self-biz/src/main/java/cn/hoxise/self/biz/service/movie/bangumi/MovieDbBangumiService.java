@@ -1,8 +1,9 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
-import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieDetailVO;
+import cn.hoxise.self.biz.dal.entity.MovieCatalogDO;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiDO;
+import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Collection;
@@ -22,5 +23,6 @@ public interface MovieDbBangumiService extends IService<MovieDbBangumiDO> {
     MovieDbBangumiDO getByCatalogId(Long catalogId);
 
     MovieDetailVO detailByCatalogId(Long catalogId);
+
 
 }

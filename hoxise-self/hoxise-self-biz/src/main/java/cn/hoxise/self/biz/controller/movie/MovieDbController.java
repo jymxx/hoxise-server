@@ -5,9 +5,9 @@ import cn.hoxise.common.file.api.FileStorageApi;
 import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieEpisodesVO;
-import cn.hoxise.self.biz.service.movie.MovieDbBangumiCharacterService;
-import cn.hoxise.self.biz.service.movie.MovieDbBangumiEpisodeService;
-import cn.hoxise.self.biz.service.movie.MovieDbBangumiService;
+import cn.hoxise.self.biz.service.movie.bangumi.MovieDbBangumiCharacterService;
+import cn.hoxise.self.biz.service.movie.bangumi.MovieDbBangumiEpisodeService;
+import cn.hoxise.self.biz.service.movie.bangumi.MovieDbBangumiService;
 import cn.hoxise.system.api.dict.DictApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,8 +54,8 @@ public class MovieDbController {
         return CommonResult.success(movieDbBangumiEpisodeService.listVOByCatalogId(catalogid));
     }
 
+    //后续可能删掉播放功能 临时放着
     @Resource private DictApi dictApi;
-
     @Operation(summary = "获取播放地址")
     @GetMapping("/playerUrl")
     public CommonResult<String> playerUrl(){

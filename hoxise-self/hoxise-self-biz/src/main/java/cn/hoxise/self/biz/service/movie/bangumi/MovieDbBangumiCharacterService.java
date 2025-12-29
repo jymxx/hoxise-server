@@ -1,10 +1,10 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiCharacterDO;
+import cn.hoxise.self.biz.pojo.dto.BangumiCharacterResponse;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,4 +23,6 @@ public interface MovieDbBangumiCharacterService extends IService<MovieDbBangumiC
      * @date: 2025/12/23 下午7:28
      */
     List<MovieCharactersVO> getCharacters(Long catalogId);
+
+    void removeByCatalogId(Long catalogId);
 }

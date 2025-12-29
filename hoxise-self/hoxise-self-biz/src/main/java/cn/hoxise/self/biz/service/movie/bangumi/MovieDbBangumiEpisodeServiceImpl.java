@@ -1,4 +1,4 @@
-package cn.hoxise.self.biz.service.movie;
+package cn.hoxise.self.biz.service.movie.bangumi;
 
 import cn.hoxise.self.biz.controller.movie.vo.MovieEpisodesVO;
 import cn.hoxise.self.biz.convert.MovieEpisodeConvert;

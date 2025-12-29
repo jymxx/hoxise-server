@@ -26,11 +26,11 @@ public class AuthController {
 
     @Resource private AuthService authService;
 
-    @Operation(summary = "登录")
-    @PostMapping("/login")
-    public CommonResult<LoginResultVO> login(@Validated AuthLoginDTO authLoginDTO) {
-        return CommonResult.success(authService.loginValidate(authLoginDTO));
-    }
+//    @Operation(summary = "登录")
+//    @PostMapping("/login")
+//    public CommonResult<LoginResultVO> login(@Validated AuthLoginDTO authLoginDTO) {
+//        return CommonResult.success(authService.loginValidate(authLoginDTO));
+//    }
 
     @Operation(summary = "退出登录")
     @RequestMapping("/logout")
