@@ -27,5 +27,5 @@ public class UserInfoVO {
     private String phoneNumber;
 
     @Schema(name = "角色")
-    private List<String> role;
+    private List<String> roles;
 }

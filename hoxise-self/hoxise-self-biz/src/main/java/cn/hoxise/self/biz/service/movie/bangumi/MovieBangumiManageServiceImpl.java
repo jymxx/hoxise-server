@@ -82,6 +82,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     public List<BangumiSearchSubjectResponse.Subject> queryByNameFromBangumi(String name) {
         Assert.notNull(name, "输入关键字不能为空");
         BangumiSearchSubjectReq req = BangumiSearchSubjectReq.builder().keyword(name).build();
+        req.setFilter(BangumiSearchSubjectReq.BangumiSearchFilter.builder().type(List.of(BangumiSubjectTypeEnum.ANIME.getCode())).build());
         BangumiSearchSubjectResponse response = BangumiUtil.searchSubjects(req);
         return response.getData();
     }
@@ -240,7 +241,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         //项目数据
         MovieDbBangumiDO build = buildDbBangumiDO(catalog, subject);
         //信息框数据
-        List<MovieDbBangumiInfoboxDO> infoboxList = buildInfoBoxDO(subject);
+        List<MovieDbBangumiInfoboxDO> infoboxList = buildInfoBoxDO(catalog,subject);
 
         //已有就更新 不删除
         MovieDbBangumiDO dbOne = movieDbBangumiService.getByCatalogId(catalog.getId());
@@ -290,6 +291,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         List<MovieDbBangumiActorDO> actorDOS = buildActorDO(actorList);
 
         //保存
+        movieDbBangumiCharacterService.removeByCatalogId(catalogid);
         movieDbBangumiCharacterService.saveBatch(characterDOS);
         movieDbBangumiActorService.saveBatch(actorDOS);
     }
@@ -340,7 +342,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                 .subjectType(BangumiSubjectTypeEnum.getByCode(subject.getType()))
                 .releaseDate(DateUtil.handleDateStr(subject.getDate()))
                 .platform(subject.getPlatform())
-                .posterUrl(BangumiUtil.handleImgBangumi(subject.getImage(), String.valueOf(subject.getId())))
+                .posterUrl(BangumiUtil.handleImgBangumi(subject.getImage()==null?subject.getImages().getLarge():"", String.valueOf(subject.getId())))
                 .summary(subject.getSummary())
                 .originalName(subject.getName())
                 .nameCn(subject.getName_cn())
@@ -365,11 +367,11 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
      * @author: hoxise
      * @date: 2025/12/23 下午6:50
      */
-    private List<MovieDbBangumiInfoboxDO> buildInfoBoxDO(BangumiSearchSubjectResponse.Subject subject){
+    private List<MovieDbBangumiInfoboxDO> buildInfoBoxDO(MovieCatalogDO catalog,BangumiSearchSubjectResponse.Subject subject){
         List<MovieDbBangumiInfoboxDO> infoboxList = new ArrayList<>();
         List<BangumiSearchSubjectResponse.InfoboxItem> infobox = subject.getInfobox();
         infobox.forEach(item -> {
-            infoboxList.add(MovieDbBangumiInfoboxDO.builder().bangumiId(subject.getId().longValue())
+            infoboxList.add(MovieDbBangumiInfoboxDO.builder().bangumiId(subject.getId().longValue()).catalogid(catalog.getId())
                     .infoboxKey(item.getKey()).infoboxValue(item.getValue().toString()).build());
         });
         return infoboxList;

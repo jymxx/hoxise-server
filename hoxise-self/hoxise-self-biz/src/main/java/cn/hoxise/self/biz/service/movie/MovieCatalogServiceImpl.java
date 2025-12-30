@@ -50,7 +50,9 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
         Page<MovieCatalogDO> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         return baseMapper.selectPage(page,Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory, MovieTypeEnum.getByName(queryDTO.getDirectory()).getDirectory()));
+                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory, MovieTypeEnum.getByName(queryDTO.getDirectory()).getDirectory())
+                .like(StrUtil.isNotBlank(queryDTO.getKeyword()),MovieCatalogDO::getName, queryDTO.getKeyword())
+        );
     }
 
     @Override

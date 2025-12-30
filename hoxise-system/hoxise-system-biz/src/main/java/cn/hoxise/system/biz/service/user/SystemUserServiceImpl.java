@@ -1,15 +1,21 @@
 package cn.hoxise.system.biz.service.user;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.enums.CommonStatusEnum;
+import cn.hoxise.system.biz.controller.user.vo.UserInfoVO;
+import cn.hoxise.system.biz.convert.SystemUserConvert;
+import cn.hoxise.system.biz.dal.entity.SystemRoleDO;
 import cn.hoxise.system.biz.dal.entity.SystemUserDO;
 import cn.hoxise.system.biz.dal.mapper.SystemUserMapper;
 import cn.hoxise.system.enums.RoleEnum;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 /**
 * @author 永远的十七岁
@@ -19,6 +25,8 @@ import java.util.Collections;
 @Service
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserDO>
     implements SystemUserService {
+
+    @Resource private SystemRoleService systemRoleService;
 
     @Override
     public SystemUserDO queryByUsername(String username){
@@ -32,6 +40,16 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .eq(SystemUserDO::getPhoneNumber,phoneNumber));
     }
 
+    @Override
+    public UserInfoVO getUserInfo(){
+        long loginId = StpUtil.getLoginIdAsLong();
+        SystemUserDO systemUserDO = this.getById(loginId);
+        UserInfoVO convert = SystemUserConvert.INSTANCE.convert(systemUserDO);
+        //设置角色信息
+        List<SystemRoleDO> roles = systemRoleService.listByIds(systemUserDO.getRoleIds());
+        convert.setRoles(roles.stream().map(SystemRoleDO::getRoleName).toList());
+        return convert;
+    }
 
     //注册
     @Override

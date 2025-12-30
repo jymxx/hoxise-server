@@ -115,7 +115,7 @@ public class AuthServiceImpl implements AuthService {
                         .userId(systemUserDO.getUserId())
                         .userName(systemUserDO.getUserName())
                         .phoneNumber(systemUserDO.getPhoneNumber())
-                        .role(systemUserDO.getRoleIds())
+                        .roles(systemUserDO.getRoleIds())
                         .build())
                 .build();
         //登录后逻辑处理
@@ -130,7 +130,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     private void validateCaptcha(String captcha) {
-        // debug模式不校验
+        // 开发模式不校验
         if ("dev".equals(runMode)) {
             return;
         }

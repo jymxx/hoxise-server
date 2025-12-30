@@ -14,4 +14,7 @@ public class MovieSimpleQueryDTO extends PageParam {
 
     @Schema(description = "目录类型", example = "动漫/动漫电影")
     public String directory;
+
+    @Schema(description = "名称关键字", example = "Clannad")
+    public String keyword;
 }

@@ -3,15 +3,16 @@ package cn.hoxise.self.biz.controller.movie;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.self.biz.pojo.dto.BangumiSearchSubjectResponse;
+import cn.hoxise.self.biz.service.movie.MovieCatalogService;
 import cn.hoxise.self.biz.service.movie.bangumi.MovieBangumiManageService;
+import cn.hoxise.self.biz.service.movie.bangumi.MovieDbBangumiService;
 import cn.hoxise.system.enums.RoleEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +24,10 @@ import java.util.List;
 @Tag(name = "影视管理")
 @RestController
 @RequestMapping("/movie/manage")
+@Validated
 public class MovieManageController {
 
+    @Resource private MovieCatalogService movieCatalogService;
 
     @Resource private MovieBangumiManageService movieBangumiManageService;
 
@@ -36,13 +39,20 @@ public class MovieManageController {
     }
 
     @Operation(summary = "更新指定Bangumi信息")
-    @PutMapping("/bangumi")
-    public CommonResult<Boolean> updateBangumi(Long catalogid, Long bangumiId) {
+    @PutMapping("/updateDb")
+    public CommonResult<Boolean> updateDB(Long catalogid, Long bangumiId) {
         StpUtil.checkRole(RoleEnum.manager.getName());//管理员角色
         movieBangumiManageService.updateBangumi(catalogid, bangumiId);
         return CommonResult.ok();
     }
 
+    @Operation(summary = "删除指定数据,逻辑删除")
+    @DeleteMapping("/deleteCatalog/{catalogid}")
+    public CommonResult<Boolean> delete(@PathVariable @NotNull Long catalogid) {
+        StpUtil.checkRole(RoleEnum.manager.getName());
+        movieCatalogService.removeById(catalogid);
+        return CommonResult.ok();
+    }
 
 
 

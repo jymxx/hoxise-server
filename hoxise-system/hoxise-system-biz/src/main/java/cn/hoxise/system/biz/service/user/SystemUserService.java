@@ -1,6 +1,7 @@
 package cn.hoxise.system.biz.service.user;
 
 
+import cn.hoxise.system.biz.controller.user.vo.UserInfoVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import cn.hoxise.system.biz.dal.entity.SystemUserDO;
 
@@ -21,6 +22,8 @@ public interface SystemUserService extends IService<SystemUserDO> {
     SystemUserDO queryByUsername(String username);
 
     SystemUserDO queryByPhoneNumber(String phoneNumber);
+
+    UserInfoVO getUserInfo();
 
     //注册
     SystemUserDO register(String phoneNumber);
