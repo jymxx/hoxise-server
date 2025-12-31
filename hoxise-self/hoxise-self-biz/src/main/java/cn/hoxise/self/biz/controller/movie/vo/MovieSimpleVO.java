@@ -1,6 +1,6 @@
 package cn.hoxise.self.biz.controller.movie.vo;
 
-import cn.hoxise.common.file.annotations.ImgFilePathFormat;
+import cn.hoxise.common.file.annotations.FilePathFormat;
 import cn.hoxise.self.biz.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +30,7 @@ public class MovieSimpleVO {
     /**
      * 海报地址
      */
-    @ImgFilePathFormat
+    @FilePathFormat
     private String posterUrl;
 
     /**

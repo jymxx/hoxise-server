@@ -4,10 +4,11 @@ import cn.hoxise.common.file.api.dto.FileStorageDTO;
 import cn.hoxise.common.file.pojo.constants.FileRedisConstants;
 import cn.hoxise.common.file.pojo.enums.FileStorageTypeEnum;
 import cn.hoxise.common.file.pojo.enums.FileTypeEnum;
+import cn.hoxise.common.file.service.AliyunOssServiceImpl;
 import cn.hoxise.common.file.service.FileStorageService;
-import cn.hoxise.common.file.service.HuaWeiObsServiceImpl;
 import cn.hoxise.common.file.service.MinioServiceImpl;
 import cn.hoxise.common.file.utils.FileStorageUtil;
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class FileStorageApi {
     private FileStorageService getStorageByType(FileStorageTypeEnum typeEnum){
         return switch (typeEnum) {
             case minio -> applicationContext.getBean(MinioServiceImpl.class);
-            case obs -> applicationContext.getBean(HuaWeiObsServiceImpl.class);
+            case aliyunOss -> applicationContext.getBean(AliyunOssServiceImpl.class);
             default -> applicationContext.getBean(FileStorageService.class);
         };
     }
@@ -72,9 +73,6 @@ public class FileStorageApi {
         return storageService.fileUpload(file);
     }
 
-    public FileStorageDTO uploadFile(InputStream file){
-        return fileStorageService.fileUpload(file);
-    }
     public FileStorageDTO uploadFile(InputStream file,String fileName){
         return fileStorageService.fileUpload(file,fileName);
     }
@@ -90,9 +88,15 @@ public class FileStorageApi {
      * @date: 2024/7/16 下午12:45
      */
     public void deleteFile(String objectName){
+        if (StrUtil.isBlank(objectName)){
+            return;
+        }
         fileStorageService.deleteFile(objectName);
     }
     public void deleteFile(String objectName, FileStorageTypeEnum typeEnum){
+        if (StrUtil.isBlank(objectName)){
+            return;
+        }
         FileStorageService storageService = getStorageByType(typeEnum);
         storageService.deleteFile(objectName);
     }

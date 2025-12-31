@@ -42,8 +42,8 @@ public class MinioServiceImpl implements FileStorageService {
     @Value("${fileStorage.minio.access-key}")
     private String accesskey;
 
-    @Value("${fileStorage.minio.secret-key}")
-    private String secretKey;
+    @Value("${fileStorage.minio.access-secret}")
+    private String accessSecret;
 
     private MinioClient minioClient;
 
@@ -51,7 +51,7 @@ public class MinioServiceImpl implements FileStorageService {
     public void setMinioClient() {
         log.info("----初始化minio连接配置----");
         minioClient = MinioClient.builder()
-                .credentials(accesskey,secretKey)
+                .credentials(accesskey,accessSecret)
                 .endpoint(endpoint)
                 .build();
         log.info("----end.初始化minio连接配置完成----");
@@ -61,12 +61,6 @@ public class MinioServiceImpl implements FileStorageService {
     public FileStorageDTO fileUpload(MultipartFile file) {
         String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
         return fileUpload(file,folderName);
-    }
-
-    @Override
-    public FileStorageDTO fileUpload(InputStream inputStream) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(inputStream,folderName,UUID.randomUUID().toString());
     }
 
     @Override

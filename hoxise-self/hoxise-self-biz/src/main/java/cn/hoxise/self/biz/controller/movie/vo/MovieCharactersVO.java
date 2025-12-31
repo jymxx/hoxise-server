@@ -1,9 +1,8 @@
 package cn.hoxise.self.biz.controller.movie.vo;
 
-import cn.hoxise.common.file.annotations.ImgFilePathFormat;
+import cn.hoxise.common.file.annotations.FilePathFormat;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiActorDO;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,7 +39,7 @@ public class MovieCharactersVO {
     /**
      * 角色图片URL
      */
-    @ImgFilePathFormat
+    @FilePathFormat
     private String imgUrl;
 
     /**

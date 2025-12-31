@@ -90,20 +90,27 @@ project:
 #文件存储
 fileStorage:
   defaultType: minio
-  #序列化前缀 如: minio配置策略后直接访问的地址; CDN加速服务器
+  #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
   serializerPrefix: http://localhost:9000
   minio:
     endpoint: http://127.0.0.1:9000
     bucket: hoxise-java
     access-key: hoxise
-    secret-key: hoxise-java
+    access-secret: hoxise-java
+  aliyunOss:
+    regin: cn-chengdu
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    bucket: hoxise-java
+    access-key: ${aliyun.oss.accessKey}
+    access-secret: ${aliyun.oss.accessSecret}
 
 
 #短信
 sms:
   aliyun:
-    accessKey: ${aliyun.ram.accessKey}
-    accessSecret: ${aliyun.ram.accessSecret}
+    endpoint: sms.cn-hangzhou.aliyuncs.com
+    accessKey: ${aliyun.sms.accessKey}
+    accessSecret: ${aliyun.sms.accessSecret}
 
 #nas云处理
 nasCloud:

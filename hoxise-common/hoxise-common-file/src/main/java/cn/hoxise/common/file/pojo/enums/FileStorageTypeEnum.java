@@ -8,8 +8,8 @@ package cn.hoxise.common.file.pojo.enums;
 public enum FileStorageTypeEnum {
 
     unknown(-1,"未知","unknown"),
-    minio(0,"minio","minio对象存储"),
-    obs(1,"huaweiObs","华为云对象存储");
+    minio(1,"minio","minio对象存储"),
+    aliyunOss(2,"aliyunOss","阿里云对象存储");
 
     private final Integer code;
     private final String name;

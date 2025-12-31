@@ -51,6 +51,7 @@
         <okhttp.version>4.12.0</okhttp.version>
         <aliyun-dypnsapi20170525.version>2.0.0</aliyun-dypnsapi20170525.version> <!--短信-->
         <spring-dotenv.version>4.0.0</spring-dotenv.version> <!--敏感AK管理工具-->
+        <aliyun-oss.version>3.17.4</aliyun-oss.version> <!--阿里云oss-->
     </properties>
 
     <dependencyManagement>

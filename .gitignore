@@ -8,3 +8,5 @@ target/
 /hoxise-api/.logs/
 
 /hoxise-api/src/test/
+
+/hoxise-api/src/main/resources/application-prod.yml

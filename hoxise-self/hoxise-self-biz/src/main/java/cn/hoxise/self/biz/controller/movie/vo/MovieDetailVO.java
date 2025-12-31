@@ -2,7 +2,7 @@ package cn.hoxise.self.biz.controller.movie.vo;
 
 import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.common.file.annotations.ImgFilePathFormat;
+import cn.hoxise.common.file.annotations.FilePathFormat;
 import cn.hoxise.self.biz.dal.entity.MovieDbBangumiInfoboxDO;
 import cn.hoxise.self.biz.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -52,7 +52,7 @@ public class MovieDetailVO {
     /**
      * 封面图片URL
      */
-    @ImgFilePathFormat
+    @FilePathFormat
     private String posterUrl;
 
     /**

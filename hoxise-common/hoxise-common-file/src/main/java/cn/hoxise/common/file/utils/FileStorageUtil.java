@@ -40,9 +40,6 @@ public class FileStorageUtil {
     public static FileStorageDTO uploadFile(MultipartFile file) {
         return fileStorageApi.uploadFile(file);
     }
-    public static FileStorageDTO uploadFile(InputStream file) {
-        return fileStorageApi.uploadFile(file);
-    }
     public static FileStorageDTO uploadFile(InputStream file, String fileName) {
         return fileStorageApi.uploadFile(file,fileName);
     }

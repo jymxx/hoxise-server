@@ -26,7 +26,8 @@ public class AliyunSmsClient {
     @Value("${sms.aliyun.accessSecret}")
     private String accessKeySecret;
 
-    private static final String ENDPOINT = "dypnsapi.aliyuncs.com";
+    @Value("${sms.aliyun.endpoint}")
+    private String endpoint;
 
     private static Client client;
 
@@ -38,7 +39,7 @@ public class AliyunSmsClient {
                 .setAccessKeyId(accessKeyId)
                 .setAccessKeySecret(accessKeySecret)
                 // Endpoint 请参考 https://api.aliyun.com/product/Dypnsapi
-                .setEndpoint(ENDPOINT);
+                .setEndpoint(endpoint);
         client = new Client(config);
         log.info("阿里云短信客户端初始化完成");
     }

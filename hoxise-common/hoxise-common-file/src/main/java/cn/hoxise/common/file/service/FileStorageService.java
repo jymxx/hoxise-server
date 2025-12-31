@@ -20,9 +20,6 @@ public interface FileStorageService {
      * @date: 2024/7/16 上午11:52
      */
     FileStorageDTO fileUpload(MultipartFile file);
-
-    FileStorageDTO fileUpload(InputStream inputStream);
-
     FileStorageDTO fileUpload(InputStream inputStream, String fileName);
 
     /**

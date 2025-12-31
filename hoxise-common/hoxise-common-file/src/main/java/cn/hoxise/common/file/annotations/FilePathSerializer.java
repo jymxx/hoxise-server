@@ -28,12 +28,17 @@ public class FilePathSerializer extends JsonSerializer<Object> {
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
         String objectName = val==null?null:String.valueOf(val);
-        if (objectName == null){
+        if (objectName == null || fileStorageApi == null){
             gen.writeString("");
             return;
         }
+        //不匹配http开头的
+        if (objectName.startsWith("http")){
+            gen.writeString(objectName);
+            return;
+        }
         try{
-            String presignedUrl = fileStorageApi.getPresignedUrlCache(objectName);
+            String presignedUrl = fileStorageApi.getAbsoluteUrl(objectName);
             gen.writeString(Objects.requireNonNullElse(presignedUrl, objectName));
         }catch (Exception e){
             gen.writeString(objectName);

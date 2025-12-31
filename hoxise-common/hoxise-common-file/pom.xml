@@ -46,6 +46,14 @@
             <version>${okhttp.version}</version>
         </dependency>
 
+        <!--阿里云OSS  https://help.aliyun.com/zh/oss/developer-reference/-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>${aliyun-oss.version}</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
