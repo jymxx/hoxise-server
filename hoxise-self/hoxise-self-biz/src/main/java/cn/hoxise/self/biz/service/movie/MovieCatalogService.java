@@ -30,10 +30,6 @@ public interface MovieCatalogService extends IService<MovieCatalogDO> {
      * @Description: 影视库数据 带缓存
      * @Date: 2025/12/23 上午1:10
      */
-    @Cacheable(
-            value = MovieRedisConstants.MOVIE_LIBRARY_KEY,
-            key = "{#queryDTO.pageNum, #queryDTO.directory}"
-    )
     PageResult<MovieSimpleVO> libraryDBCache(MovieSimpleQueryDTO queryDTO);
 
     @Cacheable(value = MovieRedisConstants.MOVIE_STAT_KEY)

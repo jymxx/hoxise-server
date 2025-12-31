@@ -89,9 +89,9 @@ project:
 
 #文件存储
 fileStorage:
-  defaultType: minio
+  defaultType: aliyunOss
   #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
-  serializerPrefix: http://localhost:9000
+  serializerPrefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
   minio:
     endpoint: http://127.0.0.1:9000
     bucket: hoxise-java
@@ -108,7 +108,7 @@ fileStorage:
 #短信
 sms:
   aliyun:
-    endpoint: sms.cn-hangzhou.aliyuncs.com
+    endpoint: dypnsapi.aliyuncs.com
     accessKey: ${aliyun.sms.accessKey}
     accessSecret: ${aliyun.sms.accessSecret}
 

@@ -22,13 +22,11 @@ import java.util.Objects;
 @Slf4j
 public class FilePathSerializer extends JsonSerializer<Object> {
 
-    @Resource private FileStorageApi fileStorageApi;
-
     @SneakyThrows
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
         String objectName = val==null?null:String.valueOf(val);
-        if (objectName == null || fileStorageApi == null){
+        if (objectName == null){
             gen.writeString("");
             return;
         }
@@ -38,7 +36,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
             return;
         }
         try{
-            String presignedUrl = fileStorageApi.getAbsoluteUrl(objectName);
+            String presignedUrl = FileStorageUtil.getAbsoluteUrl(objectName);
             gen.writeString(Objects.requireNonNullElse(presignedUrl, objectName));
         }catch (Exception e){
             gen.writeString(objectName);

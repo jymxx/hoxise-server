@@ -37,6 +37,10 @@ public class RedisUtil {
         RedisUtil.redisTemplate = template;
     }
 
+    public static boolean hasKey(String key) {
+        return stringRedisTemplate.hasKey(key);
+    }
+
     public static Boolean setValue(String key, String value) {
         stringRedisTemplate.boundValueOps(key).set(value, redisTimeout, TimeUnit.HOURS);
         return true;

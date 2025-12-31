@@ -253,7 +253,9 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         if (dbOne != null){
             build.setId(dbOne.getId());
         }
-        FileStorageUtil.deleteFile(build.getPosterUrl());//删除封面图片
+        if (dbOne != null) {
+            FileStorageUtil.deleteFile(dbOne.getPosterUrl());//删除封面图片
+        }
         movieDbBangumiService.saveOrUpdate(build);
         movieDbBangumiInfoboxService.removeByCatalogId(catalog.getId());
         movieDbBangumiInfoboxService.saveBatch(infoboxList);
