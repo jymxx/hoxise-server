@@ -96,9 +96,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      */
     private String getAiRecommendPromptCache(){
         String redisKey = MovieRedisConstants.AI_RECOMMEND_PROMPT_KEY;
-        String value = RedisUtil.getValue(redisKey);
-        if (value != null){
-            return  value;
+        if (RedisUtil.hasKey(redisKey)){
+            return RedisUtil.getValue(redisKey);
         }
 
         List<MovieDbBangumiDO> list = movieDbBangumiService.list();
@@ -122,9 +121,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      */
     private String getAiSummaryPromptCache(Long catalogid){
         String redisKey = MovieRedisConstants.AI_SUMMERY_PROMPT_KEY +":"+ catalogid;
-        String value = RedisUtil.getValue(redisKey);
-        if (value != null){
-            return  value;
+        if (RedisUtil.hasKey(redisKey)){
+            return RedisUtil.getValue(redisKey);
         }
         //拿到数据
         MovieDbBangumiDO bangumiDO = movieDbBangumiService.getByCatalogId(catalogid);

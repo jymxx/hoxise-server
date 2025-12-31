@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +32,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AiVectorStoreServiceImpl implements AiVectorStoreService {
 
-    @Autowired(required = false)
+    @Resource
     private VectorStore vectorStore;
 
     @Resource
@@ -73,15 +70,18 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
         for (int i = 1; i <= pageNum+1; i++) {
             log.info("开始处理第{}页数据...", i);
             List<MovieDbBangumiDO> list = movieDbBangumiService.list(new Page<>(i, batchSize), Wrappers.lambdaQuery(MovieDbBangumiDO.class));
+            if (list.isEmpty()){
+                break;
+            }
             List<Long> catalogids = list.stream().map(MovieDbBangumiDO::getCatalogid).toList();
             List<Long> bangumiIds = list.stream().map(MovieDbBangumiDO::getBangumiId).toList();
             //信息框
-            List<MovieDbBangumiInfoboxDO> infoboxDOList = infoboxService.list(Wrappers.lambdaQuery(MovieDbBangumiInfoboxDO.class).in(MovieDbBangumiInfoboxDO::getBangumiId, bangumiIds));
+            List<MovieDbBangumiInfoboxDO> infoboxDOList = infoboxService.list(Wrappers.lambdaQuery(MovieDbBangumiInfoboxDO.class).in(!bangumiIds.isEmpty(),MovieDbBangumiInfoboxDO::getBangumiId, bangumiIds));
             //角色信息
-            List<MovieDbBangumiCharacterDO> characterDOList = characterService.list(Wrappers.lambdaQuery(MovieDbBangumiCharacterDO.class).in(MovieDbBangumiCharacterDO::getCatalogid, catalogids));
+            List<MovieDbBangumiCharacterDO> characterDOList = characterService.list(Wrappers.lambdaQuery(MovieDbBangumiCharacterDO.class).in(!catalogids.isEmpty(),MovieDbBangumiCharacterDO::getCatalogid, catalogids));
             //演员、CV信息
             List<String> actorIds = characterDOList.stream().flatMap(chara -> chara.getActors().stream()).distinct().toList();
-            List<MovieDbBangumiActorDO> actorDOList = actorService.list(Wrappers.lambdaQuery(MovieDbBangumiActorDO.class).in(MovieDbBangumiActorDO::getActorId,actorIds));
+            List<MovieDbBangumiActorDO> actorDOList = actorService.list(Wrappers.lambdaQuery(MovieDbBangumiActorDO.class).in(!actorIds.isEmpty(),MovieDbBangumiActorDO::getActorId,actorIds));
 
             List<Document> documents = new ArrayList<>();
             list.forEach(f->{
@@ -142,12 +142,13 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
         Map<String, Object> metaMap = Map.of("id", movieDb.getCatalogid()
                                             , "name", movieDb.getMatchingName()
                                             , "originName", movieDb.getOriginalName()
-                                            , "tags",String.join(",", movieDb.getTags())
-                                            , "metaTags",String.join(",", movieDb.getMetaTags())
+                                            , "tags","{" + String.join(",", movieDb.getTags()) + "}"
+                                            , "metaTags","{" + String.join(",", movieDb.getMetaTags()) + "}"
                                             , "type", movieDb.getPlatform()
-                                            , "charactors", characterStr
+                                            , "characters", characterStr
                                             , "actors",actorStr
-                                            , "releaseYear", movieDb.getReleaseDate()==null?"":movieDb.getReleaseDate().getYear() );
+                                            , "releaseYear", movieDb.getReleaseDate()==null?1970.0:(double)movieDb.getReleaseDate().getYear()
+        );
 
         return new Document(movieDb.getCatalogid().toString(),text,metaMap);
 
