@@ -29,6 +29,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -89,6 +90,10 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
 
     @Override
     @Transactional
+    @CacheEvict(
+            value = MovieRedisConstants.MOVIE_LIBRARY_KEY,
+            allEntries = true  // 数据更新后清除整个缓存区域
+    )
     public void updateBangumi(Long catalogid, Long bangumiId) {
         Assert.notNull(catalogid, "catalogId不能为空");
         Assert.notNull(bangumiId, "bangumiId不能为空");
@@ -279,21 +284,28 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         List<MovieDbBangumiCharacterDO> characterDOS = buildCharacterDO(characters, catalogid);
 
         //查询已有的CV信息
-        List<Long> actors = new ArrayList<>(characterDOS.stream().flatMap(fm -> fm.getActors().stream()).distinct().map(Long::valueOf).toList());
-        List<Long> dbActors = movieDbBangumiActorService.listByActorIds(actors).stream().map(MovieDbBangumiActorDO::getActorId).toList();
-        actors.removeAll(dbActors);//移除集合中数据库里已有的 即剩下需要新增的
-
-        //过滤出Bangumi里需要新增的CV信息
-        List<BangumiCharacterResponse.ActorInfo> actorList = characters.stream()
-                .flatMap(f -> f.getActors().stream())//展开成一个List<ActorInfo>
-                .filter(f -> actors.contains(f.getId().longValue()))
-                .toList();
-        List<MovieDbBangumiActorDO> actorDOS = buildActorDO(actorList);
+        List<Long> actors = new ArrayList<>(characterDOS.stream().flatMap(fm -> fm.getActors().stream()).map(Long::valueOf).distinct().toList());
+        if (!actors.isEmpty()){
+            List<Long> dbActors = movieDbBangumiActorService.listByActorIds(actors).stream().map(MovieDbBangumiActorDO::getActorId).toList();
+            actors.removeAll(dbActors);//移除集合中数据库里已有的 即剩下需要新增的
+            //过滤出Bangumi里需要新增的CV信息
+            List<BangumiCharacterResponse.ActorInfo> actorList = characters.stream()
+                    .flatMap(f -> f.getActors().stream())//展开成一个List<ActorInfo>
+                    .filter(f -> actors.contains(f.getId().longValue()))
+                    .collect(Collectors.toMap(
+                            BangumiCharacterResponse.ActorInfo::getId, // 以演员ID为key
+                            actor -> actor,         // 以整个对象为value
+                            (existing, replacement) -> existing // 如果key重复，保留第一个
+                    )).values()
+                    .stream()
+                    .toList();
+            List<MovieDbBangumiActorDO> actorDOS = buildActorDO(actorList);
+            movieDbBangumiActorService.saveBatch(actorDOS);
+        }
 
         //保存
         movieDbBangumiCharacterService.removeByCatalogId(catalogid);
         movieDbBangumiCharacterService.saveBatch(characterDOS);
-        movieDbBangumiActorService.saveBatch(actorDOS);
     }
 
     @Override
@@ -311,7 +323,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     public void apiUpdateEpisode(Long bangumiId,Long catalogid) {
         //已有就跳过
         long count = movieDbBangumiEpisodeService.count(Wrappers.lambdaQuery(MovieDbBangumiEpisodeDO.class)
-                .eq(MovieDbBangumiEpisodeDO::getCatalogid, bangumiId));
+                .eq(MovieDbBangumiEpisodeDO::getCatalogid, catalogid));
         if (count > 0){
             log.warn("-----跳过，已存在章节数据: %s".formatted(bangumiId));
             return;
@@ -342,7 +354,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                 .subjectType(BangumiSubjectTypeEnum.getByCode(subject.getType()))
                 .releaseDate(DateUtil.handleDateStr(subject.getDate()))
                 .platform(subject.getPlatform())
-                .posterUrl(BangumiUtil.handleImgBangumi(subject.getImage()==null?subject.getImages().getLarge():"", String.valueOf(subject.getId())))
+                .posterUrl(BangumiUtil.handleImgBangumi(subject.getImage()==null?subject.getImages().getLarge():subject.getImage(), String.valueOf(subject.getId())))
                 .summary(subject.getSummary())
                 .originalName(subject.getName())
                 .nameCn(subject.getName_cn())

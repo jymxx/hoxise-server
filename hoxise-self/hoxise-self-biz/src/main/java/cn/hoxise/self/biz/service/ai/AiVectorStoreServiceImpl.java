@@ -66,7 +66,7 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
         }
         log.info("开始推送向量数据...");
         //批次查询
-        int batchSize = 100;
+        int batchSize = 10;
         long pageNum = movieDbBangumiService.count() / batchSize;
         log.info("总页数: {}", pageNum+1);
 

@@ -2,6 +2,7 @@ package cn.hoxise.self.biz.controller.movie;
 
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.file.api.FileStorageApi;
+import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.self.biz.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.self.biz.controller.movie.vo.MovieEpisodesVO;
@@ -34,8 +35,6 @@ public class MovieDbController {
 
     @Resource private MovieDbBangumiEpisodeService movieDbBangumiEpisodeService;
 
-    @Resource private FileStorageApi fileStorageApi;;
-
     @Operation(summary = "获取影视详情")
     @GetMapping("/detail")
     public CommonResult<MovieDetailVO> detail(Long catalogid){
@@ -59,6 +58,6 @@ public class MovieDbController {
     @Operation(summary = "获取播放地址")
     @GetMapping("/playerUrl")
     public CommonResult<String> playerUrl(){
-        return CommonResult.success(fileStorageApi.getPresignedUrlCache(dictApi.getByKey("movie_player_url")));
+        return CommonResult.success(FileStorageUtil.getAbsoluteUrl(dictApi.getByKey("movie_player_url")));
     }
 }

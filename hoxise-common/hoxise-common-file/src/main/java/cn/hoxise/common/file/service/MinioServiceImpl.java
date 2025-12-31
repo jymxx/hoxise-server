@@ -52,7 +52,8 @@ public class MinioServiceImpl implements FileStorageService {
         log.info("----初始化minio连接配置----");
         minioClient = MinioClient.builder()
                 .credentials(accesskey,secretKey)
-                .endpoint(endpoint).build();
+                .endpoint(endpoint)
+                .build();
         log.info("----end.初始化minio连接配置完成----");
     }
 
@@ -137,7 +138,7 @@ public class MinioServiceImpl implements FileStorageService {
             minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).object(objectName).build());
         }catch (Exception e){
-            log.error("minio获取文件预览地址异常,objectName{},{}", objectName,e.toString());
+            log.error("minio获取文件预览地址异常,objectName:{},{}", objectName,e.toString());
             throw new ServiceException("获取文件预览地址异常");
         }
     }

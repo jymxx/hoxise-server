@@ -37,23 +37,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
             gen.writeString(Objects.requireNonNullElse(presignedUrl, objectName));
         }catch (Exception e){
             gen.writeString(objectName);
-            e.printStackTrace();
             log.error("文件路径序列化错误:{}",e.getMessage());
         }
-
-//        String objectName = String.valueOf(val);
-//        try{
-//            if (val != null){
-//                String presignedUrl = fileStorageApi.getPresignedUrlCache(objectName);
-//                if (presignedUrl != null){
-//                    gen.writeString(presignedUrl);
-//                }else{
-//                    gen.writeString(objectName);
-//                }
-//            }
-//        }catch (Exception e){
-//            gen.writeString(objectName);
-//            log.error("文件路径序列化错误:{}",e.getMessage());
-//        }
     }
 }

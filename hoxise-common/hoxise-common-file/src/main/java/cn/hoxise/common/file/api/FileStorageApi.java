@@ -1,6 +1,5 @@
 package cn.hoxise.common.file.api;
 
-import cn.hoxise.common.file.annotations.FilePathFormat;
 import cn.hoxise.common.file.api.dto.FileStorageDTO;
 import cn.hoxise.common.file.pojo.constants.FileRedisConstants;
 import cn.hoxise.common.file.pojo.enums.FileStorageTypeEnum;
@@ -112,7 +111,6 @@ public class FileStorageApi {
 
     /**
      * 获取存储地址的绝对路径
-     * 注:如果需要文件的返回绝对路径给前端 在实体类添加注解即可 会将相对路径序列化成绝对路径 {@link FilePathFormat}
      * @param	objectName 对象名称/存储路径
      * @author: tangxin
      * @date: 2024/7/16 下午2:15

@@ -55,7 +55,7 @@ spring:
       # 需要redis-stack
       redis:
         # 是否初始化所需表 默认false
-        initialize-schema: true
+        initialize-schema: false
         index-name: spring-ai-index
         prefix: "embedding:"
 
@@ -80,7 +80,7 @@ sa-token:
 
 ##########   其它配置   ##########
 project:
-  #启动模式 (dev 1.登录不需要验证码;2.禁用SSL证书验证)
+  #启动模式 (dev 1.登录不需要验证码;)
   runMode: dev
   #项目启动后是否清除Redis
   isClearCache: false
@@ -108,3 +108,5 @@ nasCloud:
   disk: X:\
   #需要管理的文件夹
   dirs: 动漫电影,动漫,日剧
+  #启动后是否加载Embedding
+  pushVectorStore: false

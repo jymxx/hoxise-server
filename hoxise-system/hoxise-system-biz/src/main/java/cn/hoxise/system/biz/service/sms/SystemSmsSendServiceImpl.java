@@ -23,7 +23,11 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
 
     @Override
     public boolean checkLoginVerifyCode(String mobile, String code) {
-        return checkVerifyCodeAliyun(mobile,code);
+        try{
+            return checkVerifyCodeAliyun(mobile,code);
+        }catch (Exception error){
+            throw new ServiceException("短信登录失败,请检查验证码是否正确");
+        }
     }
 
 

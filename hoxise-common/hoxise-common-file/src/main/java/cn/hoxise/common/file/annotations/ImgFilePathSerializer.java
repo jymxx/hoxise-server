@@ -38,8 +38,14 @@ public class ImgFilePathSerializer extends JsonSerializer<Object> {
             gen.writeString("");
             return;
         }
+        //不匹配http开头的
+        if (objectName.startsWith("http")){
+            gen.writeString(objectName);
+            return;
+        }
         try{
-            String presignedUrl = fileStorageApi.getPresignedUrlCache(objectName, FileTypeEnum.img);
+//            String presignedUrl = fileStorageApi.getPresignedUrlCache(objectName, FileTypeEnum.img);
+            String presignedUrl = fileStorageApi.getAbsoluteUrl(objectName);
             gen.writeString(Objects.requireNonNullElse(presignedUrl, objectName));
         }catch (Exception e){
             gen.writeString(objectName);

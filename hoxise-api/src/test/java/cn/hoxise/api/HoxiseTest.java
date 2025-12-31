@@ -1,5 +1,7 @@
 package cn.hoxise.api;
 
+import cn.hoxise.common.file.api.FileStorageApi;
+import cn.hoxise.common.file.pojo.enums.FileTypeEnum;
 import cn.hoxise.self.biz.service.movie.bangumi.MovieBangumiManageService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -26,21 +29,13 @@ public class HoxiseTest {
     private MovieBangumiManageService movieBangumiManageService;
 
     @Autowired
-    VectorStore vectorStore;
+    FileStorageApi fileStorageApi;
 
     @Test
     public void test(){
-        List <Document> documents = List.of(
-                new Document("Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!!", Map.of("meta1", "meta1")),
-                new Document("The World is Big and Salvation Lurks Around the Corner"),
-                new Document("You walk forward facing the past and you turn back toward the future.", Map.of("meta2", "meta2")));
-        Document doc = new Document("your-content", Map.of("customId", "your-id", "other-meta", "value"));
-// Add the documents to Redis
-        vectorStore.add(documents);
 
-// Retrieve documents similar to a query
-        List<Document> results = this.vectorStore.similaritySearch(SearchRequest.builder().query("Spring").topK(5).build());
-        System.out.println( results);
+        String presignedUrl = fileStorageApi.getPresignedUrlCache("", FileTypeEnum.img);
+        System.out.println(presignedUrl);
     }
 
 //############################# movie批量扫描等 #################################
