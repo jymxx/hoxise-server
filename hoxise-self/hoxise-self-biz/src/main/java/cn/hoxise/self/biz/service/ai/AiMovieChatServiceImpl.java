@@ -14,6 +14,8 @@ import jakarta.annotation.Resource;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.template.st.StTemplateRenderer;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +85,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
 
     @Override
     public Flux<String> aiSummary(Long catalogid){
-        return openAiApi.getChatClient().prompt()
-                .user(getAiSummaryPromptCache(catalogid))
+        return openAiApi.getChatClient()
+                .prompt(getAiSummaryPromptCache(catalogid))
                 .stream()
                 .content();
     }
@@ -128,7 +130,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
         MovieDbBangumiDO bangumiDO = movieDbBangumiService.getByCatalogId(catalogid);
         List<String> characters = characterService.getCharacters(catalogid).stream().map(m -> m.getName() +"("+ m.getRelation()+")").toList();
 
-        Map<String, String> paramMap = new HashMap<>(16);
+
+        Map<String, Object> paramMap = new HashMap<>(16);
         paramMap.put("name", bangumiDO.getMatchingName());
         paramMap.put("originalName", bangumiDO.getOriginalName());
         paramMap.put("metaTags", String.join(",",bangumiDO.getMetaTags()));
@@ -138,8 +141,15 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
         paramMap.put("characters", String.join(",",characters));
         paramMap.put("description", bangumiDO.getSummary());
 
-        String format = StrUtil.format(AiPromptConstants.AI_SUMMARY_PROMPT, paramMap);
-        RedisUtil.setValue(redisKey,format);
-        return format;
+        //提示词模板
+        PromptTemplate promptTemplate = PromptTemplate.builder()
+                .renderer(StTemplateRenderer.builder().startDelimiterToken('<').endDelimiterToken('>').build())
+                .template(AiPromptConstants.AI_SUMMARY_PROMPT)
+                .build();
+
+        String prompt = promptTemplate.render(paramMap);
+
+        RedisUtil.setValue(redisKey,prompt);
+        return prompt;
     }
 }
