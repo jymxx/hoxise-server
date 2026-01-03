@@ -23,7 +23,12 @@
         </dependency>
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-self-biz</artifactId>
+            <artifactId>hoxise-self-movie</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-self-ai</artifactId>
             <version>${revision}</version>
         </dependency>
     </dependencies>

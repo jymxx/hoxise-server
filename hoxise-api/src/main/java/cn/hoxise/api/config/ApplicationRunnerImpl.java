@@ -2,14 +2,13 @@ package cn.hoxise.api.config;
 
 import cn.hoxise.common.base.utils.redis.RedisUtil;
 import cn.hoxise.common.base.utils.base.LocalhostInfoUtil;
-import cn.hoxise.self.biz.service.ai.AiVectorStoreService;
+import cn.hoxise.self.ai.service.AiVectorStoreService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.net.UnknownHostException;

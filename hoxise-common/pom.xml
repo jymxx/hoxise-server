@@ -23,8 +23,8 @@
         <module>hoxise-common-security</module>
         <!--文件管理-->
         <module>hoxise-common-file</module>
-        <!--AI集成-->
-        <module>hoxise-common-ai</module>
+        <!--openAI集成-->
+        <module>hoxise-common-openai</module>
     </modules>
 
 </project>

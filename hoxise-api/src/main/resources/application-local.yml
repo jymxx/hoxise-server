@@ -100,7 +100,7 @@ fileStorage:
   aliyunOss:
     regin: cn-chengdu
     endpoint: oss-cn-chengdu.aliyuncs.com
-    bucket: hoxise-java
+    bucket: ${aliyun.oss.bucket}
     access-key: ${aliyun.oss.accessKey}
     access-secret: ${aliyun.oss.accessSecret}
 

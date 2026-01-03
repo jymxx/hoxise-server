@@ -15,7 +15,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>hoxise-self-biz</module>
+        <module>hoxise-self-movie</module>
+        <module>hoxise-self-ai</module>
     </modules>
 
 </project>

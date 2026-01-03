@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hoxise.self.biz.dal.mapper.MovieDbMapper">
+
+    <!--<resultMap id="BaseResultMap" type="cn.hoxise.self.movie.service.tmdb.MovieDbDO">-->
+    <!--        <id property="id" column="id" />-->
+    <!--        <result property="catalogid" column="catalogid" />-->
+    <!--        <result property="matchingType" column="matching_type" />-->
+    <!--        <result property="matchingName" column="matching_name" />-->
+    <!--        <result property="anotherName" column="another_name" />-->
+    <!--        <result property="coverUrl" column="cover_url" />-->
+    <!--        <result property="introduction" column="introduction" />-->
+    <!--        <result property="rating" column="rating" />-->
+    <!--        <result property="releaseDate" column="release_date" />-->
+    <!--        <result property="region" column="region" />-->
+    <!--        <result property="actors" column="actors" />-->
+    <!--        <result property="episodes" column="episodes" />-->
+    <!--        <result property="duration" column="duration" />-->
+    <!--        <result property="label" column="label" />-->
+    <!--        <result property="aiIntroduction" column="ai_introduction" />-->
+    <!--        <result property="aiLabel" column="ai_label" />-->
+    <!--</resultMap>-->
+
+    <sql id="Base_Column_List">
+        id,catalogid,matching_type,matching_name,another_name,cover_url,
+        introduction,rating,release_date,region,actors,
+        episodes,duration,label,ai_introduction,ai_label
+    </sql>
+</mapper>
