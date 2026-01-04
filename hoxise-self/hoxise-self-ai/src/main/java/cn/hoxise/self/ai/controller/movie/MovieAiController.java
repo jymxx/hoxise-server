@@ -2,6 +2,7 @@ package cn.hoxise.self.ai.controller.movie;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.common.log.annotations.OperateLog;
 import cn.hoxise.self.ai.pojo.enums.AiMethodEnum;
 import cn.hoxise.self.ai.service.AiMovieChatService;
 import cn.hoxise.self.ai.service.AiRequestRecordService;

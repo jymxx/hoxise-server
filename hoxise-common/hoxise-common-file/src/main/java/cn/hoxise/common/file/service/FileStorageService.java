@@ -58,15 +58,6 @@ public interface FileStorageService {
     String getPresignedUrl(String objectName);
 
     /**
-     * 获取预览地址 设置文件类型 默认有效期7天
-     * @param	objectName	文件名称
-     * @param	fileType 文件类型
-     * @author: tangxin
-     * @date: 2024/7/16 上午11:50
-     */
-    String getPresignedUrl(String objectName, FileTypeEnum fileType);
-
-    /**
      * 通过objectUrl获得绝对路径
      * @param	objectName
      * @author: tangxin

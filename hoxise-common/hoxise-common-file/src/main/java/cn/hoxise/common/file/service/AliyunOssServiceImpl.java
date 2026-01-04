@@ -154,11 +154,6 @@ public class AliyunOssServiceImpl implements FileStorageService{
     }
 
     @Override
-    public String getPresignedUrl(String objectName, FileTypeEnum fileType) {
-        return "";
-    }
-
-    @Override
     public String getAbsoluteUrl(String objectName) {
         return serializerPrefix + "/" + objectName;
     }

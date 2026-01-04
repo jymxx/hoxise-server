@@ -23,6 +23,17 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--获取用户id-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-security</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-system-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
 </project>

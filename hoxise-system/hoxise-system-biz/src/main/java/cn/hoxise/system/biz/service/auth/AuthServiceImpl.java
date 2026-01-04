@@ -4,7 +4,7 @@ import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.system.biz.service.sms.SystemSmsService;
-import cn.hoxise.system.biz.utils.satoken.SaTokenUtil;
+import cn.hoxise.common.ai.uitls.SaTokenUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.system.biz.controller.auth.vo.LoginResultVO;
 import cn.hoxise.system.biz.controller.user.vo.UserInfoVO;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @Author: hoxise

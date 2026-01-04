@@ -14,7 +14,7 @@
     <name>${project.artifactId}</name>
 
     <description>
-        文件存储相关，如minio、华为云、FTP等实现
+        文件存储相关，如minio、FTP等实现
     </description>
 
     <dependencies>

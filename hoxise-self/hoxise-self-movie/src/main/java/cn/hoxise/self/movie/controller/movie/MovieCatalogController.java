@@ -7,6 +7,7 @@ import cn.hoxise.self.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.self.movie.controller.movie.vo.MovieStatVO;
 import cn.hoxise.self.movie.service.movie.MovieCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Description: 影视目录控制类
  * @Date 2025-12-22 上午7:41
  */
+@Tag(name = "影视目录控制类")
 @RestController
 @RequestMapping("/movie/catalog")
 public class MovieCatalogController {

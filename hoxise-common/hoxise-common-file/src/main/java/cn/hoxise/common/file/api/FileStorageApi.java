@@ -138,8 +138,4 @@ public class FileStorageApi {
         return fileStorageService.getPresignedUrl(objectName);
     }
 
-    @Cacheable(value = FileRedisConstants.PRESIGNED_URL_CACHE_KEY,key = "#objectName")
-    public String getPresignedUrlCache(String objectName, FileTypeEnum typeEnum){
-        return fileStorageService.getPresignedUrl(objectName,typeEnum);
-    }
 }

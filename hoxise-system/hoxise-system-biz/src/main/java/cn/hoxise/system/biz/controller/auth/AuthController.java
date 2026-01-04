@@ -1,11 +1,10 @@
 package cn.hoxise.system.biz.controller.auth;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.system.biz.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.system.biz.controller.auth.vo.LoginResultVO;
 import cn.hoxise.system.biz.service.auth.AuthService;
-import cn.hoxise.system.biz.utils.satoken.SaTokenUtil;
+import cn.hoxise.common.ai.uitls.SaTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

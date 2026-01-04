@@ -1,4 +1,4 @@
-package cn.hoxise.system.biz.utils.satoken;
+package cn.hoxise.common.ai.uitls;
 
 import cn.dev33.satoken.stp.StpUtil;
 
@@ -26,6 +26,11 @@ public class SaTokenUtil {
         return StpUtil.getLoginIdAsLong();
     }
 
+    /** 获取当前会话登录ID 默认null*/
+    public static Long getLoginIdOrNull(){
+        Object loginIdDefaultNull = StpUtil.getLoginIdDefaultNull();
+        return loginIdDefaultNull == null ? null : (Long) loginIdDefaultNull;
+    }
     /** 获取当前会话是否已经登录，返回true=已登录，false=未登录 */
     public static boolean isLogin() {
         return StpUtil.isLogin();

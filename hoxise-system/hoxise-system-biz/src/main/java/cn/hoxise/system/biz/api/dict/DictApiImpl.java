@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @Author hoxise
- * @Description:
+ * @Description: 字典操作
  * @Date 2025-12-24 下午5:09
  */
 //字典实现类

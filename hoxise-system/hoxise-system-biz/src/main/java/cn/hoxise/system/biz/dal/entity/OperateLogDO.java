@@ -2,6 +2,7 @@ package cn.hoxise.system.biz.dal.entity;
 
 import cn.hoxise.common.base.pojo.BaseDO;
 import cn.hoxise.common.base.pojo.CommonResult;
+import cn.hoxise.common.log.enums.OperateTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -18,6 +19,16 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class OperateLogDO extends BaseDO {
+
+    /**
+     * {@link #javaMethodArgs} 的最大长度
+     */
+    public static final Integer JAVA_METHOD_ARGS_MAX_LENGTH = 8000;
+
+    /**
+     * {@link #resultData} 的最大长度
+     */
+    public static final Integer RESULT_MAX_LENGTH = 4000;
 
     @TableId
     private Long id;

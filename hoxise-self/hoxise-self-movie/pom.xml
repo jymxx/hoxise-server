@@ -24,11 +24,19 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--文件存储-->
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-common-file</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--日志-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-log</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--鉴权框架-->
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-common-security</artifactId>

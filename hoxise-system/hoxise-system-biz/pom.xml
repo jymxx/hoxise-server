@@ -29,6 +29,12 @@
             <artifactId>hoxise-common-security</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--日志-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-log</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!-- 验证码-->
         <dependency>
             <groupId>com.xingyuv</groupId>

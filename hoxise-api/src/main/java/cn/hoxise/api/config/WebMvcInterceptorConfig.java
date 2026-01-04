@@ -4,12 +4,15 @@ import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * web拦截器配置 只能有一个 所以都在这里实现
@@ -53,7 +56,7 @@ public class WebMvcInterceptorConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(new SaInterceptor(handle -> {
 //                    SaRouter.match("/**")
 //                            .notMatch("/system/auth/login")
-//                            .notMatch("/movie/ai/**")
+//                            .notMatch("/ai/**")
 //                            // 下边的是knife4j使用的
 //                            .notMatch("/doc.html")
 //                            .notMatch("/webjars/**")

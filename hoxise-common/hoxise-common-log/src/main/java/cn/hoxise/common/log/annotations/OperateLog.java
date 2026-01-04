@@ -18,14 +18,18 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface OperateLog {
 
+    // ========== 模块字段 ==========
+
     /**
      * 操作模块
      *
+     * 为空时，会尝试读取 {@link Tag#name()} 属性
      */
     String module() default "";
     /**
      * 操作名
      *
+     * 为空时，会尝试读取 {@link Operation#summary()} 属性
      */
     String name() default "";
     /**
@@ -36,6 +40,11 @@ public @interface OperateLog {
     OperateTypeEnum[] type() default {};
 
     // ========== 开关字段 ==========
+
+    /**
+     * 是否记录操作日志
+     */
+    boolean enable() default true;
     /**
      * 是否记录方法参数
      */

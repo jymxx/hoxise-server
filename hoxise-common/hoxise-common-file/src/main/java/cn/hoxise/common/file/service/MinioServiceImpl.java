@@ -138,25 +138,6 @@ public class MinioServiceImpl implements FileStorageService {
     }
 
     @Override
-    public String getPresignedUrl(String objectName, FileTypeEnum fileType) {
-        if (StrUtil.isBlank(objectName)){
-            return "";
-        }
-        try{
-            Map<String, String> reqParams = new HashMap<>();
-            //图片类型
-            if (fileType == FileTypeEnum.img){
-                reqParams.put("response-content-disposition", "inline");
-            }
-            minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
-            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).object(objectName).extraQueryParams(reqParams).build());
-        }catch (Exception e){
-            log.error("minio获取文件预览地址异常,objectName{},{}", objectName,e.toString());
-            throw new ServiceException("获取文件预览地址异常");
-        }
-    }
-
-    @Override
     public String getAbsoluteUrl(String objectName){
         return endpoint+"/"+bucketName+"/"+objectName;
     }
