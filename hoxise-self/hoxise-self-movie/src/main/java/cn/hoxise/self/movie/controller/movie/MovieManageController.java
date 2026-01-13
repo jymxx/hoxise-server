@@ -2,6 +2,7 @@ package cn.hoxise.self.movie.controller.movie;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
+import cn.hoxise.common.log.annotations.OperateLog;
 import cn.hoxise.self.movie.pojo.dto.BangumiSearchSubjectResponse;
 import cn.hoxise.self.movie.service.movie.MovieCatalogService;
 import cn.hoxise.self.movie.service.movie.bangumi.MovieBangumiManageService;
@@ -37,6 +38,7 @@ public class MovieManageController {
         return CommonResult.success(movieBangumiManageService.queryByNameFromBangumi(name));
     }
 
+    @OperateLog
     @Operation(summary = "更新指定Bangumi信息")
     @PutMapping("/updateDb")
     public CommonResult<Boolean> updateDB(Long catalogid, Long bangumiId) {
@@ -45,6 +47,7 @@ public class MovieManageController {
         return CommonResult.ok();
     }
 
+    @OperateLog
     @Operation(summary = "删除指定数据,逻辑删除")
     @DeleteMapping("/deleteCatalog/{catalogid}")
     public CommonResult<Boolean> delete(@PathVariable @NotNull Long catalogid) {

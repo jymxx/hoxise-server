@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Schema(description = "RPC 服务 - 操作日志创建 Request DTO")
 @Data

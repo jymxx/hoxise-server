@@ -40,6 +40,12 @@
             <artifactId>sa-token-redis-jackson</artifactId>
             <version>${satoken.version}</version>
         </dependency>
+        <!--&lt;!&ndash; Sa-Token 权限认证（Reactor响应式集成），在线文档：https://sa-token.cc &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>cn.dev33</groupId>-->
+        <!--    <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>-->
+        <!--    <version>${satoken.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

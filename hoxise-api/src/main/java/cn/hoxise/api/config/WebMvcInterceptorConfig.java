@@ -49,14 +49,12 @@ public class WebMvcInterceptorConfig implements WebMvcConfigurer {
                 .allowedOrigins("*");
     }
 
-//感觉有BUG 手动鉴权吧
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        // 注册 Sa-Token 拦截器，打开注解式鉴权功能
 //        registry.addInterceptor(new SaInterceptor(handle -> {
 //                    SaRouter.match("/**")
 //                            .notMatch("/system/auth/login")
-//                            .notMatch("/ai/**")
 //                            // 下边的是knife4j使用的
 //                            .notMatch("/doc.html")
 //                            .notMatch("/webjars/**")

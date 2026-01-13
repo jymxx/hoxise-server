@@ -1,5 +1,7 @@
 package cn.hoxise.common.log.service;
 
+import cn.dev33.satoken.context.mock.SaTokenContextMockUtil;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.system.api.log.OperateLogApi;
 import cn.hoxise.system.api.log.dto.OperateLogCreateReqDTO;
 import cn.hutool.core.bean.BeanUtil;
@@ -22,9 +24,12 @@ public class OperateLogBaseServiceImpl implements OperateLogBaseService {
 
     @Override
     @Async
-    public void createOperateLog(OperateLogBaseDTO reqDTO) {
-        OperateLogCreateReqDTO req = BeanUtil.toBean(reqDTO, OperateLogCreateReqDTO.class);
-        operateLogApi.createOperateLog(req);
+    public void createOperateLog(OperateLogBaseDTO reqDTO, String tokenValue) {
+        SaTokenContextMockUtil.setMockContext(()->{
+            StpUtil.setTokenValueToStorage(tokenValue);//解决异步读不到用户信息的问题
+            OperateLogCreateReqDTO req = BeanUtil.toBean(reqDTO, OperateLogCreateReqDTO.class);
+            operateLogApi.createOperateLog(req);
+        });
     }
 
 }

@@ -148,7 +148,8 @@ public class OperateLogAspect {
         fillMethodFields(operateLogObj, joinPoint, operateLog, startTime, result, exception);
 
         // 异步记录日志
-        operateLogBaseService.createOperateLog(operateLogObj);
+        String tokenValue = StpUtil.getTokenValue();//Satoken 异步方法需要重新设置Mock
+        operateLogBaseService.createOperateLog(operateLogObj,tokenValue);
     }
 
     private static void fillUserFields(OperateLogBaseDTO operateLogObj) {
@@ -238,8 +239,6 @@ public class OperateLogAspect {
 
     private static boolean isLogEnable(ProceedingJoinPoint joinPoint,
                                        OperateLog operateLog) {
-        Object loginIdDefaultNull = StpUtil.getLoginIdDefaultNull();
-        System.out.println(loginIdDefaultNull);
         // 没有用户信息也不记录
         if (!SaTokenUtil.isLogin()){
             return false;

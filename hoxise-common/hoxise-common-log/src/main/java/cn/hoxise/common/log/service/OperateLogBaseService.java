@@ -15,5 +15,5 @@ public interface OperateLogBaseService {
      * @param  reqDTO 操作日志请求
      */
     @Async
-    void createOperateLog(OperateLogBaseDTO reqDTO);
+    void createOperateLog(OperateLogBaseDTO reqDTO,String tokenValue);
 }

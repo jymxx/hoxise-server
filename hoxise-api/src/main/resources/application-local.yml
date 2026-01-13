@@ -119,4 +119,4 @@ nasCloud:
   #需要管理的文件夹
   dirs: 动漫电影,动漫,日剧
   #启动后是否加载Embedding
-  pushVectorStore: false
+  pushVectorStore: true

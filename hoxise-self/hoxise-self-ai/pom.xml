@@ -52,7 +52,11 @@
             <artifactId>hoxise-self-movie</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--阿里云百炼大模型sdk-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dashscope-sdk-java</artifactId>
+            <version>${dashscope-sdk-java.version}</version>
+        </dependency>
     </dependencies>
-
-
 </project>

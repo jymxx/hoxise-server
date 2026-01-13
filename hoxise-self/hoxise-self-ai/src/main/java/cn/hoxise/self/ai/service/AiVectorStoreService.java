@@ -8,5 +8,8 @@ package cn.hoxise.self.ai.service;
 public interface AiVectorStoreService {
 
 
+    /**
+     * 推送向量库
+     */
     void pushVectorStore();
 }

@@ -33,10 +33,6 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     implements MovieCatalogService{
 
     @Resource private MovieDbBangumiService movieDbBangumiService;
-    @Resource private MovieDbBangumiInfoboxService movieDbBangumiInfoboxService;
-    @Resource private MovieDbBangumiCharacterService movieDbBangumiCharacterService;
-    @Resource private MovieDbBangumiActorService movieDbBangumiActorService;
-    @Resource private MovieDbBangumiEpisodeService movieDbBangumiEpisodeService;
 
     @Override
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
