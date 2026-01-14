@@ -6,6 +6,9 @@ import java.util.List;
 /**
  * Bangumi剧集信息响应类
  * 用于接收Bangumi API中剧集数据的响应结果
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:59:28
  */
 @Data
 public class BangumiEpisodesResponse {

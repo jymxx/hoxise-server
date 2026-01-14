@@ -1,9 +1,10 @@
 package cn.hoxise.self.ai.pojo.constants;
 
 /**
- * @Author hoxise
- * @Description: AI提示词
- * @Date 2025-12-25 上午4:44
+ * AI提示词常量
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:49:36
  */
 public class AiPromptConstants {
 

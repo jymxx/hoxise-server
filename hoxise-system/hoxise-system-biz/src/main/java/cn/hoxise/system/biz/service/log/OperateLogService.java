@@ -8,14 +8,16 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * 操作日志 Service 接口
  *
- * @author 芋道源码
+ * @author hxise
  */
 public interface OperateLogService extends IService<OperateLogDO> {
 
     /**
-     * 记录操作日志
+     * createOperateLog 创建操作日志
      *
      * @param createReqDTO 操作日志请求
+     * @author hoxise
+     * @since 2026/01/14 06:03:08
      */
     void createOperateLog(OperateLogCreateReqDTO createReqDTO);
 

@@ -6,9 +6,10 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author hoxise
- * @Description: 短信发送逻辑
- * @Date 2025-12-12 下午10:20
+ * SystemSmsSendServiceImpl
+ *
+ * @author hoxise
+ * @since 2026/01/14 05:53:53
  */
 @Service
 public class SystemSmsSendServiceImpl implements SystemSmsService{

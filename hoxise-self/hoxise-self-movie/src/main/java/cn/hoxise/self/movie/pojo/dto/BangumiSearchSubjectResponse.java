@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author hoxise
- * @Description: Bangumi查询结果
- * @Date 2025-12-23 上午9:23
+ * Bangumi查询条目结果
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:59:56
  */
 @Data
 @AllArgsConstructor

@@ -1,6 +1,6 @@
 package cn.hoxise.self.movie.controller.movie.vo;
 
-import cn.hoxise.common.file.annotations.FilePathFormat;
+import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import cn.hoxise.self.movie.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: 影视目录返回类
- * @Date 2025-12-22 下午3:41
+ * 影视目录返回类
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:21
  */
 @Data
 @Builder

@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Hoxise
-* @description 针对表【system_role】的数据库操作Service实现
-* @createDate 2025-12-12 22:05:40
-*/
+ * SystemRoleServiceImpl
+ *
+ * @author Hoxise
+ * @since 2026/01/14 05:56:54
+ */
 @Service
 public class SystemRoleServiceImpl extends ServiceImpl<SystemRoleMapper, SystemRoleDO>
     implements SystemRoleService{

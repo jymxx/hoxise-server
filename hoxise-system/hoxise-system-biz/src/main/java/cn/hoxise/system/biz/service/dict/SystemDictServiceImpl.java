@@ -8,10 +8,11 @@ import cn.hoxise.system.biz.dal.mapper.SystemDictMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Hoxise
-* @description 针对表【system_dict】的数据库操作Service实现
-* @createDate 2025-12-24 16:17:36
-*/
+ * 字典
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:56
+ */
 @Service
 public class SystemDictServiceImpl extends ServiceImpl<SystemDictMapper, SystemDictDO>
     implements SystemDictService {

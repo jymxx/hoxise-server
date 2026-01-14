@@ -24,10 +24,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_catalog】的数据库操作Service实现
-* @createDate 2025-12-22 07:34:01
-*/
+ * 影视目录实现
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:23:19
+ */
 @Service
 public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, MovieCatalogDO>
     implements MovieCatalogService{
@@ -44,13 +45,13 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     }
 
     @Override
-    public PageResult<MovieSimpleVO> listPageContainDB(MovieSimpleQueryDTO queryDTO) {
+    public PageResult<MovieSimpleVO> listPageContainDb(MovieSimpleQueryDTO queryDTO) {
         //目录数据
         Page<MovieCatalogDO> page = page(queryDTO);
         List<MovieCatalogDO> records = page.getRecords();
         List<MovieSimpleVO> convert = MovieCatalogConvert.INSTANCE.convert(records);
 
-        addDBData(convert);
+        addDbData(convert);
         return new PageResult<>(convert, page.getTotal());
     }
 
@@ -59,10 +60,10 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
             value = MovieRedisConstants.MOVIE_LIBRARY_KEY,
             key = "{#queryDTO.directory, #queryDTO.pageNum }"
     )
-    public PageResult<MovieSimpleVO> libraryDBCache(MovieSimpleQueryDTO queryDTO) {
+    public PageResult<MovieSimpleVO> libraryDbCache(MovieSimpleQueryDTO queryDTO) {
         int batchSize = 50;//一次拉五十条下去
         queryDTO.setPageSize(batchSize);
-        return listPageContainDB(queryDTO);
+        return listPageContainDb(queryDTO);
     }
 
     @Override
@@ -86,12 +87,12 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         );
 
         List<MovieSimpleVO> result = MovieCatalogConvert.INSTANCE.convert(catalogList);
-        addDBData(result);
+        addDbData(result);
         return result;
     }
 
     @Override
-    public List<MovieSimpleVO> LastUpdate(){
+    public List<MovieSimpleVO> lastUpdate(){
         LocalDateTime threeMonthsAgo = LocalDateTime.now().minusMonths(2);
         Page<MovieCatalogDO> page = this.page(new Page<>(1, 20)
                 , Wrappers.lambdaQuery(MovieCatalogDO.class).ge(MovieCatalogDO::getLastModifyTime, threeMonthsAgo)
@@ -100,17 +101,19 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         List<MovieSimpleVO> result = MovieCatalogConvert.INSTANCE.convert(page.getRecords());
 
         // 添加DB数据
-        addDBData(result);
+        addDbData(result);
 
         return result;
     }
 
     /**
-     * @Author: hoxise
-     * @Description: 追加DB数据
-     * @Date: 2025/12/22 下午4:44
+     * 向返回视图追加db数据
+     *
+     * @param simpleVOS 返回视图类
+     * @author hoxise
+     * @since 2026/01/14 15:22:55
      */
-    private void addDBData(List<MovieSimpleVO> simpleVOS){
+    private void addDbData(List<MovieSimpleVO> simpleVOS){
         if (simpleVOS.isEmpty()){
             return;
         }

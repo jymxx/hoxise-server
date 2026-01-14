@@ -5,9 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: TMDB多重查询结果
- * @Date 2025-12-22 上午11:17
+ * TMDB多重查询结果
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:02:15
  */
 @Data
 public class TMDBMulitSearchResponse {

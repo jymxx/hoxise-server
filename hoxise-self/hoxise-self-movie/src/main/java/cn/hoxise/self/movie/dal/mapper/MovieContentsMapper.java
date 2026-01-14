@@ -4,11 +4,11 @@ import cn.hoxise.self.movie.dal.entity.MovieContentsDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_contents】的数据库操作Mapper
-* @createDate 2025-12-22 07:34:01
-* @Entity cn.hoxise.self.biz.dal.entity.MovieContents
-*/
+ * MovieContentsMapper
+ *
+ * @author Hoxise
+ * @since 2026/01/14 14:57:57
+ */
 public interface MovieContentsMapper extends BaseMapper<MovieContentsDO> {
 
 }

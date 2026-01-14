@@ -3,7 +3,7 @@ package cn.hoxise.self.movie.service.movie.bangumi;
 import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.base.utils.file.FileUtils;
 import cn.hoxise.common.base.utils.img.ImgUtil;
-import cn.hoxise.common.file.api.dto.FileStorageDTO;
+import cn.hoxise.common.file.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.self.movie.dal.entity.*;
 import cn.hoxise.self.movie.pojo.dto.BangumiCharacterResponse;
@@ -43,9 +43,10 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
- * @Author hoxise
- * @Description: Bangumi管理实现类
- * @Date 2025-12-22 下午3:47
+ * Bangumi管理实现类
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:13:21
  */
 @Service
 @Slf4j
@@ -57,6 +58,9 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
 
     @Value("${nasCloud.dirs}")
     private String configDirs;
+
+    @Resource private FileStorageUtil fileStorageUtil;
+    @Resource private BangumiUtil bangumiUtil;
 
     private final ReentrantLock lock = new ReentrantLock();
 
@@ -144,9 +148,12 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     /**
-     * @description: 按配置路径开始扫描
-     * @author: hoxise
-     * @date: 2025/8/12 上午6:02
+     * 按配置路径开始扫描
+     *
+     * @param dir 目录
+     * @param scanUpdate 是否是更新任务
+     * @author hoxise
+     * @since 2026/01/14 15:12:58
      */
     private void startScan(String dir,boolean scanUpdate) {
         log.info("---开始扫描目录:" + dir);
@@ -254,7 +261,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
             build.setId(dbOne.getId());
         }
         if (dbOne != null) {
-            FileStorageUtil.deleteFile(dbOne.getPosterUrl());//删除封面图片
+            fileStorageUtil.deleteFile(dbOne.getPosterUrl());//删除封面图片
         }
         movieDbBangumiService.saveOrUpdate(build);
         movieDbBangumiInfoboxService.removeByCatalogId(catalog.getId());
@@ -284,10 +291,10 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         // API获取角色信息
         List<BangumiCharacterResponse.CharacterInfo> characters = BangumiUtil.getCharacter(bangumiId.toString());
         //角色DO
-        List<MovieDbBangumiCharacterDO> characterDOS = buildCharacterDO(characters, catalogid);
+        List<MovieDbBangumiCharacterDO> characterDoS = buildCharacterDO(characters, catalogid);
 
         //查询已有的CV信息
-        List<Long> actors = new ArrayList<>(characterDOS.stream().flatMap(fm -> fm.getActors().stream()).map(Long::valueOf).distinct().toList());
+        List<Long> actors = new ArrayList<>(characterDoS.stream().flatMap(fm -> fm.getActors().stream()).map(Long::valueOf).distinct().toList());
         if (!actors.isEmpty()){
             List<Long> dbActors = movieDbBangumiActorService.listByActorIds(actors).stream().map(MovieDbBangumiActorDO::getActorId).toList();
             actors.removeAll(dbActors);//移除集合中数据库里已有的 即剩下需要新增的
@@ -302,12 +309,12 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                     )).values()
                     .stream()
                     .toList();
-            List<MovieDbBangumiActorDO> actorDOS = buildActorDO(actorList);
-            movieDbBangumiActorService.saveBatch(actorDOS);
+            List<MovieDbBangumiActorDO> actorDoS = buildActorDO(actorList);
+            movieDbBangumiActorService.saveBatch(actorDoS);
         }
 
         //保存
-        movieDbBangumiCharacterService.saveBatch(characterDOS);
+        movieDbBangumiCharacterService.saveBatch(characterDoS);
     }
 
     @Override
@@ -340,12 +347,13 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     /**
-     * @description: 构建数据库的BangumiDO
-     * @param	catalogDO 目录DO
-     * @param	subject 搜索结果DO
-     * @return	MovieDbBangumiDO
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 构建数据库的BangumiDO
+     *
+     * @param catalogDO 目录DO
+     * @param subject   搜索结果DO
+     * @return MovieDbBangumiDO
+     * @author hoxise
+     * @since 2026/01/14 15:24:42
      */
     private MovieDbBangumiDO buildDbBangumiDO(MovieCatalogDO catalogDO, BangumiSearchSubjectResponse.Subject subject){
         //项目数据
@@ -356,7 +364,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                 .subjectType(BangumiSubjectTypeEnum.getByCode(subject.getType()))
                 .releaseDate(DateUtil.handleDateStr(subject.getDate()))
                 .platform(subject.getPlatform())
-                .posterUrl(BangumiUtil.handleImgBangumi(subject.getImage()==null?subject.getImages().getLarge():subject.getImage(), String.valueOf(subject.getId())))
+                .posterUrl(bangumiUtil.handleImgBangumi(subject.getImage()==null?subject.getImages().getLarge():subject.getImage(), String.valueOf(subject.getId())))
                 .summary(subject.getSummary())
                 .originalName(subject.getName())
                 .nameCn(subject.getName_cn())
@@ -375,11 +383,13 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     /**
-     * @description: 构建infobox数据
-     * @param	subject 搜索结果DO
-     * @return	List<MovieDbBangumiInfoboxDO>
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 构建infobox数据
+     *
+     * @param catalog 目录数据DO
+     * @param subject 搜索结果DO
+     * @return List<MovieDbBangumiInfoboxDO>
+     * @author hoxise
+     * @since 2026/01/14 15:24:49
      */
     private List<MovieDbBangumiInfoboxDO> buildInfoBoxDO(MovieCatalogDO catalog,BangumiSearchSubjectResponse.Subject subject){
         List<MovieDbBangumiInfoboxDO> infoboxList = new ArrayList<>();
@@ -392,12 +402,13 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     /**
-     * @description: 构建角色数据
-     * @param	characterInfos 角色信息
-     * @param	catalogid 目录id
-     * @return	List<MovieDbBangumiCharacterDO>
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 构建角色数据
+     *
+     * @param characterInfos 角色信息
+     * @param catalogid      目录id
+     * @return List<MovieDbBangumiCharacterDO>
+     * @author hoxise
+     * @since 2026/01/14 15:24:59
      */
     private List<MovieDbBangumiCharacterDO> buildCharacterDO(List<BangumiCharacterResponse.CharacterInfo> characterInfos, Long catalogid){
         List<MovieDbBangumiCharacterDO> returnList = new ArrayList<>();
@@ -407,7 +418,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                     .catalogid(catalogid)
                     .characterId(f.getId().longValue())
                     .name(f.getName())
-                    .imgUrl(BangumiUtil.handleImgBangumi(f.getImages().getLarge(), f.getId().toString()))
+                    .imgUrl(bangumiUtil.handleImgBangumi(f.getImages().getLarge(), f.getId().toString()))
                     .relation(f.getRelation())
                     .type(f.getType())
                     .actors(f.getActors().stream().map(actor -> actor.getId().toString()).toList())
@@ -416,13 +427,14 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
         });
         return returnList;
     }
-    
+
     /**
-     * @description: 构建演员数据
-     * @param	actorInfos 演员信息
-     * @return	List<MovieDbBangumiActorDO>
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 构建演员数据
+     *
+     * @param actorInfos 演员信息
+     * @return List<MovieDbBangumiActorDO>
+     * @author hoxise
+     * @since 2026/01/14 15:27:05
      */
     private List<MovieDbBangumiActorDO> buildActorDO(List<BangumiCharacterResponse.ActorInfo> actorInfos){
         List<MovieDbBangumiActorDO> returnList = new ArrayList<>();
@@ -434,7 +446,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
                     .career(actor.getCareer())
                     .shortSummary(actor.getShort_summary())
                     .type(actor.getType())
-                    .imgUrl(BangumiUtil.handleImgBangumi(actor.getImages().getLarge(), actor.getId().toString()))
+                    .imgUrl(bangumiUtil.handleImgBangumi(actor.getImages().getLarge(), actor.getId().toString()))
                     .build();
             returnList.add(actorDO);
         });
@@ -442,12 +454,13 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     /**
-     * @return
-     * @description: 构建章节数据
-     * @param    episode 章节信息
-     * @param    catalogid 目录id
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 构建章节数据
+     *
+     * @param episode   章节信息
+     * @param catalogid 目录id
+     * @return 章节DO
+     * @author hoxise
+     * @since 2026/01/14 15:27:11
      */
     private MovieDbBangumiEpisodeDO buildEpisodeDO(BangumiEpisodesResponse.EpisodeInfo episode, Long catalogid){
 
@@ -470,10 +483,12 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
 
 
 //################################################## TMDB接口 ###################################################################
+
     /**
-     * @Author: hoxise
-     * @Description: 匹配TMDB数据
-     * @Date: 2025/12/22 下午4:34
+     * 匹配TMDB数据
+     *
+     * @author hoxise
+     * @since 2026/01/14 15:27:26
      */
     @Override
     @Deprecated
@@ -524,7 +539,7 @@ public class MovieBangumiManageServiceImpl implements MovieBangumiManageService 
     }
 
     private String handleImg(String url, String fileName){
-        FileStorageDTO fileStorageDTO = FileStorageUtil.uploadFile(ImgUtil.downloadImg(url), MovieConstants.TMDB_MINIO_FLODER, fileName);
+        FileStorageDTO fileStorageDTO = fileStorageUtil.uploadFile(ImgUtil.downloadImg(url), MovieConstants.TMDB_MINIO_FLODER, fileName);
         return fileStorageDTO.getObjectName();
     }
 

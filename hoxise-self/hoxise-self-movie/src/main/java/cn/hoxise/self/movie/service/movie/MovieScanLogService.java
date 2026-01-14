@@ -4,10 +4,11 @@ import cn.hoxise.self.movie.dal.entity.MovieScanLogDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_scan_log】的数据库操作Service
-* @createDate 2025-12-22 07:34:01
-*/
+ * MovieScanLogService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:26:57
+ */
 public interface MovieScanLogService extends IService<MovieScanLogDO> {
 
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -13,7 +15,9 @@ import lombok.Data;
 
 /**
  * Bangumi剧集表
- * @TableName movie_db_bangumi_episode
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:57
  */
 @TableName(value ="movie_db_bangumi_episode")
 @Data
@@ -91,6 +95,7 @@ public class MovieDbBangumiEpisodeDO implements Serializable {
      */
     private Integer durationSeconds;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

@@ -9,6 +9,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 分页结果
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
+ */
 @Schema(description = "分页结果")
 @Data
 public final class PageResult<T> implements Serializable {

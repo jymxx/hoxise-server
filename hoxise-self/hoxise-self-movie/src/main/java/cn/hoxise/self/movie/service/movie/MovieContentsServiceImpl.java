@@ -6,10 +6,11 @@ import cn.hoxise.self.movie.dal.mapper.MovieContentsMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_contents】的数据库操作Service实现
-* @createDate 2025-12-22 07:34:01
-*/
+ * MovieContentsServiceImpl
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:23:32
+ */
 @Service
 public class MovieContentsServiceImpl extends ServiceImpl<MovieContentsMapper, MovieContentsDO>
     implements MovieContentsService{

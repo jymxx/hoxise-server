@@ -20,19 +20,24 @@
         </dependency>
         <dependency>
             <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-framework</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
         <!--安全框架-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-common-security</artifactId>
+            <artifactId>hoxise-spring-boot-starter-security</artifactId>
             <version>${revision}</version>
         </dependency>
         <!--日志-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-common-log</artifactId>
+            <artifactId>hoxise-spring-boot-starter-log</artifactId>
             <version>${revision}</version>
         </dependency>
         <!-- 验证码-->

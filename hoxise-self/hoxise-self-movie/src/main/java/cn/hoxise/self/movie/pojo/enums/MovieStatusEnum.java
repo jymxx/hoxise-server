@@ -6,9 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author hoxise
- * @Description: 目录状态枚举
- * @Date 2025-08-13 上午12:11
+ * 目录状态枚举
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:01:08
  */
 @Getter
 @AllArgsConstructor

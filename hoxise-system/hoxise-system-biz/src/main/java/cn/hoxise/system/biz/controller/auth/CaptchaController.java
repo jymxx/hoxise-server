@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Author: hoxise
- * @Description: 验证码
- * @Date: 2024/3/2 23:38
+ * 验证码
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:09:57
  */
 @Tag(name = "验证码")
 @RestController
@@ -43,7 +44,7 @@ public class CaptchaController {
     }
 
     public static String getRemoteId(HttpServletRequest request) {
-        String ip = ServletUtil.getClientIP(request);
+        String ip = ServletUtil.getClientIp(request);
         String ua = request.getHeader("user-agent");
         if (StrUtil.isNotBlank(ip)) {
             return ip + ua;

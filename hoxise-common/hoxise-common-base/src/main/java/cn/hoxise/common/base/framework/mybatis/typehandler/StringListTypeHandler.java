@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * List<String> 的类型转换器实现类，对应数据库的 varchar 类型
  *
- * @author 永不言败
- * @since 2022 3/23 12:50:15
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
  */
 @MappedJdbcTypes(JdbcType.VARCHAR)
 @MappedTypes(List.class)

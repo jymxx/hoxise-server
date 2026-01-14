@@ -1,9 +1,10 @@
 package cn.hoxise.self.ai.pojo.constants;
 
 /**
- * @Author hoxise
- * @Description: OpenAi常量
- * @Date 2025-12-26 上午1:50
+ * OpenAi常量
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:50:05
  */
 public class OpenAiConstants {
 

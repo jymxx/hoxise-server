@@ -7,9 +7,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @Author hoxise
- * @Description: 时间工具类
- * @Date 2025-08-12 下午11:51
+ * DateUtil 时间工具
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:50:38
  */
 public class DateUtil {
 
@@ -29,19 +30,24 @@ public class DateUtil {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND);
 
     /**
-     * @Author: hoxise
-     * @Description: 时间戳转LocalDateTime
-     * @Date: 2025/8/13 上午1:14
+     * 时间戳转LocalDateTime
+     *
+     * @param timestampMillis 时间戳
+     * @return LocalDateTime
+     * @author hoxise
+     * @since 2026/01/14 06:50:49
      */
     public static LocalDateTime ofInstant(long timestampMillis){
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampMillis), ZoneId.of(TIME_ZONE_DEFAULT));
     }
 
     /**
-     * @Author: hoxise
-     * @Description: 时间字符串转LocalDate
+     * 时间字符串转LocalDate
+     *
      * @param dateStr 日期字符串 不带时间
-     * @Date: 2025/8/13 上午1:14
+     * @return LocalDateTime
+     * @author hoxise
+     * @since 2026/01/14 06:51:04
      */
     public static LocalDateTime handleDateStr(String dateStr){
         try{

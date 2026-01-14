@@ -13,9 +13,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+
 /**
- * 
- * @TableName system_sms
+ * 短信日志
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:07:33
  */
 @Schema(name = "短信日志")
 @TableName(value ="system_sms_log")

@@ -3,19 +3,21 @@ package cn.hoxise.common.base.utils.encrypt;
 import cn.hutool.crypto.digest.DigestUtil;
 
 /**
- * @Author: hoxise
- * @Description: 统计封装加密方法
- * @Date: 2023/8/27 1:59
+ * EncryptUtil 加密工具
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:50:19
  */
 public class EncryptUtil {
 
 
-    /***
-     * @Description: hutool包的MD5工具
-     * @param str
-     * @return: java.lang.String
-     * @author: hoxise
-     * @date: 2023/8/27 2:01
+    /**
+     * md5
+     *
+     * @param str 字符串
+     * @return 加密后字符串
+     * @author hoxise
+     * @since 2026/01/14 06:50:27
      */
     public static String md5(String str){
         return DigestUtil.md5Hex(str);

@@ -6,9 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * @Author hoxise
- * @Description: 用户转换类
- * @Date 2025-12-30 上午3:38
+ * SystemUserConvert
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:08:27
  */
 @Mapper
 public interface SystemUserConvert {

@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * @Author: hoxise
- * @Description: 登录结果DTO
- * @Date: 2023/8/27 0:24
+ * 登录结果
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:05:22
  */
 @Data
 @Builder

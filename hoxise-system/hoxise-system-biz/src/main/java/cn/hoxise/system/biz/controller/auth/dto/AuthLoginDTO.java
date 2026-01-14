@@ -7,9 +7,10 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * @Author: hoxise
- * @Description: 登录dto
- * @Date: 2024/3/3 0:23
+ * 认证请求DTO
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:09:17
  */
 @Schema(description = "Request DTO")
 @Data

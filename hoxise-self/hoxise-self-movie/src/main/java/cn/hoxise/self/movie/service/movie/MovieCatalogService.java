@@ -14,34 +14,71 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_catalog】的数据库操作Service
-* @createDate 2025-12-22 07:34:01
-*/
+ * MovieCatalogService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:19:26
+ */
 public interface MovieCatalogService extends IService<MovieCatalogDO> {
 
+    /**
+     * 分页查询
+     *
+     * @param queryDTO 查询参数
+     * @return 分页结果
+     * @author hoxise
+     * @since 2026/01/14 15:19:29
+     */
     Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO);
 
-    PageResult<MovieSimpleVO> listPageContainDB(MovieSimpleQueryDTO queryDTO);
+    /**
+     * 分页查询VO结果 含匹配的DB数据
+     *
+     * @param queryDTO 查询参数
+     * @return 分页结果
+     * @author hoxise
+     * @since 2026/01/14 15:19:43
+     */
+    PageResult<MovieSimpleVO> listPageContainDb(MovieSimpleQueryDTO queryDTO);
 
     /**
-     * @Author: hoxise
-     * @Description: 影视库数据 带缓存
-     * @Date: 2025/12/23 上午1:10
+     * 影视库数据 带缓存
+     *
+     * @param queryDTO 查询结果
+     * @return 分页结果
+     * @author hoxise
+     * @since 2026/01/14 15:20:45
      */
-    PageResult<MovieSimpleVO> libraryDBCache(MovieSimpleQueryDTO queryDTO);
+    PageResult<MovieSimpleVO> libraryDbCache(MovieSimpleQueryDTO queryDTO);
 
-    @Cacheable(value = MovieRedisConstants.MOVIE_STAT_KEY)
+    /**
+     * 统计数据
+     *
+     * @return 影视统计数据
+     * @author hoxise
+     * @since 2026/01/14 15:21:04
+     */
     MovieStatVO statCount();
 
+    /**
+     * 随机查询
+     * *目前用的mysql函数以保证随机性,访问量大需要改
+     *
+     * @param limit 限制数量
+     * @return 随机数据
+     * @author hoxise
+     * @since 2026/01/14 15:21:16
+     */
     List<MovieSimpleVO> randomQuery(Integer limit);
 
     /**
-     * @Author: hoxise
-     * @Description: 最新更新
-     * @Date: 2025/12/22 下午4:44
+     * 最后更新的数据
+     *
+     * @return 数据集
+     * @author hoxise
+     * @since 2026/01/14 15:22:05
      */
-    List<MovieSimpleVO> LastUpdate();
+    List<MovieSimpleVO> lastUpdate();
 
     List<MovieCatalogDO> listNotIn(Collection<Long> notInIds);
 }

@@ -7,21 +7,39 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi_character(电影数据库角色表)】的数据库操作Service
-* @createDate 2025-12-23 16:43:28
-*/
+ * MovieDbBangumiCharacterService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:13:29
+ */
 public interface MovieDbBangumiCharacterService extends IService<MovieDbBangumiCharacterDO> {
 
+    /**
+     * getByCharacterId
+     *
+     * @param characterId 角色id
+     * @return 电影数据库角色表
+     * @author hoxise
+     * @since 2026/01/14 15:13:31
+     */
     MovieDbBangumiCharacterDO getByCharacterId(Long characterId);
 
     /**
-     * @description: 获取角色信息
-     * @param	catalogId 目录id
-     * @author: hoxise
-     * @date: 2025/12/23 下午7:28
+     * 根据catalog获取角色列表
+     *
+     * @param catalogId 目录id
+     * @return 角色列表
+     * @author hoxise
+     * @since 2026/01/14 15:13:41
      */
     List<MovieCharactersVO> getCharacters(Long catalogId);
 
+    /**
+     * 删除角色
+     *
+     * @param catalogId 目录id
+     * @author hoxise
+     * @since 2026/01/14 15:13:56
+     */
     void removeByCatalogId(Long catalogId);
 }

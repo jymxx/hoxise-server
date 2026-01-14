@@ -4,7 +4,7 @@ import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.system.biz.controller.auth.vo.LoginResultVO;
 import cn.hoxise.system.biz.service.auth.AuthService;
-import cn.hoxise.common.ai.uitls.SaTokenUtil;
+import cn.hoxise.common.security.uitls.SaTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Author: hoxise
- * @Description: 认证相关操作
- * @Date: 2023/8/27 0:21
+ * 认证操作
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:26
  */
 @Tag(name = "认证操作")
 @RestController

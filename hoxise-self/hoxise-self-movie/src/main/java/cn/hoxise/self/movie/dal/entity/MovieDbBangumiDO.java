@@ -20,9 +20,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * 影视数据 匹配Bangumi API
- * @TableName movie_db_bangumi
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:57:04
  */
-@Schema(description = "影视数据 匹配Bangumi API")
+@Schema(description = "影视数据")
 @TableName(value ="movie_db_bangumi")
 @Data
 @Builder

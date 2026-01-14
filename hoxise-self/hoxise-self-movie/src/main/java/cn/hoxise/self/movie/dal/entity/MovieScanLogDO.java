@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -11,8 +13,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 
- * @TableName movie_scan_log
+ * MovieScanLogDO 扫描日志
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:57:20
  */
 @Schema(description = "扫描日志")
 @TableName(value ="movie_scan_log")
@@ -39,6 +43,7 @@ public class MovieScanLogDO implements Serializable {
      */
     private String log;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

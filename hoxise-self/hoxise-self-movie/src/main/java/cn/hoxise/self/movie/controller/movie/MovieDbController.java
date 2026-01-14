@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: 影视db数据控制类
- * @Date 2025-12-23 下午3:19
+ * 影视db数据控制类
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:50
  */
 @Tag(name = "影视db数据控制类")
 @RestController
@@ -33,6 +34,8 @@ public class MovieDbController {
     @Resource private MovieDbBangumiCharacterService movieDbBangumiCharacterService;
 
     @Resource private MovieDbBangumiEpisodeService movieDbBangumiEpisodeService;
+
+    @Resource private FileStorageUtil fileStorageUtil;
 
     @Operation(summary = "获取影视详情")
     @GetMapping("/detail")
@@ -49,7 +52,7 @@ public class MovieDbController {
     @Operation(summary = "获取章节信息")
     @GetMapping("/episodes")
     public CommonResult<List<MovieEpisodesVO>> episodes(Long catalogid){
-        return CommonResult.success(movieDbBangumiEpisodeService.listVOByCatalogId(catalogid));
+        return CommonResult.success(movieDbBangumiEpisodeService.listVoByCatalogId(catalogid));
     }
 
     //后续可能删掉播放功能 临时放着
@@ -57,6 +60,6 @@ public class MovieDbController {
     @Operation(summary = "获取播放地址")
     @GetMapping("/playerUrl")
     public CommonResult<String> playerUrl(){
-        return CommonResult.success(FileStorageUtil.getAbsoluteUrl(dictApi.getByKey("movie_player_url")));
+        return CommonResult.success(fileStorageUtil.getAbsoluteUrl(dictApi.getByKey("movie_player_url")));
     }
 }

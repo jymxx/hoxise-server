@@ -15,10 +15,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi(影视数据 匹配Bangumi API)】的数据库操作Service实现
-* @createDate 2025-12-23 10:47:43
-*/
+ * 影视db bangumi服务实现类
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:19:11
+ */
 @Service
 public class MovieDbBangumiServiceImpl extends ServiceImpl<MovieDbBangumiMapper, MovieDbBangumiDO>
     implements MovieDbBangumiService{

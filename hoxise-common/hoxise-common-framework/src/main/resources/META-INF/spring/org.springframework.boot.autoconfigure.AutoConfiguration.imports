@@ -1,0 +1,3 @@
+cn.hoxise.common.framework.config.HoxiseFrameworkAutoConfiguration
+cn.hoxise.common.framework.config.HoxiseMybatisPlusAutoConfiguration
+cn.hoxise.common.framework.config.HoxiseRedisAutoConfiguration

@@ -9,9 +9,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @Author hoxise
- * @Description: 章节信息
- * @Date 2025-12-24 下午1:44
+ * 章节信息
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:11
  */
 @Data
 @Builder

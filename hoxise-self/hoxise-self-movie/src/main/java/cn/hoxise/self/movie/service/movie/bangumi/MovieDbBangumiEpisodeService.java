@@ -7,13 +7,30 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi_episode(Bangumi剧集表)】的数据库操作Service
-* @createDate 2025-12-24 02:42:23
-*/
+ * MovieDbBangumiEpisodeService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:14:28
+ */
 public interface MovieDbBangumiEpisodeService extends IService<MovieDbBangumiEpisodeDO> {
 
+    /**
+     * listByCatalogId
+     *
+     * @param catalogId 目录id
+     * @return 章节数据
+     * @author hoxise
+     * @since 2026/01/14 15:14:32
+     */
     List<MovieDbBangumiEpisodeDO> listByCatalogId(Long catalogId);
 
-    List<MovieEpisodesVO> listVOByCatalogId(Long catalogId);
+    /**
+     * 获取章节视图信息
+     *
+     * @param catalogId 目录id
+     * @return
+     * @author hoxise
+     * @since 2026/01/14 15:14:46
+     */
+    List<MovieEpisodesVO> listVoByCatalogId(Long catalogId);
 }

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,7 +16,9 @@ import lombok.Data;
 
 /**
  * 电影数据库角色表
- * @TableName movie_db_bangumi_character
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:49
  */
 @TableName(value ="movie_db_bangumi_character")
 @Data
@@ -64,6 +68,7 @@ public class MovieDbBangumiCharacterDO implements Serializable {
     private List<String> actors;
 
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

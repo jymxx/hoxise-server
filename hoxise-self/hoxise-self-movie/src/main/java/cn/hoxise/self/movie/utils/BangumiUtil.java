@@ -2,7 +2,7 @@ package cn.hoxise.self.movie.utils;
 
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.img.ImgUtil;
-import cn.hoxise.common.file.api.dto.FileStorageDTO;
+import cn.hoxise.common.file.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.self.movie.pojo.constants.MovieConstants;
 import cn.hoxise.self.movie.pojo.dto.BangumiCharacterResponse;
@@ -13,15 +13,17 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: Bangumi
- * @Date 2025-12-23 上午2:22
+ * BangumiUtil
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:02:30
  */
 @Slf4j
 @Component
@@ -29,10 +31,15 @@ public class BangumiUtil {
 
     private static final String BANGUMI_API_URL = "https://api.bgm.tv/v0/";
 
+    @Resource private FileStorageUtil fileStorageUtil;
+
     /**
-     * @description: 根据req查询数据
-     * @author: hoxise
-     * @date: 2025/12/23 上午10:58
+     * 根据req查询数据
+     *
+     * @param req 请求参数
+     * @return Bangumi查询条目结果
+     * @author hoxise
+     * @since 2026/01/14 15:02:37
      */
     public static BangumiSearchSubjectResponse searchSubjects(BangumiSearchSubjectReq req){
         try{
@@ -50,9 +57,12 @@ public class BangumiUtil {
     }
 
     /**
-     * @description: 根据id查询指定条目
-     * @author: hoxise
-     * @date: 2025/12/23 上午10:58
+     * 根据id查询指定条目
+     *
+     * @param subjectId 条目id
+     * @return Bangumi条目信息
+     * @author hoxise
+     * @since 2026/01/14 15:02:46
      */
     public static BangumiSearchSubjectResponse.Subject getSubject(String subjectId){
         try{
@@ -69,9 +79,12 @@ public class BangumiUtil {
     }
 
     /**
-     * @description: 根据id查询指定条目角色
-     * @author: hoxise
-     * @date: 2025/12/23 上午10:58
+     * 根据id查询指定条目角色
+     *
+     * @param subjectId 条目id
+     * @return 角色
+     * @author hoxise
+     * @since 2026/01/14 15:03:34
      */
     public static List<BangumiCharacterResponse.CharacterInfo> getCharacter(String subjectId){
         try{
@@ -88,9 +101,12 @@ public class BangumiUtil {
     }
 
     /**
-     * @description: 根据id查询指定条目章节
-     * @author: hoxise
-     * @date: 2025/12/23 上午10:58
+     * 根据id查询指定条目章节
+     *
+     * @param subjectId 条目id
+     * @return Bangumi剧集信息响应类
+     * @author hoxise
+     * @since 2026/01/14 15:03:46
      */
     public static BangumiEpisodesResponse getEpisodes(String subjectId){
         try{
@@ -108,17 +124,21 @@ public class BangumiUtil {
     }
 
     /**
-     * @Author: hoxise
-     * @Description: 处理图片 返回本地minio地址
-     * @Date: 2025/12/22 下午1:33
+     * 处理图片 返回存储object地址
+     *
+     * @param url bangumi的在线网络图片地址
+     * @param subjectName 名称
+     * @return 存储object地址
+     * @author hoxise
+     * @since 2026/01/14 15:03:59
      */
-    public static String handleImgBangumi(String url, String subjectName){
+    public String handleImgBangumi(String url, String subjectName){
         if (StrUtil.isBlank(url)){
             return "";
         }
         //截取后缀
         String filename = subjectName +"_Bangumi_Img.jpg";
-        FileStorageDTO fileStorageDTO = FileStorageUtil.uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
+        FileStorageDTO fileStorageDTO = fileStorageUtil.uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
         return fileStorageDTO.getObjectName();
     }
 }

@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 /**
-* @author Hoxise
-* @description 针对表【system_sms】的数据库操作Service实现
-* @createDate 2025-12-12 22:06:19
-*/
+ * SystemSmsLogServiceImpl
+ *
+ * @author Hoxise
+ * @since 2026/01/14 05:53:44
+ */
 @Service
 public class SystemSmsLogServiceImpl extends ServiceImpl<SystemSmsLogMapper, SystemSmsLogDO>
     implements SystemSmsLogService {

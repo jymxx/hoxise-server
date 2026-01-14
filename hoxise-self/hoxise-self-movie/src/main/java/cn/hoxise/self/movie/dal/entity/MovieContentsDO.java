@@ -4,14 +4,18 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
- * 
- * @TableName movie_contents
+ * MovieContentsDO
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:35
  */
 @Schema(description = "影视内容(子集)")
 @TableName(value ="movie_contents")
@@ -48,6 +52,7 @@ public class MovieContentsDO implements Serializable {
      */
     private Double size;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

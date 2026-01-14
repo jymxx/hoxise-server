@@ -1,7 +1,7 @@
 package cn.hoxise.self.ai.controller.movie;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.common.security.uitls.SaTokenUtil;
 import cn.hoxise.self.ai.pojo.enums.AiMethodEnum;
 import cn.hoxise.self.ai.service.AiMovieChatService;
 import cn.hoxise.self.ai.service.AiRequestRecordService;
@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
 /**
- * @Author hoxise
- * @Description: movie Ai
- * @Date 2025-12-25 上午5:49
+ * 影视 AI
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:48:36
  */
 @Tag(name = "Movie AI")
 @RestController
@@ -49,12 +50,15 @@ public class MovieAiController {
 
 
     /**
-     * @Author: hoxise
-     * @Description: satoken貌似不兼容这个流式返回格式，拦截器会有一堆报错，只能手动检查
-     * @Date: 2025/12/25 下午6:31
+     * satoken貌似不兼容这个流式返回格式，拦截器会有一堆报错，暂时先手动检查
+     *
+     * @param token token
+     * @return loginid
+     * @author hoxise
+     * @since 2026/01/14 14:48:51
      */
     private Long checkLogin(String token) {
-        Object loginId = StpUtil.getLoginIdByToken(token);
+        Object loginId = SaTokenUtil.getLoginIdByToken(token);
         if (loginId== null){
             throw new ServiceException("未登录");
         }

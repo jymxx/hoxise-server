@@ -3,12 +3,15 @@ package cn.hoxise.self.movie.controller.movie.dto;
 import cn.hoxise.common.base.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * @Author hoxise
- * @Description: 简单查询DTO
- * @Date 2025-12-22 下午3:49
+ * 简单查询结果DTO
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:54:33
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class MovieSimpleQueryDTO extends PageParam {
 

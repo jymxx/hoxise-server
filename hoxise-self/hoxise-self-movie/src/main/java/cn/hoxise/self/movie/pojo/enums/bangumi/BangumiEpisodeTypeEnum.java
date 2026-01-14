@@ -5,16 +5,9 @@ import lombok.Getter;
 
 /**
  * Bangumi 章节类型枚举
- * 0 = 本篇
- * 1 = 特别篇
- * 2 = OP
- * 3 = ED
- * 4 = 预告/宣传/广告
- * 5 = MAD
- * 6 = 其他
  *
- * @Author hoxise
- * @Date 2025-12-23 上午8:48
+ * @author hoxise
+ * @since 2026/01/14 15:00:29
  */
 @Getter
 @AllArgsConstructor

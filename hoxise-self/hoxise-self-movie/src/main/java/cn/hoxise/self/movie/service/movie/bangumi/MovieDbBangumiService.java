@@ -8,18 +8,50 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi(影视数据 匹配Bangumi API)】的数据库操作Service
-* @createDate 2025-12-23 10:47:43
-*/
+ * MovieDbBangumiService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:17:20
+ */
 public interface MovieDbBangumiService extends IService<MovieDbBangumiDO> {
 
+    /**
+     * 获取所有目录id集合 不包括被逻辑删除的
+     *
+     * @return 所有目录ids
+     * @author hoxise
+     * @since 2026/01/14 15:17:21
+     */
     List<Long> getCatalogIdList();
 
+    /**
+     * 根据目录id获取数据
+     *
+     * @param catalogIds 目录id
+     * @return 影视db数据
+     * @author hoxise
+     * @since 2026/01/14 15:17:45
+     */
     List<MovieDbBangumiDO> listByCatalogId(Collection<Long> catalogIds);
 
+    /**
+     * 根据目录id获取单个数据
+     *
+     * @param catalogId 目录id
+     * @return 影视数据
+     * @author hoxise
+     * @since 2026/01/14 15:18:13
+     */
     MovieDbBangumiDO getByCatalogId(Long catalogId);
 
+    /**
+     * 获取db详情
+     *
+     * @param catalogId 目录id
+     * @return 影视详情
+     * @author hoxise
+     * @since 2026/01/14 15:18:54
+     */
     MovieDetailVO detailByCatalogId(Long catalogId);
 
 

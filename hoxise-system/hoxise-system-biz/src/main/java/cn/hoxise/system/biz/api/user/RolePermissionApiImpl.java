@@ -13,9 +13,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * RolePermissionApiImpl
+ *
  * @author hoxise
- * @Description:
- * @Date: 2024/3/3 2:48
+ * @since 2026/01/14 06:09:11
  */
 @Service
 public class RolePermissionApiImpl implements RolePermissionApi {

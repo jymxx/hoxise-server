@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@ComponentScan({"cn.hoxise.*"})
+/**
+ * @author Hoxise
+ */
 @MapperScan("cn.hoxise.**.mapper")
 @EnableAsync
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.hoxise.api","cn.hoxise.self","cn.hoxise.system"})
 public class HoxiseWebApplication {
 
     public static void main(String[] args) {

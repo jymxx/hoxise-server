@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: TMDB数据接收对象
- * @Date 2025-12-22 上午10:40
+ * TMDB数据接收对象
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:02:08
  */
 @Data
 @Builder

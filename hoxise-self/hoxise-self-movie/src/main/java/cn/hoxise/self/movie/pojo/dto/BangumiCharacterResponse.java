@@ -7,8 +7,8 @@ import java.util.List;
  * Bangumi角色信息响应类
  * 用于接收Bangumi API中角色数据的响应结果
  *
- * @Author hoxise
- * @Date 2025-12-23
+ * @author hoxise
+ * @since 2026/01/14 14:59:15
  */
 @Data
 public class BangumiCharacterResponse {

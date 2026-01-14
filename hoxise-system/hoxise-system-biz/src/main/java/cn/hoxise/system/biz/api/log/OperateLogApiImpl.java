@@ -7,14 +7,16 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author hoxise
- * @Description: 操作日志接口实现类
- * @Date 2026-01-04 上午7:45
+ * OperateLogApiImpl
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:09:05
  */
 @Service
 public class OperateLogApiImpl implements OperateLogApi {
 
     @Resource private OperateLogService operateLogService;
+
     @Override
     public void createOperateLog(OperateLogCreateReqDTO operateLog) {
         operateLogService.createOperateLog(operateLog);

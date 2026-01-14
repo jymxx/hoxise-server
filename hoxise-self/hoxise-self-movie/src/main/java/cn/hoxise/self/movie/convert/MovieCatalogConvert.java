@@ -8,9 +8,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: movieCatalog转换类
- * @Date 2025-12-22 下午3:59
+ * MovieCatalogConvert
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:17
  */
 @Mapper
 public interface MovieCatalogConvert {

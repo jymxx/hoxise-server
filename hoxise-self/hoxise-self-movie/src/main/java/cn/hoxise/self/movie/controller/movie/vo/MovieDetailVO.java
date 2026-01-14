@@ -2,7 +2,7 @@ package cn.hoxise.self.movie.controller.movie.vo;
 
 import cn.hoxise.common.base.framework.mybatis.typehandler.StringListTypeHandler;
 import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.common.file.annotations.FilePathFormat;
+import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import cn.hoxise.self.movie.dal.entity.MovieDbBangumiInfoboxDO;
 import cn.hoxise.self.movie.pojo.enums.bangumi.BangumiSubjectTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: 影视详情
- * @Date 2025-12-23 下午3:12
+ * 影视详情
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:04
  */
 @Data
 @Builder

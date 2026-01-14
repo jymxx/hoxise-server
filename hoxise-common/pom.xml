@@ -15,16 +15,18 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--基础-->
+        <!--基础包引用-->
         <module>hoxise-common-base</module>
+        <!--框架配置-->
+        <module>hoxise-common-framework</module>
         <!--日志-->
-        <module>hoxise-common-log</module>
+        <module>hoxise-spring-boot-starter-log</module>
         <!--安全认证-->
-        <module>hoxise-common-security</module>
+        <module>hoxise-spring-boot-starter-security</module>
         <!--文件管理-->
-        <module>hoxise-common-file</module>
+        <module>hoxise-spring-boot-starter-file</module>
         <!--openAI集成-->
-        <module>hoxise-common-openai</module>
+        <module>hoxise-spring-boot-starter-openai</module>
     </modules>
 
 </project>

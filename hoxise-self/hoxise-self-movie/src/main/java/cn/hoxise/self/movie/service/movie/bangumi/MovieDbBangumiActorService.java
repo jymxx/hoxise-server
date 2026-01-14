@@ -7,13 +7,30 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi_actor(Bangumi演员/声优表)】的数据库操作Service
-* @createDate 2025-12-23 16:43:28
-*/
+ * MovieDbBangumiActorService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:05:44
+ */
 public interface MovieDbBangumiActorService extends IService<MovieDbBangumiActorDO> {
 
+    /**
+     * getByActorId
+     *
+     * @param actorId 演员id
+     * @return Bangumi演员/声优表
+     * @author hoxise
+     * @since 2026/01/14 15:05:49
+     */
     MovieDbBangumiActorDO getByActorId(Long actorId);
 
+    /**
+     * 根据演员ids列出数据
+     *
+     * @param actorIds 演员ids
+     * @return Bangumi演员数据
+     * @author hoxise
+     * @since 2026/01/14 15:06:06
+     */
     List<MovieDbBangumiActorDO> listByActorIds(Collection<Long> actorIds);
 }

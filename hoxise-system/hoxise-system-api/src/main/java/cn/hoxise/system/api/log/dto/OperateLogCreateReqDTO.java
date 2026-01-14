@@ -7,7 +7,13 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "RPC 服务 - 操作日志创建 Request DTO")
+/**
+ * 操作日志创建DTO
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:12:01
+ */
+@Schema(description = "操作日志创建 Request DTO")
 @Data
 public class OperateLogCreateReqDTO {
 

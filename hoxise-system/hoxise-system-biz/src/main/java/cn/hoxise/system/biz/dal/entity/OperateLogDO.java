@@ -2,7 +2,7 @@ package cn.hoxise.system.biz.dal.entity;
 
 import cn.hoxise.common.base.pojo.BaseDO;
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.common.log.enums.OperateTypeEnum;
+import cn.hoxise.common.log.core.enums.OperateTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -10,10 +10,12 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
+
 /**
- * 操作日志表
+ * 操作日志
  *
- * @author 芋道源码
+ * @author hoxise
+ * @since 2026/01/14 06:06:54
  */
 @TableName(value = "system_operate_log", autoResultMap = true)
 @Data

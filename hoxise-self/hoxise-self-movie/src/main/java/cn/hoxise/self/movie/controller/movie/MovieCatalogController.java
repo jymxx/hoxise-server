@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: 影视目录控制类
- * @Date 2025-12-22 上午7:41
+ * 影视目录控制类
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:42
  */
 @Tag(name = "影视目录控制类")
 @RestController
@@ -36,19 +37,19 @@ public class MovieCatalogController {
     @Operation(summary = "获取最近更新的数据")
     @GetMapping("/lastUpdate")
     public CommonResult<List<MovieSimpleVO>> lastUpdate(){
-        return CommonResult.success(movieCatalogService.LastUpdate());
+        return CommonResult.success(movieCatalogService.lastUpdate());
     }
 
     @Operation(summary = "获取影视库数据")
     @GetMapping("/library")
-    public CommonResult<PageResult<MovieSimpleVO>> libraryDBCache(MovieSimpleQueryDTO queryDTO) {
-        return CommonResult.success(movieCatalogService.libraryDBCache(queryDTO));
+    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(MovieSimpleQueryDTO queryDTO) {
+        return CommonResult.success(movieCatalogService.libraryDbCache(queryDTO));
     }
 
     @Operation(summary = "获取影视目录列表")
     @GetMapping("/pageSimple")
     public CommonResult<PageResult<MovieSimpleVO>> pageSimple(MovieSimpleQueryDTO queryDTO){
-        return CommonResult.success(movieCatalogService.listPageContainDB(queryDTO));
+        return CommonResult.success(movieCatalogService.listPageContainDb(queryDTO));
     }
 
     @Operation(summary = "获取影视统计数据")

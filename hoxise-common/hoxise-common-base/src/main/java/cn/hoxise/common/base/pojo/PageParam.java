@@ -9,6 +9,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 分页参数
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
+ */
 @Schema(description="分页参数")
 @Data
 public class PageParam implements Serializable {

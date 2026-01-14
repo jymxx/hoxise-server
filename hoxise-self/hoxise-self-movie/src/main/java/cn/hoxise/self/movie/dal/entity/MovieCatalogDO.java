@@ -12,8 +12,10 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * 
- * @TableName movie_catalog
+ * 影视目录
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:32
  */
 @Schema(description = "影视目录")
 @TableName(value ="movie_catalog")

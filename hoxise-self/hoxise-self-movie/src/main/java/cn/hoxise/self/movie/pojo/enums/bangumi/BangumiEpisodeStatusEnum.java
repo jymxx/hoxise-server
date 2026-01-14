@@ -5,12 +5,9 @@ import lombok.Getter;
 
 /**
  * Bangumi 章节放送状态枚举
- * Air = 已放送
- * Today = 正在放送
- * NA = 未放送
  *
- * @Author hoxise
- * @Date 2025-12-23 上午8:48
+ * @author hoxise
+ * @since 2026/01/14 15:00:13
  */
 @Getter
 @AllArgsConstructor

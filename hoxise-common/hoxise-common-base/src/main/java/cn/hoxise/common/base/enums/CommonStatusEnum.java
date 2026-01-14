@@ -10,6 +10,9 @@ import java.util.Arrays;
 
 /**
  * 通用状态枚举
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:18:47
  */
 @Getter
 @AllArgsConstructor

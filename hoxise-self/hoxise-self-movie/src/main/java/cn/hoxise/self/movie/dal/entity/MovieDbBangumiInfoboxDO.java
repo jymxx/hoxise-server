@@ -10,7 +10,9 @@ import lombok.Data;
 
 /**
  * Bangumi 的infobox
- * @TableName movie_db_bangumi_infobox
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:57:12
  */
 @Schema(description = "Bangumi 的信息框")
 @TableName("movie_db_bangumi_infobox")

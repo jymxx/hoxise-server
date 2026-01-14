@@ -4,11 +4,21 @@ import cn.hoxise.system.biz.dal.entity.SystemSmsLogDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
-* @author Hoxise
-* @description 针对表【system_sms】的数据库操作Service
-* @createDate 2025-12-12 22:06:19
-*/
+ * SystemSmsLogService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 def time = new Date().format('HH:mm')
+ */
 public interface SystemSmsLogService extends IService<SystemSmsLogDO> {
 
+    /**
+     * saveSendLog
+     *
+     * @param phone 手机号
+     * @param requestId SMS请求ID
+     * @param type 发送类型
+     * @author hoxise
+     * @since 2026/01/14 05:55:39
+     */
     void saveSendLog(String phone, String requestId, String type);
 }

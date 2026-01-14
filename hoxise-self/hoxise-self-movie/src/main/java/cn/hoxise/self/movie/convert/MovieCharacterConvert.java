@@ -9,9 +9,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: MovieCharacterConvert
- * @Date 2025-12-23 下午6:35
+ * MovieCharacterConvert
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:20
  */
 @Mapper
 public interface MovieCharacterConvert

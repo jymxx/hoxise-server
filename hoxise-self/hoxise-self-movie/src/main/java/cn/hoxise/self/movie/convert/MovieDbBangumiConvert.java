@@ -8,9 +8,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description:
- * @Date 2025-12-23 下午3:24
+ * MovieDbBangumiConvert
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:56:24
  */
 @Mapper
 public interface MovieDbBangumiConvert {

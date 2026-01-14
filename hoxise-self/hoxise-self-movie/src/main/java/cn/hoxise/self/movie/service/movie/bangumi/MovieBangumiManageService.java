@@ -10,91 +10,117 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: Bangumi影视管理
- * @Date 2025-12-22 下午3:47
+ * Bangumi影视管理
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:10:44
  */
 public interface MovieBangumiManageService {
 
     /**
      * 根据名称从Bangumi查询数据
+     *
      * @param name 名称
-     * @return
+     * @return 条目列表
+     * @author hoxise
+     * @since 2026/01/14 15:10:50
      */
     List<BangumiSearchSubjectResponse.Subject> queryByNameFromBangumi(String name);
 
     /**
-     * @description: 更新指定id的Bangumi信息
-     * @param	catalogid 目录id
-     * @param	bangumiId 条目id
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 更新指定id的Bangumi信息
+     *
+     * @param catalogid 目录id
+     * @param bangumiId 条目id
+     * @author hoxise
+     * @since 2026/01/14 15:11:05
      */
     @Transactional
     void updateBangumi(Long catalogid, Long bangumiId);
 
     /**
-     * @description: 扫描目录
-     * @param	scanUpdate 是否更新已存在的条目
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 扫描目录
+     *
+     * @param scanUpdate 是否更新已存在的条目
+     * @author hoxise
+     * @since 2026/01/14 15:11:12
      */
     @Transactional
     void dirScan(boolean scanUpdate);
 
     /**
-     * @Author: hoxise
-     * @Params: [isAllUpdate] 是否全量更新 false则只新增
-     * @Description: 匹配Bangumi数据
-     * @Date: 2025/12/22 下午4:34
+     * 匹配bangumi数据
+     *
+     * @param isAllUpdate [isAllUpdate] 是否全量更新 false则只新增
+     * @author hoxise
+     * @since 2026/01/14 15:11:29
      */
     void allMatchingBangumi(boolean isAllUpdate);
 
     /**
-     * @description: 保存Bangumi数据
-     * @param	catalog 目录
-     * @param	subject 搜索结果
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 保存Bangumi数据
+     *
+     * @param catalog 目录
+     * @param subject 搜索结果
+     * @author hoxise
+     * @since 2026/01/14 15:11:45
      */
     @Transactional
     void saveBangumiWithInfobox(MovieCatalogDO catalog, BangumiSearchSubjectResponse.Subject subject);
 
     /**
-     * @description: 匹配角色 和 CV
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 匹配角色 和 CV
+     *
+     * @author hoxise
+     * @since 2026/01/14 15:11:55
      */
     void matchCharacters();
 
     /**
-     * @description: Api获取角色和CV信息并把没有的数据保存进数据库
-     * @param	bangumiId 条目id
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * Api获取角色和CV信息并把没有的数据保存进数据库
+     *
+     * @param bangumiId 条目id
+     * @param catalogid 系统里的目录id
+     * @author hoxise
+     * @since 2026/01/14 15:12:01
      */
     @Transactional
     void apiUpdateCharactersAndActors(Long bangumiId,Long catalogid);
 
     /**
-     * @description: 匹配章节信息
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * 匹配章节信息
+     *
+     * @author hoxise
+     * @since 2026/01/14 15:12:15
      */
     void matchEpisode();
 
     /**
-     * @description: Api获取章节信息并把没有的数据保存进数据库
-     * @param	bangumiId 条目id
-     * @param	catalogid 目录id
-     * @author: hoxise
-     * @date: 2025/12/23 下午6:50
+     * Api获取章节信息并把没有的数据保存进数据库
+     *
+     * @param bangumiId 条目id
+     * @param catalogid 目录id
+     * @author hoxise
+     * @since 2026/01/14 15:12:21
      */
     @Transactional
     void apiUpdateEpisode(Long bangumiId, Long catalogid);
 
+    /**
+     * allMatchingTMDB
+     *
+     * @author hoxise
+     * @since 2026/01/14 15:12:25
+     */
     void allMatchingTMDB();
 
-    @Cacheable(cacheNames = MovieRedisConstants.TMDB_SEARCHMULTI_KEY, key = "#keyword")
+    /**
+     * searchMultiCache
+     *
+     * @param keyword 关键字
+     * @return TMDB多重查询结果
+     * @author hoxise
+     * @since 2026/01/14 15:12:31
+     */
     TMDBMulitSearchResponse searchMultiCache(String keyword);
 }

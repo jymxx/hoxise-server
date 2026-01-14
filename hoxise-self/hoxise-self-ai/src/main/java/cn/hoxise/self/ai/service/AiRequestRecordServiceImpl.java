@@ -1,11 +1,12 @@
 package cn.hoxise.self.ai.service;
 
 import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.common.base.utils.redis.RedisUtil;
+import cn.hoxise.common.framework.utils.RedisUtil;
 import cn.hoxise.self.ai.dal.entity.AiRequestRecordDO;
 import cn.hoxise.self.ai.dal.mapper.AiRequestRecordMapper;
 import cn.hoxise.self.ai.pojo.enums.AiMethodEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,14 +14,17 @@ import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
-* @author Hoxise
-* @description 针对表【ai_request_record】的数据库操作Service实现
-* @createDate 2025-12-25 15:05:41
-*/
+ * 请求记录服务实现类
+ *
+ * @author Hoxise
+ * @since 2026/01/14 14:52:59
+ */
 @Service
 public class AiRequestRecordServiceImpl extends ServiceImpl<AiRequestRecordMapper, AiRequestRecordDO>
     implements AiRequestRecordService{
 
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public void record(AiMethodEnum method, Long loginId) {
@@ -41,16 +45,16 @@ public class AiRequestRecordServiceImpl extends ServiceImpl<AiRequestRecordMappe
 
         String key = "ai_rate_limit:" + LocalDate.now() + ":"  + userid ;
         //获取今日调用次数
-        String countStr = RedisUtil.getValue(key);
+        String countStr = redisUtil.getValue(key);
         int count = countStr == null ? 0 : Integer.parseInt(countStr);
         // 每日限制50次
         if (count >= 50) {
             throw new ServiceException("今日调用次数已达上限");
         }
         if (count == 0) {
-            RedisUtil.setValue(key,"1",24, TimeUnit.HOURS);
+            redisUtil.setValue(key,"1",24, TimeUnit.HOURS);
         } else {
-            RedisUtil.increment(key);
+            redisUtil.increment(key);
         }
     }
 

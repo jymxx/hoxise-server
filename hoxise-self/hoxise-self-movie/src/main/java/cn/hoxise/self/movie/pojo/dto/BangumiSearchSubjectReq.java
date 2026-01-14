@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Author hoxise
- * @Description: Bangumi搜索请求参数传输对象
- * @Date 2025-12-23 上午9:23
+ * Bangumi搜索请求参数传输对象
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:59:46
  */
 @Data
 @Builder

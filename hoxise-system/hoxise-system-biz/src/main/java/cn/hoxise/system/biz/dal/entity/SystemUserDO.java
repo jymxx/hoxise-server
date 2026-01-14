@@ -17,8 +17,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户表
- * @TableName sys_user
+ * SystemUserDO
+ *
+ * @author hoxise@since 2026/01/14 05:59:58
  */
 @EqualsAndHashCode(callSuper = true)
 @Schema(name = "用户表")

@@ -6,15 +6,18 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db】的数据库操作Service
-* @createDate 2025-12-22 07:34:01
-*/
+ * MovieDbService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:01:44
+ */
 public interface MovieDbService extends IService<MovieDbDO> {
     /**
-     * @Author: hoxise
-     * @Description: 获取所有已经匹配的catalogids
-     * @Date: 2025/12/22 下午1:03
+     * 获取所有已经匹配的catalogids
+     *
+     * @return
+     * @author hoxise
+     * @since 2026/01/14 15:01:49
      */
     List<Long> getCatalogIdList();
 

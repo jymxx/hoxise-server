@@ -10,10 +10,11 @@ import java.util.Collection;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db】的数据库操作Service实现
-* @createDate 2025-12-22 07:34:01
-*/
+ * MovieDbServiceImpl
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:01:54
+ */
 @Service
 public class MovieDbServiceImpl extends ServiceImpl<MovieDbMapper, MovieDbDO>
     implements MovieDbService{

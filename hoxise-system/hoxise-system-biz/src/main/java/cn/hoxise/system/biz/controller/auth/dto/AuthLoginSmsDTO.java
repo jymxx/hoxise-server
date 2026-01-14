@@ -7,11 +7,11 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * @Author hoxise
- * @Description: 短信验证码登录DTO
- * @Date 2025-12-13 上午1:45
+ * 短信认证请求DTO
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:33
  */
-@Schema(description = "Request DTO")
 @Data
 public class AuthLoginSmsDTO {
 

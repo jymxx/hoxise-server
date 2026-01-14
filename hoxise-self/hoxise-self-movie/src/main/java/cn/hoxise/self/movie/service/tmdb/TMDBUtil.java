@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 
 /**
- * @Author hoxise
- * @Description: TMDB工具
- * @Date 2025-12-22 上午9:51
+ * TMDB工具
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:02:23
  */
 @Slf4j
 @Component
@@ -28,9 +29,12 @@ public class TMDBUtil {
     private static final RateLimiter rateLimiter = RateLimiter.create(0.5);
 
     /**
-     * @Author: hoxise
-     * @Description: 关键字查询
-     * @Date: 2025/12/22 上午10:41
+     * 查询
+     *
+     * @param keyword 关键字
+     * @return TMDB多重查询结果
+     * @author hoxise
+     * @since 2026/01/14 15:29:34
      */
     public static TMDBMulitSearchResponse searchMulti(String keyword){
         rateLimiter.acquire();
@@ -54,9 +58,12 @@ public class TMDBUtil {
     }
 
     /**
-     * @Author: hoxise
-     * @Description: 获取电影详情 根据tmbdid
-     * @Date: 2025/12/22 上午10:41
+     * 获取电影详情 根据tmbdid
+     *
+     * @param tmbdId tmbdId
+     * @return TMDB多重查询结果
+     * @author hoxise
+     * @since 2026/01/14 15:29:53
      */
     public static TMDBMulitSearchResponse searchMovieById(String tmbdId){
         rateLimiter.acquire();
@@ -80,9 +87,12 @@ public class TMDBUtil {
     }
 
     /**
-     * @Author: hoxise
-     * @Description: 获取图片流
-     * @Date: 2025/12/22 上午10:41
+     * 获取图片流
+     *
+     * @param shortImgUrl 图片地址
+     * @return
+     * @author hoxise
+     * @since 2026/01/14 15:30:06
      */
     public static InputStream getUrl(String shortImgUrl){
         String url = TMDB_ImgPrefix + shortImgUrl;

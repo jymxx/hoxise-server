@@ -14,8 +14,10 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * 
- * @TableName movie_db
+ * MovieDbDO
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:01:40
  */
 @Schema(description = "影视数据 匹配")
 @TableName(value ="movie_db")

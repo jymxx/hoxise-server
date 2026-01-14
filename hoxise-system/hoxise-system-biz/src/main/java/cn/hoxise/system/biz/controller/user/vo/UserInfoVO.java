@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @Author: hoxise
- * @Description: 用户信息封装
- * @Date: 2023/8/27 0:32
+ * 用户信息封装
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:10:55
  */
 @Data
 @Builder

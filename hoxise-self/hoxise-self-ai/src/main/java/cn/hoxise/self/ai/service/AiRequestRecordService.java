@@ -6,18 +6,29 @@ import cn.hoxise.self.ai.pojo.enums.AiMethodEnum;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
-* @author Hoxise
-* @description 针对表【ai_request_record】的数据库操作Service
-* @createDate 2025-12-25 15:05:41
-*/
+ * AiRequestRecordService
+ *
+ * @author Hoxise
+ * @since 2026/01/14 14:52:22
+ */
 public interface AiRequestRecordService extends IService<AiRequestRecordDO> {
 
     /**
-     * @description: 记录调用日志
-     * @author: hoxise
-     * @date: 2025/12/25 下午3:14
+     * 记录请求日志
+     *
+     * @param method 方法名称
+     * @param userid 请求用户id
+     * @author hoxise
+     * @since 2026/01/14 14:52:26
      */
     void record(AiMethodEnum method, Long userid);
 
+    /**
+     * 限制用户请求频率
+     *
+     * @param userid 用户id
+     * @author hoxise
+     * @since 2026/01/14 14:52:26
+     */
     void aiRateLimit(Long userid);
 }

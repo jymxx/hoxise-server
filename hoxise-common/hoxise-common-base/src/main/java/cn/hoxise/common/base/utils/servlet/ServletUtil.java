@@ -10,10 +10,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 客户端工具类
  *
+ * @author hoxise
+ * @since 2026/01/14 06:49:28
  */
 public class ServletUtil {
 
@@ -26,7 +29,7 @@ public class ServletUtil {
      */
     public static void writeAttachment(HttpServletResponse response, String filename, byte[] content) throws IOException {
         // 设置 header 和 contentType
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, StandardCharsets.UTF_8));
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         // 输出附件
         IoUtil.write(response.getOutputStream(), false, content);
@@ -55,7 +58,7 @@ public class ServletUtil {
     }
 
     /** 获取客户端IP */
-    public static String getClientIP(HttpServletRequest request) {
+    public static String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");

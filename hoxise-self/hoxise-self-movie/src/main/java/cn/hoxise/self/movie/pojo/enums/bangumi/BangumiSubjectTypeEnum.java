@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author hoxise
- * @Description: Bangumi条目类型枚举
- * @Date 2025-12-23 上午8:37
+ * Bangumi条目类型枚举
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:00:37
  */
 @Getter
 @AllArgsConstructor

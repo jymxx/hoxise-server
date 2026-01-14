@@ -1,10 +1,17 @@
 package cn.hoxise.common.base.exception;
 
 import cn.hoxise.common.base.enums.ResultCodeEnum;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 业务逻辑异常 Exception
+ * 业务逻辑异常
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
  */
+@EqualsAndHashCode(callSuper = true)
+@Data
 public final class ServiceException extends RuntimeException {
 
     /**
@@ -28,24 +35,5 @@ public final class ServiceException extends RuntimeException {
         this.message = resultCodeEnum.getMessage();
     }
 
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public ServiceException setCode(Integer code) {
-        this.code = code;
-        return this;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public ServiceException setMessage(String message) {
-        this.message = message;
-        return this;
-    }
 
 }

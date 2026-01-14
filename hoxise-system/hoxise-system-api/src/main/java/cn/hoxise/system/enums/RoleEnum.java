@@ -6,9 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author hoxise
- * @Description: 角色枚举 与数据库对应 因为本系统暂不需要复杂权限设计
- * @Date 2025-12-29 上午9:00
+ * 系统角色枚举
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:13:54
  */
 @Getter
 @AllArgsConstructor

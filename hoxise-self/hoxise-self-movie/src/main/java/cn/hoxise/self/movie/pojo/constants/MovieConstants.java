@@ -3,9 +3,10 @@ package cn.hoxise.self.movie.pojo.constants;
 import java.util.regex.Pattern;
 
 /**
- * @Author hoxise
- * @Description: 影视常量
- * @Date 2025-12-22 下午3:02
+ * 影视常量
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:59:01
  */
 public class MovieConstants {
 

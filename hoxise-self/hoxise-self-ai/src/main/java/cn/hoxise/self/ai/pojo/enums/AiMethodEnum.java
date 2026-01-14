@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author hoxise
- * @Description: AI接口枚举
- * @Date 2025-12-25 下午3:11
+ * Ai接口枚举
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:50:16
  */
 @Getter
 @AllArgsConstructor

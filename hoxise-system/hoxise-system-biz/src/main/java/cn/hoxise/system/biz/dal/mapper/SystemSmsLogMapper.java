@@ -4,11 +4,11 @@ import cn.hoxise.system.biz.dal.entity.SystemSmsLogDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
-* @author Hoxise
-* @description 针对表【system_sms】的数据库操作Mapper
-* @createDate 2025-12-12 22:06:19
-* @Entity cn.hoxise.system.biz.dal.entity.SystemSms
-*/
+ * SystemSmsLogMapper
+ *
+ * @author Hoxise
+ * @since 2026/01/14 06:08:02
+ */
 public interface SystemSmsLogMapper extends BaseMapper<SystemSmsLogDO> {
 
 }

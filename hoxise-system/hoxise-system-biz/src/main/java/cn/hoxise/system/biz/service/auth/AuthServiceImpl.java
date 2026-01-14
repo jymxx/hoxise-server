@@ -4,7 +4,7 @@ import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.system.biz.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.system.biz.service.sms.SystemSmsService;
-import cn.hoxise.common.ai.uitls.SaTokenUtil;
+import cn.hoxise.common.security.uitls.SaTokenUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.system.biz.controller.auth.vo.LoginResultVO;
 import cn.hoxise.system.biz.controller.user.vo.UserInfoVO;
@@ -21,9 +21,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 /**
- * @Author: hoxise
- * @Description: 认证相关业务类
- * @Date: 2023/8/27 0:45
+ * 认证业务
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:57
  */
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -61,6 +62,7 @@ public class AuthServiceImpl implements AuthService {
         return realLogin(systemUserDO);
     }
 
+
     @Override
     public LoginResultVO loginSms(AuthLoginSmsDTO authLoginSmsDTO) {
         if (!"dev".equals(runMode)) {
@@ -82,8 +84,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 检查用户状态
-     * @param systemUserDO
+     * 检查用户状态是否可用
+     *
+     * @param systemUserDO 用户do
+     * @author hoxise
+     * @since 2026/01/14 06:04:35
      */
     private void checkStatus(SystemUserDO systemUserDO){
         //是否禁用
@@ -99,9 +104,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * 实际登录方法
-     * @param systemUserDO
-     * @return
+     * 实际的登录方法
+     *
+     * @param systemUserDO 用户do
+     * @return 登录结果
+     * @author hoxise
+     * @since 2026/01/14 06:04:57
      */
     private LoginResultVO realLogin(SystemUserDO systemUserDO) {
         //使用sa-token框架登录生成token
@@ -122,12 +130,28 @@ public class AuthServiceImpl implements AuthService {
         return success;
     }
 
+    /**
+     * 登录后处理
+     * 未来逻辑多了换成异步
+     *
+     * @param systemUserDO 用户do
+     * @author hoxise
+     * @since 2026/01/14 06:05:46
+     */
     private void afterLogin(SystemUserDO systemUserDO) {
-        systemUserDO.setLastLoginTime(LocalDateTime.now());//更新登录时间
+        //更新登录时间
+        systemUserDO.setLastLoginTime(LocalDateTime.now());
         systemUserService.updateById(systemUserDO);
     }
 
 
+    /**
+     * validateCaptcha
+     *
+     * @param captcha 验证码
+     * @author hoxise
+     * @since 2026/01/14 06:06:19
+     */
     private void validateCaptcha(String captcha) {
         // 开发模式不校验
         if ("dev".equals(runMode)) {

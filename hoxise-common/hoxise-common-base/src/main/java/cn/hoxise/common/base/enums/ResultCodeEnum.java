@@ -1,9 +1,21 @@
 package cn.hoxise.common.base.enums;
 
+import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.Arrays;
+
 /**
- * Description: 异常代码枚举类
- * @author
+ * 异常代码枚举类
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
  */
+@Getter
+@AllArgsConstructor
 public enum ResultCodeEnum {
 
   /** 异常代码枚举类 */
@@ -28,19 +40,12 @@ public enum ResultCodeEnum {
   DEMO_DENY(901, "演示模式，禁止写操作"),
   UNKNOWN(999, "未知错误");
 
+  @EnumValue
   private final Integer code;
   private final String message;
 
-  ResultCodeEnum(Integer code, String message) {
-    this.code = code;
-    this.message = message;
-  }
 
-  public Integer getCode() {
-    return this.code;
-  }
-
-  public String getMessage() {
-    return this.message;
+  public static ResultCodeEnum getByCode(Integer code) {
+    return Arrays.stream(values()).filter(e -> ObjUtil.equal(e.getCode(), code)).findFirst().orElse(UNKNOWN);
   }
 }

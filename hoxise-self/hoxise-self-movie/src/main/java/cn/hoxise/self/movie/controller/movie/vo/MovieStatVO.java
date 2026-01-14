@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Author hoxise
- * @Description: 影视统计数据
- * @Date 2025-12-22 下午8:01
+ * 影视统计数据
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:55:27
  */
 @Data
 @AllArgsConstructor

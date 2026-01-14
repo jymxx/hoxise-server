@@ -1,9 +1,10 @@
 package cn.hoxise.self.movie.service.movie;
 
 /**
- * @Author hoxise
- * @Description: 影视管理
- * @Date 2025-12-29 上午8:19
+ * MovieManageService
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:23:35
  */
 public interface MovieManageService {
 

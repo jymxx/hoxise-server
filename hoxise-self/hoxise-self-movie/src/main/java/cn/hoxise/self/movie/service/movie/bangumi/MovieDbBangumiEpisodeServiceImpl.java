@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi_episode(Bangumi剧集表)】的数据库操作Service实现
-* @createDate 2025-12-24 02:42:23
-*/
+ * bangumi剧集表服务实现
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:15:30
+ */
 @Service
 public class MovieDbBangumiEpisodeServiceImpl extends ServiceImpl<MovieDbBangumiEpisodeMapper, MovieDbBangumiEpisodeDO>
     implements MovieDbBangumiEpisodeService{
@@ -26,7 +27,7 @@ public class MovieDbBangumiEpisodeServiceImpl extends ServiceImpl<MovieDbBangumi
     }
 
     @Override
-    public List<MovieEpisodesVO> listVOByCatalogId(Long catalogId) {
+    public List<MovieEpisodesVO> listVoByCatalogId(Long catalogId) {
         return MovieEpisodeConvert.INSTANCE.convert(listByCatalogId(catalogId));
     }
 }

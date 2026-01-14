@@ -4,11 +4,20 @@ import cn.hoxise.system.biz.dal.entity.SystemDictDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
-* @author Hoxise
-* @description 针对表【system_dict】的数据库操作Service
-* @createDate 2025-12-24 16:17:36
-*/
+ * SystemDictService
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:56
+ */
 public interface SystemDictService extends IService<SystemDictDO> {
 
+    /**
+     * getByKey 获取字典根据key
+     *
+     * @param key 字典key
+     * @return 系统字典
+     * @author hoxise
+     * @since 2026/01/14 06:03:32
+     */
     SystemDictDO getByKey(String key);
 }

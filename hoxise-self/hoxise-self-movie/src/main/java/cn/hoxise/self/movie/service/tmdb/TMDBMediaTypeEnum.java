@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @Author hoxise
- * @Description: TMDB数据库影视类型
- * @Date 2025-12-22 下午1:22
+ * TMDB数据库影视类型
+ *
+ * @author hoxise
+ * @since 2026/01/14 15:02:01
  */
 @Getter
 @AllArgsConstructor

@@ -6,9 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * @Author hoxise
- * @Description: 操作日志映射
- * @Date 2026-01-04 上午7:34
+ * OperateLogConvert
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:08:22
  */
 @Mapper
 public interface OperateLogConvert {

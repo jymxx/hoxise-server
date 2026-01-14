@@ -10,11 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+
 /**
- * @Author hoxise
- * @Description: 阿里云短信客户端
- * 文档 https://help.aliyun.com/zh/pnvs/developer-reference/api-dypnsapi-2017-05-25-sendsmsverifycode
- * @Date 2025-12-13 上午12:12
+ * 阿里云短信客户端
+ * 文档https://help.aliyun.com/zh/pnvs/developer-reference/api-dypnsapi-2017-05-25-sendsmsverifycode
+ *
+ * @author hoxise
+ * @since 2026/1/14 上午5:34
  */
 @Slf4j
 @Component
@@ -45,9 +47,10 @@ public class AliyunSmsClient {
     }
 
     /**
-     * @Author hoxise
-     * @Description: 发送验证码
-     * @Date 2025-12-13 上午12:12
+     * @param mobile
+     * @return @return
+     * @author hoxise
+     * @since 2026/01/14 $TIME$
      */
     public static SendSmsVerifyCodeResponseBody sendVerifyCodeAliyun(String mobile) {
         if (mobile == null) {
@@ -72,10 +75,13 @@ public class AliyunSmsClient {
         }
     }
 
+
     /**
-     * @Author hoxise
-     * @Description: 校验验证码
-     * @Date 2025-12-13 上午12:12
+     * @param mobile
+     * @param code
+     * @return @return boolean
+     * @author hoxise
+     *  2026/01/14 $TIME$
      */
     public static boolean checkVerifyCodeAliyun(String mobile, String code) {
         CheckSmsVerifyCodeRequest request = new CheckSmsVerifyCodeRequest();

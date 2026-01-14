@@ -24,22 +24,27 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-framework</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <!--鉴权框架-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-common-security</artifactId>
+            <artifactId>hoxise-spring-boot-starter-security</artifactId>
             <version>${revision}</version>
         </dependency>
         <!--openai-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-common-openai</artifactId>
+            <artifactId>hoxise-spring-boot-starter-openai</artifactId>
             <version>${revision}</version>
         </dependency>
         <!--日志-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-common-log</artifactId>
+            <artifactId>hoxise-spring-boot-starter-log</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
@@ -52,11 +57,11 @@
             <artifactId>hoxise-self-movie</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!--阿里云百炼大模型sdk-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>dashscope-sdk-java</artifactId>
-            <version>${dashscope-sdk-java.version}</version>
-        </dependency>
+        <!--&lt;!&ndash;阿里云百炼大模型sdk&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--    <groupId>com.alibaba</groupId>-->
+        <!--    <artifactId>dashscope-sdk-java</artifactId>-->
+        <!--    <version>${dashscope-sdk-java.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
 </project>

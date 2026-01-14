@@ -7,11 +7,11 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
- * @Author hoxise
- * @Description: 字典操作
- * @Date 2025-12-24 下午5:09
+ * DictApiImpl
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:08:40
  */
-//字典实现类
 @Service
 public class DictApiImpl implements DictApi {
 

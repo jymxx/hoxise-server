@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 /**
  * 基础实体对象
  *
- * @author 芋道源码
+ * @author hoxise
+ * @since 2026/01/14 06:34:13
  */
 @Data
 public abstract class BaseDO implements Serializable {

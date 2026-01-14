@@ -1,8 +1,8 @@
 package cn.hoxise.self.ai.service;
 
-import cn.hoxise.common.ai.api.OpenAiApi;
+import cn.hoxise.common.ai.core.OpenAiApi;
 import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.common.base.utils.redis.RedisUtil;
+import cn.hoxise.common.framework.utils.RedisUtil;
 import cn.hoxise.self.ai.pojo.constants.AiRedisKeyConstants;
 import cn.hoxise.self.movie.dal.entity.MovieDbBangumiDO;
 import cn.hoxise.self.ai.pojo.constants.AiPromptConstants;
@@ -27,9 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author hoxise
- * @Description: 影视聊天实现类
- * @Date 2025-12-25 上午4:30
+ * 影视AI聊天实现类
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:52:03
  */
 @Service
 public class AiMovieChatServiceImpl implements AiMovieChatService {
@@ -43,8 +44,11 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     @Resource
     private MovieDbBangumiCharacterService characterService;
 
-    @Autowired
+    @Resource
     private VectorStore vectorStore;
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public Flux<String> aiRecommend(String userText, String chatId, Long userid,String mode){
@@ -53,7 +57,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
 
         if ("reasoner".equalsIgnoreCase(mode)){
             //分析模型
-            ChatClient chatClient = openAiApi.getDeepSeekReasonerClient();
+            ChatClient chatClient = openAiApi.getMemoryChatClient();
             return chatClient.prompt()
                     .system(getAiRecommendPromptCache())
                     .user(userText)
@@ -97,8 +101,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      */
     private String getAiRecommendPromptCache(){
         String redisKey = AiRedisKeyConstants.AI_RECOMMEND_PROMPT_KEY;
-        if (RedisUtil.hasKey(redisKey)){
-            return RedisUtil.getValue(redisKey);
+        if (redisUtil.hasKey(redisKey)){
+            return redisUtil.getValue(redisKey);
         }
 
         List<MovieDbBangumiDO> list = movieDbBangumiService.list();
@@ -113,7 +117,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
 
         //将数据集拼接上去
         String resStr = AiPromptConstants.AI_MOVIE_RECOMMEN_SYSTEM_PROMPT+JSONObject.toJSONString(data);
-        RedisUtil.setValue(redisKey, resStr);
+        redisUtil.setValue(redisKey, resStr);
         return resStr;
     }
 
@@ -122,8 +126,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      */
     private String getAiSummaryPromptCache(Long catalogid){
         String redisKey = AiRedisKeyConstants.AI_SUMMERY_PROMPT_KEY +":"+ catalogid;
-        if (RedisUtil.hasKey(redisKey)){
-            return RedisUtil.getValue(redisKey);
+        if (redisUtil.hasKey(redisKey)){
+            return redisUtil.getValue(redisKey);
         }
         //拿到数据
         MovieDbBangumiDO bangumiDO = movieDbBangumiService.getByCatalogId(catalogid);
@@ -148,7 +152,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
 
         String prompt = promptTemplate.render(paramMap);
 
-        RedisUtil.setValue(redisKey,prompt);
+        redisUtil.setValue(redisKey,prompt);
         return prompt;
     }
 }

@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @Author hoxise
- * @Description: 短信服务
- * @Date 2025-12-13 上午1:42
+ * 短信服务
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:10:31
  */
 @Tag(name = "短信服务")
 @RestController

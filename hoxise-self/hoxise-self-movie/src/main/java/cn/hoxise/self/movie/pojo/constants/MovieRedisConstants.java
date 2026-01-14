@@ -1,9 +1,10 @@
 package cn.hoxise.self.movie.pojo.constants;
 
 /**
- * @Author hoxise
- * @Description: Redis常量
- * @Date 2025-12-22 下午5:50
+ * MovieRedisConstants
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:59:08
  */
 public class MovieRedisConstants {
 

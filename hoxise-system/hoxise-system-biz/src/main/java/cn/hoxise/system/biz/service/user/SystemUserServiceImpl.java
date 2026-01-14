@@ -1,7 +1,7 @@
 package cn.hoxise.system.biz.service.user;
 
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.enums.CommonStatusEnum;
+import cn.hoxise.common.security.uitls.SaTokenUtil;
 import cn.hoxise.system.biz.controller.user.vo.UserInfoVO;
 import cn.hoxise.system.biz.convert.SystemUserConvert;
 import cn.hoxise.system.biz.dal.entity.SystemRoleDO;
@@ -18,10 +18,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
-* @author 永远的十七岁
-* @description 用户类服务层
-* @createDate 2023-08-27 00:15:59
-*/
+ * SystemUserServiceImpl
+ *
+ * @author 永远的十七岁
+ * @since 2026/01/14 05:57:03
+ */
 @Service
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUserDO>
     implements SystemUserService {
@@ -42,7 +43,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public UserInfoVO getUserInfo(){
-        long loginId = StpUtil.getLoginIdAsLong();
+        long loginId = SaTokenUtil.getLoginIdAsLong();
         SystemUserDO systemUserDO = this.getById(loginId);
         UserInfoVO convert = SystemUserConvert.INSTANCE.convert(systemUserDO);
         //设置角色信息
@@ -51,7 +52,6 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         return convert;
     }
 
-    //注册
     @Override
     public SystemUserDO register(String phoneNumber){
         SystemUserDO userDO = SystemUserDO.builder()

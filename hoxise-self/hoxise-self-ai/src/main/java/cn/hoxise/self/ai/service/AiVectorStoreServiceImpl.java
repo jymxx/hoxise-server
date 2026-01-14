@@ -23,9 +23,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @Author hoxise
- * @Description: 向量存储
- * @Date 2025-12-26 下午7:11
+ * 向量存储
+ *
+ * @author hoxise
+ * @since 2026/01/14 14:53:22
  */
 @Service
 @Slf4j
@@ -57,7 +58,6 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
             return;
         }
         if (!pushVectorStore){
-            log.info("vectorStore未开启推送");
             return;
         }
         log.info("开始推送向量数据...");
@@ -97,10 +97,15 @@ public class AiVectorStoreServiceImpl implements AiVectorStoreService {
 
 
     /**
-     * @description: 构造向量数据
-     * @param	movieDb db数据
-     * @author: hoxise
-     * @date: 2025/12/26 下午8:01
+     * 构造向量数据
+     *
+     * @param movieDb    db数据
+     * @param infobox db关联的infobox
+     * @param characters db关联的角色
+     * @param actors db关联的CV/演员
+     * @return  Document
+     * @author hoxise
+     * @since 2026/01/14 14:53:31
      */
     private Document buildVectorStore(MovieDbBangumiDO movieDb, List<MovieDbBangumiInfoboxDO> infobox, List<MovieDbBangumiCharacterDO> characters, List<MovieDbBangumiActorDO> actors) {
 

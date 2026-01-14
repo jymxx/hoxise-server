@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-* @author Hoxise
-* @description 针对表【movie_db_bangumi_infobox(Bangumi 的infobox)】的数据库操作Service实现
-* @createDate 2025-12-23 10:47:43
-*/
+ * 信息框服务实现类
+ *
+ * @author Hoxise
+ * @since 2026/01/14 15:17:10
+ */
 @Service
 public class MovieDbBangumiInfoboxServiceImpl extends ServiceImpl<MovieDbBangumiInfoboxMapper, MovieDbBangumiInfoboxDO>
     implements MovieDbBangumiInfoboxService{

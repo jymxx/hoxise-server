@@ -12,9 +12,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
 /**
- * 
- * @TableName system_role
+ * 系统角色
+ *
+ * @author hoxise
+ * @since 2026/01/14 06:07:15
  */
 @Schema(name = "角色表")
 @TableName(value ="system_role")

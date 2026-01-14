@@ -9,8 +9,11 @@ import java.util.Objects;
 
 
 /**
- * * 全局通用返回类
+ * 全局通用返回类
+ *
+ * @author hoxise
  * @param <T>
+ * @since 2026/01/14 06:34:13
  */
 @Data
 public class CommonResult<T> implements Serializable {
