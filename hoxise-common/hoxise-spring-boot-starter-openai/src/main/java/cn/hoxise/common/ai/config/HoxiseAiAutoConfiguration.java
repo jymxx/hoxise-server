@@ -30,8 +30,8 @@ public class HoxiseAiAutoConfiguration {
 
     @Bean("deepSeekApiImpl")
     @ConditionalOnProperty("spring.ai.deepseek.base-url")
-    public OpenAiApi deepSeekApiImpl(DeepSeekChatModel chatModel, ChatMemory chatMemory) {
-        return new DeepSeekApiImpl(chatModel, chatMemory);
+    public OpenAiApi deepSeekApiImpl(DeepSeekChatModel chatModel, ChatMemory chatMemory, ChatClient.Builder chatClientBuilder) {
+        return new DeepSeekApiImpl(chatModel, chatMemory,chatClientBuilder);
     }
 
 }

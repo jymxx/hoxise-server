@@ -37,6 +37,16 @@ public class OpenAiApiImpl implements OpenAiApi {
     }
 
     @Override
+    public ChatClient getChatClient(String modelName) {
+        return null;
+    }
+
+    @Override
+    public String ragRewriteQueryTransformer(String userText) {
+        return "";
+    }
+
+    @Override
     public String chat(String userText){
        return chatClient.prompt()
                 .user(userText)

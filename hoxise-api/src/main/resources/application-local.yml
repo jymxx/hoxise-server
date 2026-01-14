@@ -28,8 +28,8 @@ spring:
     openai:
       # API密钥
       api-key: ${deepseek.api.key}
-      # DeepSeek的API端点
-      base-url: https://api.deepseek.com
+      # OpenAi规范的API端点
+#      base-url: https://api.deepseek.com
       chat:
         options:
           # 可选模型：deepseek-chat(非思考模式), deepseek-reasoner (思考模式)

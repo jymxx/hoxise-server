@@ -18,6 +18,8 @@ import org.springframework.ai.openai.OpenAiEmbeddingOptions;
 import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.vectorstore.redis.RedisVectorStore;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,6 +39,7 @@ public class OpenAiAutoConfig {
      * ChatModel
      */
     @Bean
+    @ConditionalOnProperty("spring.ai.openai.base-url")
     public OpenAiChatModel.Builder chatModel(OpenAiProperties openAiProperties) {
         return OpenAiChatModel.builder()
                 .openAiApi(OpenAiApi.builder().apiKey(openAiProperties.getOpenai().getApiKey())
@@ -52,6 +55,7 @@ public class OpenAiAutoConfig {
      * ChatClient
      */
     @Bean
+    @ConditionalOnBean(OpenAiChatModel.Builder.class)
     public ChatClient.Builder chatClient(OpenAiChatModel.Builder chatModelBuilder) {
         return ChatClient.builder(chatModelBuilder.build());
     }

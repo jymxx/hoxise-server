@@ -29,6 +29,26 @@ public interface OpenAiApi {
     ChatClient getMemoryChatClient();
 
     /**
+     * 获取指定模型名的聊天客户端
+     *
+     * @param modelName 模型名
+     * @return chatClient
+     * @author hoxise
+     * @since 2026/01/14 07:13:53
+     */
+    ChatClient getChatClient(String modelName);
+
+    /**
+     * SpringAi RAG模块增强 可将用户查询内容输入到大模型重写
+     *
+     * @param userText 用户文本
+     * @return 重写后的文本
+     * @author hoxise
+     * @since 2026/01/14 23:54:46
+     */
+    String ragRewriteQueryTransformer(String userText);
+
+    /**
      * 聊天
      *
      * @param userText 用户文本
