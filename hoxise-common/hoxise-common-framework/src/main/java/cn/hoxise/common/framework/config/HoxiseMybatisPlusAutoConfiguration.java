@@ -32,7 +32,7 @@ public class HoxiseMybatisPlusAutoConfiguration {
      * 添加字段填充
      */
     @Bean
-    public DefaultDBFieldHandler defaultDBFieldHandler() {
+    public DefaultDBFieldHandler defaultDbFieldHandler() {
         return new DefaultDBFieldHandler();
     }
 

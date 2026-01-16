@@ -23,11 +23,7 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
-        <dependency>
-            <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-spring-boot-starter-file</artifactId>
-            <version>${revision}</version>
-        </dependency>
+        <!--某些框架 需要用SaToken框架读取用户信息-->
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-spring-boot-starter-security</artifactId>

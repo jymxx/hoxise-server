@@ -9,9 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 
 /**
- * 文件存储-常用静态方法类
- *
- * 注:如果没有配置默认文件存储实现方式 该类将无法正常使用 (fileStorageService不会被初始化,但启动项目不会报错)
+ * 文件存储-默认存储方式的常用方法类
  *
  * @author hoxise
  * @since 2026/01/14 06:58:23

@@ -4,7 +4,6 @@ import cn.hoxise.common.framework.core.scheduling.ThreadPoolConfig;
 import cn.hoxise.common.framework.core.swagger.SwaggerConfig;
 import cn.hoxise.common.framework.core.web.GlobalExceptionHandler;
 import cn.hoxise.common.framework.core.web.WebMvcInterceptorConfig;
-import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.common.framework.utils.RedisUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;

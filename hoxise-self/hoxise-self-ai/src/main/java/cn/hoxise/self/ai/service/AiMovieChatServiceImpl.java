@@ -86,8 +86,8 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     public Flux<String> deepSeekReasoner(String userText, String chatId){
         ChatClient chatClient = openAiApi.getMemoryChatClient();
         Flux<ChatResponse> chatResponseFlux = chatClient.prompt()
-                .system(getAiRecommendPromptCache())
-                .user(openAiApi.ragRewriteQueryTransformer(userText))
+                .system(AiPromptConstants.AI_MOVIE_RECOMMEN_SYSTEM_PROMPT+getAiRecommendDataCache())
+                .user(userText)
                 //记忆存储
                 .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, chatId))
                 .stream()
@@ -109,7 +109,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
         ChatClient chatClient = openAiApi.getMemoryChatClient();
         Flux<ChatResponse> chatResponseFlux = chatClient.prompt()
                 .system(AiPromptConstants.AI_MOVIE_RECOMMEN_SYSTEM_PROMPT_RAG)
-                .user(openAiApi.ragRewriteQueryTransformer(userText))
+                .user(userText)
                 //记忆存储
                 .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, chatId))
                 //RAG检索增强
@@ -170,17 +170,16 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     }
 
     /**
-     * 从缓存获得构建的ai推荐提示词
+     * 从缓存获得构建的ai推荐数据集
      * 主要是全数据id和名称
      */
-    private String getAiRecommendPromptCache(){
+    private String getAiRecommendDataCache(){
         String redisKey = AiRedisKeyConstants.AI_RECOMMEND_PROMPT_KEY;
         if (redisUtil.hasKey(redisKey)){
             return redisUtil.getValue(redisKey);
         }
 
         List<MovieDbBangumiDO> list = movieDbBangumiService.list();
-
         List<JSONObject> data = list.stream().map(m -> {
             JSONObject obj = new JSONObject();
             obj.put("id", m.getCatalogid());
@@ -189,9 +188,9 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
             return obj;
         }).toList();
 
-        //将数据集拼接上去
-        String resStr = AiPromptConstants.AI_MOVIE_RECOMMEN_SYSTEM_PROMPT+JSONObject.toJSONString(data);
+        String resStr = JSONObject.toJSONString(data);
         redisUtil.setValue(redisKey, resStr);
+
         return resStr;
     }
 

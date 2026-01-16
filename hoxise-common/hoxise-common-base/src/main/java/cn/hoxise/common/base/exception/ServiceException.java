@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
  * @author hoxise
  * @since 2026/01/14 06:34:13
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 public final class ServiceException extends RuntimeException {
 

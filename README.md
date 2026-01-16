@@ -13,7 +13,7 @@
 ## 🛠 技术栈
 | 类别         | 技术选型                                                                                        |
 |:-----------|:--------------------------------------------------------------------------------------------|
-| **后端**     | JDK 17, Spring Boot 3.5.9, **Spring AI**, Redis Stack (向量检索), MySQL, MyBatis-Plus, Sa-token |
+| **后端**     | JDK 21, Spring Boot 3.5.9, **Spring AI**, Redis Stack (向量检索), MySQL, MyBatis-Plus, Sa-token |
 | **前端**     | Vue 2, Element UI                                                                           |
 | **AI与数据**  | DeepSeek API, Qwen向量模型， Bangumi元数据                                                          |
 | **运维与云服务** | Docker, Nginx, 阿里云 (ECS/OSS/短信), OSS可切换MinIO                                                |

@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
  * @author hoxise
  * @since 2026/01/14 14:54:33
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 public class MovieSimpleQueryDTO extends PageParam {
 

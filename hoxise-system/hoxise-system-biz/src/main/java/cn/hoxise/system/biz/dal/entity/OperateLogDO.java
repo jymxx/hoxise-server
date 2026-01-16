@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
  */
 @TableName(value = "system_operate_log", autoResultMap = true)
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class OperateLogDO extends BaseDO {
 
     /**
