@@ -1,8 +1,6 @@
 package cn.hoxise.common.base.enums;
 
 import cn.hutool.core.util.ObjUtil;
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,8 +24,6 @@ public enum CommonStatusEnum{
     /**
      * 状态值
      */
-    @EnumValue
-    @JsonFormat
     private final Integer status;
 
     /**

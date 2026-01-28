@@ -22,13 +22,23 @@
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
+            <scope>provided</scope>
         </dependency>
+        <!--日志、权限都需要系统用户信息-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-system-api</artifactId>
+            <artifactId>hoxise-module-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!-- 文档 https://sa-token.cc/doc.html#/-->
+
+        <!-- OpenFeign服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot3-starter</artifactId>
@@ -40,12 +50,14 @@
             <artifactId>sa-token-redis-jackson</artifactId>
             <version>${satoken.version}</version>
         </dependency>
-        <!--&lt;!&ndash; Sa-Token 权限认证（Reactor响应式集成），在线文档：https://sa-token.cc &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--    <groupId>cn.dev33</groupId>-->
-        <!--    <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>-->
-        <!--    <version>${satoken.version}</version>-->
-        <!--</dependency>-->
+        <!--提供redis连接池 实际上需要的是commons-pool2 但这里直接引入方便统一版本-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-spring-boot-starter-redis</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

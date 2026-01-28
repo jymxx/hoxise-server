@@ -17,6 +17,7 @@
 
     <dependencies>
         <!-- Web启动器 -->
+        <!-- 虽然 starter模块不需要web模块的自动配置等全部内容 但对于项目内使用更方便 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -25,6 +26,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <!-- aop切面-->
         <dependency>
@@ -36,51 +38,20 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <!--springdoc接口文档-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
-        </dependency>
-        <!--       数据库相关-->
-        <!--redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--mysql数据库-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector.version}</version>
-        </dependency>
-        <!-- 阿里数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${alibaba-druid.version}</version>
-        </dependency>
-        <!-- MyBatis Plus-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
-        <!--分页插件 v3.5.9之后分离出来-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-jsqlparser</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
 
-        <!--        工具相关-->
+        <!--工具相关-->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>${swagger3.version}</version>
+        </dependency>
         <!--让配置文件读取环境变量-->
         <dependency>
             <groupId>me.paulschwarz</groupId>
             <artifactId>spring-dotenv</artifactId>
             <version>${spring-dotenv.version}</version>
         </dependency>
-        <!--        lombok注解-->
+        <!--lombok注解-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -92,25 +63,19 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-        <!--        JSON工具-->
+        <!--JSON工具-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${alibaba-json.version}</version>
         </dependency>
-        <!--        hutool工具包-->
+        <!--hutool工具包-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <!--easyExcel-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>${alibaba-easyexcel.version}</version>
-        </dependency>
-        <!--java对象类型转换器 *类似BeanUtil.copyProperties 但使用方法调用而非反射机制-->
+        <!--java对象类型转换器-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>

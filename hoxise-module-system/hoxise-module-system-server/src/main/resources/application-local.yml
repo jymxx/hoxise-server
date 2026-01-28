@@ -1,0 +1,41 @@
+#本地配置
+server:
+  port: 18001
+
+##########   数据库   ##########
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username:
+        password:
+  #数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/hoxise
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #redis配置
+  data:
+    redis:
+      # Redis数据库索引
+      database: 0
+      # 连接地址
+      host: localhost
+      # 连接端口
+      port: 6379
+
+##########   其它配置   ##########
+hoxise:
+  #启动模式 (dev 1.登录不需要验证码;)
+  runMode: dev
+
+#短信
+sms:
+  aliyun:
+    endpoint: dypnsapi.aliyuncs.com
+    accessKey: ${aliyun.sms.accessKey}
+    accessSecret: ${aliyun.sms.accessSecret}
+

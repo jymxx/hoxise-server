@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.hoxise</groupId>
+        <artifactId>hoxise-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>hoxise-spring-boot-starter-mybatis</artifactId>
+    <version>${revision}</version>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+
+    <description>
+        mybatis
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-base</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-spring-boot-starter-security</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 阿里数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${alibaba-druid.version}</version>
+        </dependency>
+        <!--mysql数据库-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
+        </dependency>
+        <!-- MyBatis Plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <!--分页插件 v3.5.9之后分离出来-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <!-- MyBatisPlus 联表查询 -->
+        <dependency>
+            <groupId>com.github.yulichang</groupId>
+            <artifactId>mybatis-plus-join-boot-starter</artifactId>
+            <version>${mybatis-plus-join.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -14,7 +14,7 @@
     <name>${project.artifactId}</name>
 
     <description>
-        框架配置,主要是一些通用配置
+        框架配置,主要是一些通用配置比如web
     </description>
 
     <dependencies>
@@ -22,12 +22,21 @@
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
+            <scope>provided</scope>
         </dependency>
-        <!--某些框架 需要用SaToken框架读取用户信息-->
+        <!--springdoc接口文档-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+
+        <!--某些框架 需要用SaToken框架获取信息-->
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-spring-boot-starter-security</artifactId>
             <version>${revision}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

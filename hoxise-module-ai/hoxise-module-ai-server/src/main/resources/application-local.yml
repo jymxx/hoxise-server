@@ -1,0 +1,79 @@
+#本地配置
+server:
+  port: 18003
+
+##########   数据库   ##########
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username:
+        password:
+  #数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/hoxise
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #redis配置
+  data:
+    redis:
+      # Redis数据库索引
+      database: 0
+      # 连接地址
+      host: localhost
+      # 连接端口
+      port: 6379
+
+  # openai
+  ai:
+    openai:
+      # API密钥
+      api-key: ${deepseek.api.key}
+      # OpenAi规范的API端点
+      #      base-url: https://api.deepseek.com
+      chat:
+        options:
+          # 可选模型：deepseek-chat(非思考模式), deepseek-reasoner (思考模式)
+          model: deepseek-chat
+          # 回答随机性 默认1
+          temperature: 1
+          # 最大返回token
+          max-tokens: 5000
+    #deepseek
+    deepseek:
+      api-key: ${deepseek.api.key}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-reasoner
+
+    # 聊天记忆持久化
+    chat:
+      memory:
+        repository:
+          jdbc:
+            # 可选值 embedded(默认,只有嵌入式数据库才建表) 、always(自动建表)、 never
+            initialize-schema: always
+    # 向量数据库
+    vectorstore:
+      # 向量模型 hoxise自定义 因为spring-ai没有给单独的向量模型配置
+      embeddingModel:
+        api-key: ${aliyun.bailian.ai.api.key}
+        base-url: https://dashscope.aliyuncs.com/compatible-mode
+        model: text-embedding-v4
+      # 需要redis-stack
+      redis:
+        # 是否初始化索引 默认false
+        initialize-schema: true
+        index-name: spring-ai-index
+        prefix: "embedding:"
+
+
+##########   其它配置   ##########
+
+hoxise:
+  #是否推送向量数据
+  pushVectorStore: true

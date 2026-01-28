@@ -1,8 +1,6 @@
 package cn.hoxise.common.base.enums;
 
 import cn.hutool.core.util.ObjUtil;
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -37,10 +35,8 @@ public enum ResultCodeEnum {
 
   // ========== 自定义错误段 ==========
   REPEATED_REQUESTS(900, "重复请求，请稍后重试"), // 重复请求
-  DEMO_DENY(901, "演示模式，禁止写操作"),
   UNKNOWN(999, "未知错误");
 
-  @EnumValue
   private final Integer code;
   private final String message;
 

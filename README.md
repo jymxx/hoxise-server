@@ -25,15 +25,5 @@
   <img src="docs/images/detail.png" alt="详情">
 
 
-## 📁 项目架构
-
-
-| 项目              | 说明   |
-|-----------------|------|
-| `hoxise-api`    | 打包层  |
-| `hoxise-common` | 通用模块 |
-| `hoxise-self`   | 功能模块 |
-| `hoxise-system` | 系统服务端 |
-
 ## 📄 说明
-本项目为个人作品，代码仅供参考学习。
+本项目为个人作品，学习了yudao的框架，仅供参考学习。

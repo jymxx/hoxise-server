@@ -5,8 +5,8 @@ target/
 /.logs/
 
 .env
-/hoxise-api/.logs/
+/hoxise-server/.logs/
 
-/hoxise-api/src/test/
+/hoxise-server/src/test/
 
-/hoxise-api/src/main/resources/application-prod.yml
+/hoxise-server/src/main/resources/application-prod.yml

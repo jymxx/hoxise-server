@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.hoxise</groupId>
+        <artifactId>hoxise-module-movie</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>hoxise-module-movie-api</artifactId>
+    <description>api模块 暴露给其他模块使用</description>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-base</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!-- 服务发现：OpenFeign服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

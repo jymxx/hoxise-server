@@ -22,6 +22,7 @@
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!--minio存储依赖-->
@@ -29,16 +30,6 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.squareup.okhttp3</groupId>
-                    <artifactId>okhttp</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>

@@ -1,0 +1,47 @@
+#本地配置
+server:
+  port: 18002
+
+##########   数据库   ##########
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        username:
+        password:
+  #数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/hoxise
+    username: root
+    password: admin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  #redis配置
+  data:
+    redis:
+      # Redis数据库索引
+      database: 0
+      # 连接地址
+      host: localhost
+      # 连接端口
+      port: 6379
+
+##########   其它配置   ##########
+#文件存储
+fileStorage:
+  defaultType: aliyunOss
+  #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
+  serializerPrefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
+  minio:
+    endpoint: http://127.0.0.1:9000
+    bucket: hoxise-java
+    access-key: hoxise
+    access-secret: hoxise-java
+  aliyunOss:
+    regin: cn-chengdu
+    endpoint: oss-cn-chengdu.aliyuncs.com
+    bucket: ${aliyun.oss.bucket}
+    access-key: ${aliyun.oss.accessKey}
+    access-secret: ${aliyun.oss.accessSecret}
+

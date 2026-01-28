@@ -1,1 +1,7 @@
-cn.hoxise.common.security.config.HoxiseStpAutoConfiguration
+
+cn.hoxise.common.security.satoken.config.HoxiseStpAutoConfiguration
+cn.hoxise.common.security.operatelog.config.HoxiseOperateLogAutoConfiguration
+
+cn.hoxise.common.security.satoken.config.HoxiseStpRpcAutoConfiguration
+cn.hoxise.common.security.operatelog.config.HoxiseOperateLogRpcAutoConfiguration
+

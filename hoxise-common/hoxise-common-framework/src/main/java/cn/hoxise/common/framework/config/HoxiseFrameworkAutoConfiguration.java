@@ -1,15 +1,18 @@
 package cn.hoxise.common.framework.config;
 
-import cn.hoxise.common.framework.core.scheduling.ThreadPoolConfig;
+import cn.hoxise.common.framework.core.banner.BannerApplicationRunner;
 import cn.hoxise.common.framework.core.swagger.SwaggerConfig;
 import cn.hoxise.common.framework.core.web.GlobalExceptionHandler;
 import cn.hoxise.common.framework.core.web.WebMvcInterceptorConfig;
-import cn.hoxise.common.framework.utils.RedisUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
- * 文件存储自动配置
+ * 框架自动配置
  *
  * @author hoxise
  * @since 2026/1/14 下午3:46
@@ -26,19 +29,11 @@ public class HoxiseFrameworkAutoConfiguration {
     }
 
     /**
-     * 拦截器配置
+     * web拦截器配置
      */
     @Bean
     public WebMvcInterceptorConfig webMvcInterceptorConfig() {
         return new WebMvcInterceptorConfig();
-    }
-
-    /**
-     * 线程池配置
-     */
-    @Bean
-    public ThreadPoolConfig threadPoolConfig() {
-        return new ThreadPoolConfig();
     }
 
     /**
@@ -49,10 +44,11 @@ public class HoxiseFrameworkAutoConfiguration {
         return new SwaggerConfig();
     }
 
+    /**
+     * 启动时打印banner
+     */
     @Bean
-    public RedisUtil redisUtil() {
-        return new RedisUtil();
+    public BannerApplicationRunner bannerApplicationRunner() {
+        return new BannerApplicationRunner();
     }
-
-
 }

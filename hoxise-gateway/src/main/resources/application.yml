@@ -1,0 +1,40 @@
+spring:
+  main:
+    web-application-type: reactive # 指定为响应式
+  application:
+    name: gateway-server
+  profiles:
+    include: local
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: hoxise-system
+              uri: lb://hoxise-system #负载均衡
+              predicates: #路径匹配
+                - Path=/hoxise/system/**
+              filters: #路径重写转发
+                - name: RewritePath
+                  args:
+                    regexp: /hoxise/system/(.*)
+                    replacement: /system/$1
+            - id: hoxise-movie
+              uri: lb://hoxise-movie
+              predicates:
+                - Path=/hoxise/movie/**
+              filters:
+                - name: RewritePath
+                  args:
+                    regexp: /hoxise/movie/(.*)
+                    replacement: /movie/$1
+            - id: hoxise-ai
+              uri: lb://hoxise-ai
+              predicates:
+                - Path=/hoxise/ai/**
+              filters:
+                - name: RewritePath
+                  args:
+                    regexp: /hoxise/ai/(.*)
+                    replacement: /ai/$1

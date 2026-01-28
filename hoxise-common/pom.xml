@@ -19,14 +19,16 @@
         <module>hoxise-common-base</module>
         <!--框架配置-->
         <module>hoxise-common-framework</module>
-        <!--日志-->
-        <module>hoxise-spring-boot-starter-log</module>
         <!--安全认证-->
         <module>hoxise-spring-boot-starter-security</module>
         <!--文件管理-->
         <module>hoxise-spring-boot-starter-file</module>
         <!--openAI集成-->
         <module>hoxise-spring-boot-starter-openai</module>
+        <!--mybatis-->
+        <module>hoxise-spring-boot-starter-mybatis</module>
+        <!--redis-->
+        <module>hoxise-spring-boot-starter-redis</module>
     </modules>
 
 </project>
