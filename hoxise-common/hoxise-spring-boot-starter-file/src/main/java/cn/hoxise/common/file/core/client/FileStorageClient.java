@@ -1,4 +1,4 @@
-package cn.hoxise.common.file.core.service;
+package cn.hoxise.common.file.core.client;
 
 import cn.hoxise.common.file.pojo.FileStorageDTO;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +11,7 @@ import java.io.InputStream;
  * @author hoxise
  * @since 2026/01/14 06:54:14
  */
-public interface FileStorageService {
+public interface FileStorageClient {
 
     /**
      * 文件上传 当天的文件在一个文件夹

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.hoxise</groupId>
+        <artifactId>hoxise-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>hoxise-spring-boot-starter-mq</artifactId>
+    <version>${revision}</version>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+
+    <description>
+        消息队列,如rabbitmq
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-common-base</artifactId>
+            <version>${revision}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- 实现对 RabbitMQ 的自动化配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+
+
+    </dependencies>
+
+</project>

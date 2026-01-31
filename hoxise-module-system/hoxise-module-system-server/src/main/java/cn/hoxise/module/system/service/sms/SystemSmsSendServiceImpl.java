@@ -1,9 +1,18 @@
 package cn.hoxise.module.system.service.sms;
 
 import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.module.system.mq.message.SmsSendMessage;
+import cn.hoxise.module.system.mq.producer.SmsSendProducer;
+import cn.hoxise.module.system.pojo.constants.RedisConstants;
+import cn.hutool.core.lang.Assert;
 import com.aliyun.dypnsapi20170525.models.SendSmsVerifyCodeResponseBody;
 import jakarta.annotation.Resource;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 
 /**
  * SystemSmsSendServiceImpl
@@ -17,9 +26,18 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
     @Resource
     private SystemSmsLogService systemSmsLogService;
 
+    @Resource
+    private SmsSendProducer smsSendProducer;
+
+    @Resource
+    private RedissonClient redissonClient;
+
     @Override
     public void sendLoginVerifyCode(String mobile) {
-        sendVerifyCodeAliyun(mobile);
+        Assert.notBlank(mobile, "手机号码不能为空");
+        rateLimit(mobile);
+        //MQ发送短信
+        smsSendProducer.asyncSendSmsMessage(new SmsSendMessage(mobile));
     }
 
     @Override
@@ -31,10 +49,19 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
         }
     }
 
+    private void rateLimit(String mobile){
+        //限流
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(RedisConstants.SMS_SEND_LIMIT_KEY+"::"+ mobile);
+        rateLimiter.trySetRate(RateType.OVERALL,1, Duration.ofMinutes(1));//一分钟一次 不过好像在第60S就会重置？
+        if (!rateLimiter.tryAcquire()){
+            throw new ServiceException("短信发送太频繁");
+        }
+    }
+
 
     // ################ 暂时只有阿里云 ############ //
 
-    private void sendVerifyCodeAliyun(String mobile) {
+    public void sendVerifyCodeAliyun(String mobile) {
         SendSmsVerifyCodeResponseBody body  = AliyunSmsClient.sendVerifyCodeAliyun(mobile);
         //保存日志
         if (body.getSuccess()){

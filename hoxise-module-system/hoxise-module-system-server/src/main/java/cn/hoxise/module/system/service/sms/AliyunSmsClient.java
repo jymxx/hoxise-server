@@ -1,6 +1,6 @@
 package cn.hoxise.module.system.service.sms;
 
-import cn.hoxise.common.base.exception.ServiceException;
+import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.dypnsapi20170525.Client;
 import com.aliyun.dypnsapi20170525.models.*;
@@ -48,15 +48,13 @@ public class AliyunSmsClient {
     }
 
     /**
-     * @param mobile
+     * @param mobile 手机号
      * @return @return
      * @author hoxise
-     * @since 2026/01/14 $TIME$
+     * @since 2026/01/14
      */
     public static SendSmsVerifyCodeResponseBody sendVerifyCodeAliyun(String mobile) {
-        if (mobile == null) {
-            throw new ServiceException("手机号码不能为空");
-        }
+        Assert.notBlank(mobile, "手机号码不能为空");
         SendSmsVerifyCodeRequest request = new SendSmsVerifyCodeRequest();
         request.setPhoneNumber(mobile);
         request.setSignName("速通互联验证码"); //签名
@@ -78,13 +76,15 @@ public class AliyunSmsClient {
 
 
     /**
-     * @param mobile
-     * @param code
+     * @param mobile 手机号
+     * @param code 验证码
      * @return @return boolean
      * @author hoxise
-     *  2026/01/14 $TIME$
+     *  2026/01/14
      */
     public static boolean checkVerifyCodeAliyun(String mobile, String code) {
+        Assert.notBlank(mobile, "手机号码不能为空");
+        Assert.notBlank(code, "验证码不能为空");
         CheckSmsVerifyCodeRequest request = new CheckSmsVerifyCodeRequest();
         request.setPhoneNumber(mobile);
         request.setVerifyCode(code);

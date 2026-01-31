@@ -1,6 +1,6 @@
 package cn.hoxise.common.file.utils;
 
-import cn.hoxise.common.file.core.FileStorageStrategyFactory;
+import cn.hoxise.common.file.core.client.FileStorageFactory;
 import cn.hoxise.common.file.pojo.FileStorageDTO;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.io.InputStream;
  */
 public class FileStorageUtil {
 
-    @Resource private FileStorageStrategyFactory fileStorageStrategyFactory;
+    @Resource private FileStorageFactory fileStorageFactory;
 
     private static String serializerPrefix;
     @Value("${fileStorage.serializerPrefix}")
@@ -33,13 +33,13 @@ public class FileStorageUtil {
      * @since 2026/01/14 06:58:12
      */
     public FileStorageDTO uploadFile(MultipartFile file) {
-        return fileStorageStrategyFactory.getDefaultStorage().fileUpload(file);
+        return fileStorageFactory.getDefaultStorage().fileUpload(file);
     }
     public FileStorageDTO uploadFile(InputStream file, String fileName) {
-        return fileStorageStrategyFactory.getDefaultStorage().fileUpload(file,fileName);
+        return fileStorageFactory.getDefaultStorage().fileUpload(file,fileName);
     }
     public FileStorageDTO uploadFile(InputStream file,String folderName, String fileName) {
-        return fileStorageStrategyFactory.getDefaultStorage().fileUpload(file,folderName,fileName);
+        return fileStorageFactory.getDefaultStorage().fileUpload(file,folderName,fileName);
     }
 
     /**
@@ -50,7 +50,7 @@ public class FileStorageUtil {
      * @since 2026/01/14 15:25:46
      */
     public void deleteFile(String objectName) {
-        fileStorageStrategyFactory.getDefaultStorage().deleteFile(objectName);
+        fileStorageFactory.getDefaultStorage().deleteFile(objectName);
     }
 
     /**
@@ -62,7 +62,7 @@ public class FileStorageUtil {
      * @since 2026/01/14 15:26:25
      */
     public String getPresignedUrl(String objectName){
-        return fileStorageStrategyFactory.getDefaultStorage().getPresignedUrl(objectName);
+        return fileStorageFactory.getDefaultStorage().getPresignedUrl(objectName);
     }
 
 

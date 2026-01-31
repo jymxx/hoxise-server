@@ -1,7 +1,8 @@
-package cn.hoxise.common.file.core.service;
+package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.date.DateUtil;
+import cn.hoxise.common.file.core.client.FileStorageClient;
 import cn.hoxise.common.file.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import io.minio.*;
@@ -24,7 +25,7 @@ import java.util.UUID;
  * @since 2026/01/14 06:53:37
  */
 @Slf4j
-public class MinioServiceImpl implements FileStorageService {
+public class MinioOssClient implements FileStorageClient {
 
     @Value("${fileStorage.minio.endpoint}")
     private String endpoint;
@@ -43,7 +44,7 @@ public class MinioServiceImpl implements FileStorageService {
     @PostConstruct
     public void setMinioClient() {
         log.info("----初始化minio连接配置----");
-        minioClient = MinioClient.builder()
+        minioClient = io.minio.MinioClient.builder()
                 .credentials(accesskey,accessSecret)
                 .endpoint(endpoint)
                 .build();

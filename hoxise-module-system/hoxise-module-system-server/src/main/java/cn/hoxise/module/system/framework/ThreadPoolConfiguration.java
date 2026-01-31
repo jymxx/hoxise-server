@@ -1,4 +1,4 @@
-package cn.hoxise.module.ai.framework;
+package cn.hoxise.module.system.framework;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;

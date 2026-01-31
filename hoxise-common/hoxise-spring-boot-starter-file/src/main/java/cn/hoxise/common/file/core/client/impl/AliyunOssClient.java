@@ -1,7 +1,8 @@
-package cn.hoxise.common.file.core.service;
+package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.date.DateUtil;
+import cn.hoxise.common.file.core.client.FileStorageClient;
 import cn.hoxise.common.file.pojo.FileStorageDTO;
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSS;
@@ -14,8 +15,6 @@ import com.aliyun.oss.model.PutObjectRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ import java.util.UUID;
  * @since 2026/01/14 06:53:19
  */
 @Slf4j
-public class AliyunOssServiceImpl implements FileStorageService{
+public class AliyunOssClient implements FileStorageClient {
 
     @Value("${fileStorage.aliyunOss.regin}")
     private String region;

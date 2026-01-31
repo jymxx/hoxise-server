@@ -1,10 +1,10 @@
 package cn.hoxise.common.file.config;
 
-import cn.hoxise.common.file.core.FileStorageStrategyFactory;
+import cn.hoxise.common.file.core.client.FileStorageFactory;
 import cn.hoxise.common.file.core.annotations.FilePathSerializer;
-import cn.hoxise.common.file.core.service.AliyunOssServiceImpl;
-import cn.hoxise.common.file.core.service.FileStorageService;
-import cn.hoxise.common.file.core.service.MinioServiceImpl;
+import cn.hoxise.common.file.core.client.impl.AliyunOssClient;
+import cn.hoxise.common.file.core.client.FileStorageClient;
+import cn.hoxise.common.file.core.client.impl.MinioOssClient;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -22,20 +22,20 @@ public class HoxiseFileStorageAutoConfiguration {
 
     @Bean("aliyunOssServiceImpl")
     @ConditionalOnProperty("fileStorage.aliyunOss.endpoint")
-    public FileStorageService aliyunOssServiceImpl() {
-        return new AliyunOssServiceImpl();
+    public FileStorageClient aliyunOssServiceImpl() {
+        return new AliyunOssClient();
     }
 
     @Bean("minioServiceImpl")
     @ConditionalOnProperty("fileStorage.minio.endpoint")
-    public FileStorageService minioServiceImpl() {
-        return new MinioServiceImpl();
+    public FileStorageClient minioServiceImpl() {
+        return new MinioOssClient();
     }
 
     @Bean
-    @ConditionalOnBean(FileStorageService.class)
-    public FileStorageStrategyFactory fileStorageStrategyFactory() {
-        return new FileStorageStrategyFactory();
+    @ConditionalOnBean(FileStorageClient.class)
+    public FileStorageFactory fileStorageStrategyFactory() {
+        return new FileStorageFactory();
     }
 
     /**

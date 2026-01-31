@@ -76,4 +76,4 @@ spring:
 
 hoxise:
   #是否推送向量数据
-  pushVectorStore: true
+  pushVectorStore: false

@@ -29,6 +29,8 @@
         <module>hoxise-spring-boot-starter-mybatis</module>
         <!--redis-->
         <module>hoxise-spring-boot-starter-redis</module>
+        <!--mq-->
+        <module>hoxise-spring-boot-starter-mq</module>
     </modules>
 
 </project>
