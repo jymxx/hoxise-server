@@ -3,7 +3,7 @@ spring:
     name: hoxise-movie
 
   profiles:
-    include: local
+    active: local
 
   main:
     allow-circular-references: true #允许循环引用

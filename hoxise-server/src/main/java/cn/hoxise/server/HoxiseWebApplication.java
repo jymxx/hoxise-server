@@ -10,7 +10,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @MapperScan("cn.hoxise.**.mapper")
 @EnableAsync
-@SpringBootApplication(scanBasePackages = {"cn.hoxise.**"})
+@SpringBootApplication(scanBasePackages = {"cn.hoxise.server"
+        ,"cn.hoxise.module.system"
+        ,"cn.hoxise.module.movie"
+        ,"cn.hoxise.module.ai"})
 public class HoxiseWebApplication {
 
     public static void main(String[] args) {

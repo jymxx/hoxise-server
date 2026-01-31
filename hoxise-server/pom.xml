@@ -21,16 +21,37 @@
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-module-system-server</artifactId>
             <version>${revision}</version>
+            <!-- 单体启动，禁用 openfeign -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-module-movie-server</artifactId>
             <version>${revision}</version>
+            <!-- 单体启动，禁用 openfeign -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-module-ai-server</artifactId>
             <version>${revision}</version>
+            <!-- 单体启动，禁用 openfeign -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
