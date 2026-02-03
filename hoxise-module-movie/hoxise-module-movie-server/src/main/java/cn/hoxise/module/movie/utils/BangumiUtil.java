@@ -2,7 +2,7 @@ package cn.hoxise.module.movie.utils;
 
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.img.ImgUtil;
-import cn.hoxise.common.file.pojo.FileStorageDTO;
+import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.module.movie.pojo.constants.MovieConstants;
 import cn.hoxise.module.movie.pojo.dto.BangumiCharacterResponse;

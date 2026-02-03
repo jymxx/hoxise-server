@@ -19,7 +19,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
     @SneakyThrows
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
-        String objectName = val==null?null:String.valueOf(val);
+        String objectName = val == null ? null:String.valueOf(val);
         if (objectName == null){
             gen.writeString("");
             return;
@@ -29,12 +29,8 @@ public class FilePathSerializer extends JsonSerializer<Object> {
             gen.writeString(objectName);
             return;
         }
-        try{
-            String presignedUrl = FileStorageUtil.getAbsoluteUrl(objectName);
-            gen.writeString(presignedUrl);
-        }catch (Exception e){
-            gen.writeString(objectName);
-            log.error("文件路径序列化错误:{}",e.getMessage());
-        }
+        //直接访问的地址
+        String presignedUrl = FileStorageUtil.getAbsoluteUrl(objectName);
+        gen.writeString(presignedUrl);
     }
 }

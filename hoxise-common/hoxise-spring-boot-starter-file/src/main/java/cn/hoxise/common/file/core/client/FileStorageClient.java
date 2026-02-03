@@ -1,6 +1,6 @@
 package cn.hoxise.common.file.core.client;
 
-import cn.hoxise.common.file.pojo.FileStorageDTO;
+import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;

@@ -21,6 +21,12 @@ public class WebConfigurer implements WebMvcConfigurer {
                 .maxAge(1800);
     }
 
+    /**
+     * 配置异步线程池
+     * webmvc架构 在使用webflux时需要配置异步线程池 如AI的react返回
+     *
+     * @param configurer 配置
+     */
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();

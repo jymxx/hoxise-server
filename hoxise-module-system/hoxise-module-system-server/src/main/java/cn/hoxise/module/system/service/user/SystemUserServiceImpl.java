@@ -1,11 +1,7 @@
 package cn.hoxise.module.system.service.user;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.enums.CommonStatusEnum;
-import cn.hoxise.common.security.satoken.uitls.SaTokenUtil;
-import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
-import cn.hoxise.module.system.convert.SystemUserConvert;
-import cn.hoxise.module.system.dal.entity.SystemRoleDO;
-import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.convert.SystemUserConvert;
 import cn.hoxise.module.system.dal.entity.SystemRoleDO;
@@ -47,7 +43,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public UserInfoVO getUserInfo(){
-        long loginId = SaTokenUtil.getLoginIdAsLong();
+        long loginId = StpUtil.getLoginIdAsLong();
         SystemUserDO systemUserDO = this.getById(loginId);
         UserInfoVO convert = SystemUserConvert.INSTANCE.convert(systemUserDO);
         //设置角色信息

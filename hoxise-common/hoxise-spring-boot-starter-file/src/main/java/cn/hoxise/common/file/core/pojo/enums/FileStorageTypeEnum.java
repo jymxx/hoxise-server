@@ -1,4 +1,4 @@
-package cn.hoxise.common.file.pojo.enums;
+package cn.hoxise.common.file.core.pojo.enums;
 
 /**
  * 文件存储类型枚举
@@ -8,7 +8,6 @@ package cn.hoxise.common.file.pojo.enums;
  */
 public enum FileStorageTypeEnum {
 
-    unknown(-1,"未知","unknown"),
     minio(1,"minio","minio对象存储"),
     aliyunOss(2,"aliyunOss","阿里云对象存储");
 
@@ -29,7 +28,7 @@ public enum FileStorageTypeEnum {
                 return value;
             }
         }
-        return unknown;
+        return null;
     }
 
     public static FileStorageTypeEnum getByName(String name) {
@@ -39,6 +38,6 @@ public enum FileStorageTypeEnum {
                 return value;
             }
         }
-        return unknown;
+        return null;
     }
 }

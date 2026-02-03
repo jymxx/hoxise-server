@@ -1,9 +1,8 @@
 package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.common.file.core.client.FileStorageClient;
-import cn.hoxise.common.file.pojo.FileStorageDTO;
+import cn.hoxise.common.file.core.config.FileStorageProperties;
+import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -12,17 +11,11 @@ import com.aliyun.oss.common.comm.Protocol;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -32,30 +25,21 @@ import java.util.UUID;
  * @since 2026/01/14 06:53:19
  */
 @Slf4j
-public class AliyunOssClient implements FileStorageClient {
-
-    @Value("${fileStorage.aliyunOss.regin}")
-    private String region;
-
-    @Value("${fileStorage.aliyunOss.endpoint}")
-    private String endpoint;
-
-    @Value("${fileStorage.aliyunOss.bucket}")
-    private String bucketName;
-
-    @Value("${fileStorage.aliyunOss.access-key}")
-    private String accesskey;
-
-    @Value("${fileStorage.aliyunOss.access-secret}")
-    private String accessSecret;
+public class AliyunOssClient extends AbstractFileClient {
 
     private OSS ossClient;
 
-    @PostConstruct
-    public void setMinioClient() {
+    public AliyunOssClient(FileStorageProperties.AliyunOssConfig clientProperties) {
+        super(clientProperties);
+    }
+
+    @Override
+    protected void doInit() {
         log.info("----初始化AliyunOss连接配置----");
+        // 阿里云OSS配置
+        FileStorageProperties.AliyunOssConfig aliyunOssConfig = (FileStorageProperties.AliyunOssConfig) properties;
         // 创建凭证提供者
-        DefaultCredentialProvider provider = new DefaultCredentialProvider(accesskey, accessSecret);
+        DefaultCredentialProvider provider = new DefaultCredentialProvider(aliyunOssConfig.getAccessKey(), aliyunOssConfig.getAccessSecret());
         // 配置客户端参数
         ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
         // 显式声明使用V4签名算法
@@ -68,40 +52,20 @@ public class AliyunOssClient implements FileStorageClient {
         ossClient = OSSClientBuilder.create()
                 .credentialsProvider(provider)
                 .clientConfiguration(clientBuilderConfiguration)
-                .region(region)
-                .endpoint(endpoint)
+                .region(aliyunOssConfig.getRegion())
+                .endpoint(aliyunOssConfig.getEndpoint())
                 .build();
         log.info("----end.初始化AliyunOss连接配置完成----");
     }
 
-    @Override
-    public FileStorageDTO fileUpload(MultipartFile file) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(file,folderName);
-    }
 
-    @Override
-    public FileStorageDTO fileUpload(InputStream inputStream, String fileName) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(inputStream,folderName,fileName);
-    }
-
-    @Override
-    public FileStorageDTO fileUpload(MultipartFile file, String folderName) {
-        try (InputStream inputStream = file.getInputStream()) {
-            return fileUpload(inputStream,folderName, Objects.requireNonNull(file.getOriginalFilename()));
-        } catch (IOException e) {
-            log.error("aliyunOss文件处理流异常, fileName: {},{}", file.getOriginalFilename(),e.toString());
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public FileStorageDTO fileUpload(InputStream inputStream, String folderName, String fileName) {
         String objectName = folderName + "/" + UUID.randomUUID() + "_" + fileName;
 
         try {
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, inputStream);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), objectName, inputStream);
             ossClient.putObject(putObjectRequest);
             return FileStorageDTO.builder()
                     .objectName(objectName)
@@ -116,7 +80,7 @@ public class AliyunOssClient implements FileStorageClient {
     @Override
     public InputStream getFileInputStream(String objectName) {
         try{
-            OSSObject ossObject = ossClient.getObject(bucketName, objectName);
+            OSSObject ossObject = ossClient.getObject(properties.getBucket(), objectName);
             return ossObject.getObjectContent();
         }catch (Exception e){
             log.error("aliyunOss文件下载异常,objectName: {},{}", objectName,e.toString());
@@ -127,7 +91,7 @@ public class AliyunOssClient implements FileStorageClient {
     @Override
     public void deleteFile(String objectName) {
         try{
-            ossClient.deleteObject(bucketName, objectName);
+            ossClient.deleteObject(properties.getBucket(), objectName);
         }catch (Exception e){
             log.error("aliyunOss文件删除失败,objectName: {},{}", objectName,e.toString());
             throw new ServiceException("文件删除失败");
@@ -140,7 +104,7 @@ public class AliyunOssClient implements FileStorageClient {
         long expireTime = 3600 * 1000L * 12;
         Date expiration = new Date(new Date().getTime() + expireTime);
         // 生成以GET方法访问的预签名URL。本示例没有额外请求头，其他人可以直接通过浏览器访问相关内容。
-        URL url = ossClient.generatePresignedUrl(bucketName, objectName, expiration);
+        URL url = ossClient.generatePresignedUrl(properties.getBucket(), objectName, expiration);
         return url.toString();
     }
 

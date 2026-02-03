@@ -1,1 +1,3 @@
+cn.hoxise.common.file.core.config.FileStorageProperties
 cn.hoxise.common.file.config.HoxiseFileStorageAutoConfiguration
+

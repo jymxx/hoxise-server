@@ -1,4 +1,4 @@
-package cn.hoxise.common.file.pojo.enums;
+package cn.hoxise.common.file.core.pojo.enums;
 
 import lombok.AllArgsConstructor;
 

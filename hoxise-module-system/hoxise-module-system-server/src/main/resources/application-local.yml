@@ -46,6 +46,6 @@ hoxise:
 sms:
   aliyun:
     endpoint: dypnsapi.aliyuncs.com
-    accessKey: ${aliyun.sms.accessKey}
-    accessSecret: ${aliyun.sms.accessSecret}
+    access-key: ${aliyun.sms.accessKey}
+    access-secret: ${aliyun.sms.accessSecret}
 

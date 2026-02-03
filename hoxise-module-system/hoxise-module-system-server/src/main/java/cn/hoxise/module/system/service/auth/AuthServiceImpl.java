@@ -1,20 +1,15 @@
 package cn.hoxise.module.system.service.auth;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.module.system.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.module.system.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import cn.hoxise.module.system.service.user.SystemUserService;
-import cn.hoxise.module.system.controller.auth.dto.AuthLoginDTO;
-import cn.hoxise.module.system.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.module.system.service.sms.SystemSmsService;
-import cn.hoxise.common.security.satoken.uitls.SaTokenUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.module.system.controller.auth.vo.LoginResultVO;
-import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
-import cn.hoxise.module.system.dal.entity.SystemUserDO;
-import cn.hoxise.module.system.service.user.SystemUserService;
 import cn.hoxise.common.base.exception.ServiceException;
 import com.xingyuv.captcha.model.common.ResponseModel;
 import com.xingyuv.captcha.model.vo.CaptchaVO;
@@ -105,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout() {
         //退出登录 并且会踢人下线
-        SaTokenUtil.logout();
+        StpUtil.logout();
     }
 
     /**
@@ -118,7 +113,9 @@ public class AuthServiceImpl implements AuthService {
      */
     private LoginResultVO realLogin(SystemUserDO systemUserDO) {
         //使用sa-token框架登录生成token
-        String token = SaTokenUtil.login(systemUserDO.getUserId());
+        StpUtil.login(systemUserDO.getUserId());
+        String token = StpUtil.getTokenValue();
+
         LoginResultVO success = LoginResultVO.builder()
                 .status("success")
                 .loginTime(LocalDateTime.now())

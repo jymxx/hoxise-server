@@ -1,9 +1,9 @@
 package cn.hoxise.common.security.operatelog.core.aop;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hoxise.common.security.operatelog.core.service.OperateLogBaseService;
 import cn.hoxise.common.security.operatelog.core.enums.OperateTypeEnum;
-import cn.hoxise.common.security.satoken.uitls.SaTokenUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.utils.servlet.ServletUtil;
 import cn.hoxise.common.security.operatelog.core.service.OperateLogBaseDTO;
@@ -140,12 +140,12 @@ public class OperateLogAspect {
         // 补全方法信息
         fillMethodFields(operateLogObj, joinPoint, operateLog, startTime, result, exception);
 
-        // 异步记录日志
+        // 记录日志
         operateLogBaseService.createOperateLog(operateLogObj);
     }
 
     private static void fillUserFields(OperateLogBaseDTO operateLogObj) {
-        operateLogObj.setUserId(SaTokenUtil.getLoginIdAsLong());
+        operateLogObj.setUserId(StpUtil.getLoginIdAsLong());
     }
 
     private static void fillModuleFields(OperateLogBaseDTO operateLogObj,

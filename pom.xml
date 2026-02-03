@@ -20,6 +20,8 @@
         <module>hoxise-module-movie</module>
         <!--ai-->
         <module>hoxise-module-ai</module>
+        <!--个人-->
+        <module>hoxise-module-self</module>
 
         <!--网关-->
         <module>hoxise-gateway</module>

@@ -33,7 +33,6 @@ public interface BangumiManageService {
      * @author hoxise
      * @since 2026/01/14 15:11:05
      */
-    @Transactional
     void updateBangumi(Long catalogid, Long bangumiId);
 
     /**
@@ -43,7 +42,6 @@ public interface BangumiManageService {
      * @author hoxise
      * @since 2026/01/14 15:11:12
      */
-    @Transactional
     void dirScan(boolean scanUpdate);
 
     /**
@@ -63,7 +61,6 @@ public interface BangumiManageService {
      * @author hoxise
      * @since 2026/01/14 15:11:45
      */
-    @Transactional
     void saveBangumiWithInfobox(MovieCatalogDO catalog, BangumiSearchSubjectResponse.Subject subject);
 
     /**
@@ -82,7 +79,6 @@ public interface BangumiManageService {
      * @author hoxise
      * @since 2026/01/14 15:12:01
      */
-    @Transactional
     void apiUpdateCharactersAndActors(Long bangumiId,Long catalogid);
 
     /**
@@ -101,7 +97,6 @@ public interface BangumiManageService {
      * @author hoxise
      * @since 2026/01/14 15:12:21
      */
-    @Transactional
     void apiUpdateEpisode(Long bangumiId, Long catalogid);
 
     /**

@@ -23,10 +23,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class AliyunSmsClient {
 
-    @Value("${sms.aliyun.accessKey}")
+    @Value("${sms.aliyun.access-key}")
     private String accessKeyId;
 
-    @Value("${sms.aliyun.accessSecret}")
+    @Value("${sms.aliyun.access-secret}")
     private String accessKeySecret;
 
     @Value("${sms.aliyun.endpoint}")

@@ -1,21 +1,15 @@
 package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.common.file.core.client.FileStorageClient;
-import cn.hoxise.common.file.pojo.FileStorageDTO;
+import cn.hoxise.common.file.core.config.FileStorageProperties;
+import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import io.minio.*;
 import io.minio.http.Method;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -25,64 +19,33 @@ import java.util.UUID;
  * @since 2026/01/14 06:53:37
  */
 @Slf4j
-public class MinioOssClient implements FileStorageClient {
-
-    @Value("${fileStorage.minio.endpoint}")
-    private String endpoint;
-
-    @Value("${fileStorage.minio.bucket}")
-    private String bucketName;
-
-    @Value("${fileStorage.minio.access-key}")
-    private String accesskey;
-
-    @Value("${fileStorage.minio.access-secret}")
-    private String accessSecret;
+public class MinioOssClient extends AbstractFileClient {
 
     private MinioClient minioClient;
 
-    @PostConstruct
-    public void setMinioClient() {
+    public MinioOssClient(FileStorageProperties.MinioConfig clientProperties) {
+        super(clientProperties);
+    }
+
+    @Override
+    protected void doInit() {
         log.info("----初始化minio连接配置----");
+        FileStorageProperties.MinioConfig minioConfig = (FileStorageProperties.MinioConfig) properties;
         minioClient = io.minio.MinioClient.builder()
-                .credentials(accesskey,accessSecret)
-                .endpoint(endpoint)
+                .credentials(minioConfig.getAccessKey(), minioConfig.getAccessSecret())
+                .endpoint(minioConfig.getEndpoint())
                 .build();
         log.info("----end.初始化minio连接配置完成----");
     }
 
-    @Override
-    public FileStorageDTO fileUpload(MultipartFile file) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(file,folderName);
-    }
 
-    @Override
-    public FileStorageDTO fileUpload(InputStream inputStream,String fileName) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(inputStream,folderName,fileName);
-    }
-
-    @Override
-    public FileStorageDTO fileUpload(MultipartFile file, String folderName) {
-        try (InputStream inputStream = file.getInputStream()) {
-           return fileUpload(inputStream,folderName,Objects.requireNonNull(file.getOriginalFilename()));
-        } catch (IOException e) {
-            log.error("minio文件处理异常, fileName: {},{}", file.getOriginalFilename(),e.toString());
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public FileStorageDTO fileUpload(InputStream inputStream, String folderName, String fileName) {
         String objectName = folderName + "/"
                 + UUID.randomUUID() + "_" + fileName;
         try {
-            boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!bucketExists) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-            }
-            minioClient.putObject(PutObjectArgs.builder().bucket(bucketName)
+            minioClient.putObject(PutObjectArgs.builder().bucket(properties.getBucket())
                     .object(objectName)
                     .stream(inputStream, -1, 10485760) // -1 表示未知长度
                     .build());
@@ -101,7 +64,7 @@ public class MinioOssClient implements FileStorageClient {
     @Override
     public InputStream getFileInputStream(String objectName){
         try{
-            return minioClient.getObject(GetObjectArgs.builder().bucket(bucketName).object(objectName).build());
+            return minioClient.getObject(GetObjectArgs.builder().bucket(properties.getBucket()).object(objectName).build());
         }catch (Exception e){
             log.error("minio文件下载异常,objectName: {},{}", objectName,e.toString());
             throw new ServiceException("文件下载异常");
@@ -112,7 +75,7 @@ public class MinioOssClient implements FileStorageClient {
     @Override
     public void deleteFile(String objectName) {
         try{
-            minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).build());
+            minioClient.removeObject(RemoveObjectArgs.builder().bucket(properties.getBucket()).object(objectName).build());
         }catch (Exception e){
             log.error("minio文件删除失败,objectName: {},{}", objectName,e.toString());
             throw new ServiceException("文件删除失败");
@@ -123,8 +86,8 @@ public class MinioOssClient implements FileStorageClient {
     @Override
     public String getPresignedUrl(String objectName) {
         try{
-            minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
-            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).object(objectName).build());
+            minioClient.statObject(StatObjectArgs.builder().bucket(properties.getBucket()).object(objectName).build());
+            return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(properties.getBucket()).object(objectName).build());
         }catch (Exception e){
             log.error("minio获取文件预览地址异常,objectName:{},{}", objectName,e.toString());
             throw new ServiceException("获取文件预览地址异常");

@@ -1,7 +1,7 @@
 package cn.hoxise.common.mybatis.core.handler;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
-import cn.hoxise.common.security.satoken.uitls.SaTokenUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -69,7 +69,7 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
      * @return java.lang.String
      */
     private String getLoginUserId() {
-        Object userid = SaTokenUtil.getLoginIdDefaultNull();
+        Object userid = StpUtil.getLoginIdDefaultNull();
         return Objects.isNull(userid) ? null :String.valueOf(userid);
     }
 }

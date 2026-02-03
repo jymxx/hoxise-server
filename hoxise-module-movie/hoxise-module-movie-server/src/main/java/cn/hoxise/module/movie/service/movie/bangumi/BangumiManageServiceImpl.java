@@ -3,7 +3,7 @@ package cn.hoxise.module.movie.service.movie.bangumi;
 import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.base.utils.file.FileUtils;
 import cn.hoxise.common.base.utils.img.ImgUtil;
-import cn.hoxise.common.file.pojo.FileStorageDTO;
+import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.module.movie.dal.entity.*;
 import cn.hoxise.module.movie.pojo.dto.BangumiCharacterResponse;

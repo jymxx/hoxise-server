@@ -88,17 +88,17 @@ spring:
 ##########   其它配置   ##########
 
 #文件存储
-fileStorage:
-  defaultType: aliyunOss
+file-storage:
+  default-type: aliyunOss
   #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
-  serializerPrefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
+  serializer-prefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
   minio:
     endpoint: http://127.0.0.1:9000
     bucket: hoxise-java
     access-key: hoxise
     access-secret: hoxise-java
-  aliyunOss:
-    regin: cn-chengdu
+  aliyun-oss:
+    region: cn-chengdu
     endpoint: oss-cn-chengdu.aliyuncs.com
     bucket: ${aliyun.oss.bucket}
     access-key: ${aliyun.oss.accessKey}
@@ -109,8 +109,8 @@ fileStorage:
 sms:
   aliyun:
     endpoint: dypnsapi.aliyuncs.com
-    accessKey: ${aliyun.sms.accessKey}
-    accessSecret: ${aliyun.sms.accessSecret}
+    access-key: ${aliyun.sms.accessKey}
+    access-secret: ${aliyun.sms.accessSecret}
 
 #系统配置
 hoxise:

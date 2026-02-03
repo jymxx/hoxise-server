@@ -1,10 +1,10 @@
 package cn.hoxise.module.ai.controller.movie;
 
-import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.common.security.satoken.uitls.SaTokenUtil;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.module.ai.pojo.enums.AiMethodEnum;
 import cn.hoxise.module.ai.service.movie.AiMovieChatService;
 import cn.hoxise.module.ai.service.AiRequestRecordService;
+import cn.hutool.core.lang.Assert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -50,7 +50,7 @@ public class MovieAiController {
 
 
     /**
-     * satoken貌似不兼容这个流式返回格式，拦截器会有一堆报错，暂时先手动检查
+     * 检查登录信息
      *
      * @param token token
      * @return loginid
@@ -58,10 +58,8 @@ public class MovieAiController {
      * @since 2026/01/14 14:48:51
      */
     private Long checkLogin(String token) {
-        Object loginId = SaTokenUtil.getLoginIdByToken(token);
-        if (loginId== null){
-            throw new ServiceException("未登录");
-        }
+        Object loginId = StpUtil.getLoginIdByToken(token);
+        Assert.notNull(loginId, "未登录");
         return Long.valueOf(loginId.toString());
     }
 }

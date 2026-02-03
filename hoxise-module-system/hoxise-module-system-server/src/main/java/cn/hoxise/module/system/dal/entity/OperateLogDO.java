@@ -114,10 +114,4 @@ public class OperateLogDO {
      */
     private String resultData;
 
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
 }
