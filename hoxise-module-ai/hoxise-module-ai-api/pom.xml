@@ -18,6 +18,11 @@
             <artifactId>hoxise-common-base</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!-- 服务发现：OpenFeign服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

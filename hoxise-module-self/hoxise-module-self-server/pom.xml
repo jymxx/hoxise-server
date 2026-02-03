@@ -10,7 +10,7 @@
 
     <artifactId>hoxise-module-self-server</artifactId>
     <description>
-        个人服务
+        个人部署在线工具
     </description>
 
 
@@ -30,61 +30,43 @@
             <artifactId>hoxise-module-self-api</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!--openai-->
         <dependency>
             <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-spring-boot-starter-openai</artifactId>
+            <artifactId>hoxise-module-ai-api</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-spring-boot-starter-mq</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <dependency>
             <groupId>cn.hoxise</groupId>
             <artifactId>hoxise-spring-boot-starter-redis</artifactId>
             <version>${revision}</version>
         </dependency>
 
-
-        <!--&lt;!&ndash; Nacos 服务发现 &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--    <groupId>com.alibaba.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; OpenFeign服务调用 &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-openfeign</artifactId>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; 负载均衡 &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--    <groupId>org.springframework.cloud</groupId>-->
-        <!--    <artifactId>spring-cloud-starter-loadbalancer</artifactId>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; loadbalancer启动warn需要使用这个 &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--    <groupId>com.github.ben-manes.caffeine</groupId>-->
-        <!--    <artifactId>caffeine</artifactId>-->
-        <!--</dependency>-->
-
-
     </dependencies>
 
-    <build>
-        <!-- 设置构建的 jar 包名 -->
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <!-- 打包 -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <!--<build>-->
+    <!--    &lt;!&ndash; 设置构建的 jar 包名 &ndash;&gt;-->
+    <!--    <finalName>${project.artifactId}</finalName>-->
+    <!--    <plugins>-->
+    <!--        &lt;!&ndash; 打包 &ndash;&gt;-->
+    <!--        <plugin>-->
+    <!--            <groupId>org.springframework.boot</groupId>-->
+    <!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--            <version>${spring.boot.version}</version>-->
+    <!--            <executions>-->
+    <!--                <execution>-->
+    <!--                    <goals>-->
+    <!--                        <goal>repackage</goal> &lt;!&ndash; 将引入的 jar 打入其中 &ndash;&gt;-->
+    <!--                    </goals>-->
+    <!--                </execution>-->
+    <!--            </executions>-->
+    <!--        </plugin>-->
+    <!--    </plugins>-->
+    <!--</build>-->
 
 </project>

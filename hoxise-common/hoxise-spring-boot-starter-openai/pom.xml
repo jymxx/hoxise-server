@@ -47,12 +47,6 @@
             <artifactId>spring-ai-rag</artifactId>
             <version>${spring-openai.version}</version>
         </dependency>
-        <!--向量库-->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-advisors-vector-store</artifactId>
-            <version>${spring-openai.version}</version>
-        </dependency>
         <!--redis向量数据库-->
         <dependency>
             <groupId>org.springframework.ai</groupId>

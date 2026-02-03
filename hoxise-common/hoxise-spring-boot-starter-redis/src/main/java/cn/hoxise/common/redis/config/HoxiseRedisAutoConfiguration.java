@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @AutoConfiguration
 @EnableCaching
-@EnableConfigurationProperties(CacheProperties.class) //spring.cache的配置属性
+@EnableConfigurationProperties({CacheProperties.class}) //spring.cache的配置属性
 public class HoxiseRedisAutoConfiguration {
 
     /** redis注解缓存的序列化配置 */

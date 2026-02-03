@@ -31,13 +31,6 @@
             <version>${knife4j.version}</version>
         </dependency>
 
-        <!--某些框架 需要用SaToken框架获取信息-->
-        <dependency>
-            <groupId>cn.hoxise</groupId>
-            <artifactId>hoxise-spring-boot-starter-security</artifactId>
-            <version>${revision}</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
 </project>

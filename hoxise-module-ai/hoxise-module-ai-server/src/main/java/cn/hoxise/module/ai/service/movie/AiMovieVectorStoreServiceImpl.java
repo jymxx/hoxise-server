@@ -58,7 +58,7 @@ public class AiMovieVectorStoreServiceImpl implements AiMovieVectorStoreService 
         long pageNum = bangumiDbApi.count().getCheckedData() / batchSize;
         log.info("总页数: {}", pageNum+1);
 
-        for (int i = 1; i <= pageNum+1; i++) {
+        for (int i = 1; i <= 2; i++) {
             log.info("开始处理第{}页数据...", i);
             List<BangumiDbDTO> list = bangumiDbApi.page(i, batchSize).getCheckedData().getList();
             if (list.isEmpty()){

@@ -18,6 +18,7 @@ import org.springframework.ai.vectorstore.redis.RedisVectorStore;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -58,17 +59,7 @@ public class OpenAiAutoConfig {
         return ChatClient.builder(chatModelBuilder.build());
     }
 
-    /**
-     * chatMemory
-     */
-    @Bean
-    public ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
-        return  MessageWindowChatMemory.builder()
-//                .chatMemoryRepository(new InMemoryChatMemoryRepository()) //默认用内存管理
-                .chatMemoryRepository(jdbcChatMemoryRepository) //配置数据库存储接口
-                .maxMessages(10) //存储历史对话数量 默认20
-                .build();
-    }
+
     /**
      * JdbcChatMemoryRepository
      */
@@ -80,17 +71,30 @@ public class OpenAiAutoConfig {
                 .build();
     }
 
+    /**
+     * chatMemory
+     */
+    @Bean
+    public ChatMemory chatMemory(JdbcChatMemoryRepository jdbcChatMemoryRepository) {
+        return  MessageWindowChatMemory.builder()
+//                .chatMemoryRepository(new InMemoryChatMemoryRepository()) //默认用内存管理
+                .chatMemoryRepository(jdbcChatMemoryRepository) //配置数据库存储接口
+                .maxMessages(10) //存储历史对话数量 默认20
+                .build();
+    }
 
     //############   向量数据库    ##########
+
     /**
-     * Redis
+     * Jedis
      */
     @Bean
     public JedisPooled jedisPooled(RedisProperties redisProperties) {
         return new JedisPooled(redisProperties.getHost(), redisProperties.getPort()
-                , StrUtil.isBlank(redisProperties.getUser())?null:redisProperties.getUser()
+                , StrUtil.isBlank(redisProperties.getUsername())?null: redisProperties.getUsername()
                 , StrUtil.isBlank(redisProperties.getPassword())?null: redisProperties.getPassword());
     }
+
     /**
      * EmbeddingModel 向量模型
      */

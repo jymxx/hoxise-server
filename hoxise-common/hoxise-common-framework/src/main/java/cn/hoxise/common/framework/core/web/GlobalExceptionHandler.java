@@ -1,7 +1,5 @@
 package cn.hoxise.common.framework.core.web;
 
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.SaTokenException;
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.pojo.CommonResult;
 import jakarta.servlet.http.HttpServletRequest;
@@ -108,27 +106,6 @@ public class GlobalExceptionHandler {
     public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
         log.warn("[请求方法不正确]", ex);
         return CommonResult.error(METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()));
-    }
-
-    /**
-     * 处理 satoken 框架产生的未登录异常
-     * <p>
-     */
-    @ExceptionHandler(value = NotLoginException.class)
-    public CommonResult<?> notLoginExceptionHandler(NotLoginException ex) {
-        log.warn("[未登录]", ex);
-        return CommonResult.error(UNAUTHORIZED.getCode(),ex.getMessage());
-    }
-
-    /**
-     * 处理 satoken 框架产生的其它异常
-     * <p>
-     * 无角色、无权限等等
-     */
-    @ExceptionHandler(value = SaTokenException.class)
-    public CommonResult<?> saTokenExceptionHandler(SaTokenException ex) {
-        log.warn("[satoken异常]", ex);
-        return CommonResult.error(FORBIDDEN);
     }
 
     /**

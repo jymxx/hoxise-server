@@ -32,17 +32,4 @@ public class WebMvcInterceptorConfig implements WebMvcConfigurer {
         return new FilterRegistrationBean<>(new CorsFilter(source));
     }
 
-//    @Override
-//    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-//        //MVC+webflux 异步支持 比如流式响应
-//        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-//        executor.setCorePoolSize(3);
-//        executor.setMaxPoolSize(10);
-//        executor.setQueueCapacity(100);
-//        executor.setKeepAliveSeconds(60);
-//        executor.setThreadNamePrefix("hoxise-webmvc-async-");
-//        executor.initialize();
-//        configurer.setTaskExecutor(executor);
-//        configurer.setDefaultTimeout(300000); // 5分钟
-//    }
 }

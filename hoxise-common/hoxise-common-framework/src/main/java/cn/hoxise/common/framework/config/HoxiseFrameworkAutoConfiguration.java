@@ -5,11 +5,8 @@ import cn.hoxise.common.framework.core.swagger.SwaggerConfig;
 import cn.hoxise.common.framework.core.web.GlobalExceptionHandler;
 import cn.hoxise.common.framework.core.web.WebMvcInterceptorConfig;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.core.annotation.Order;
 
 /**
  * 框架自动配置
@@ -24,6 +21,7 @@ public class HoxiseFrameworkAutoConfiguration {
      * 全局异常处理
      */
     @Bean
+    @Order(99) //优先级降低 如果有其它拦截器则让其它拦截器先处理
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();
     }

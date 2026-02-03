@@ -13,7 +13,6 @@
         ai服务
     </description>
 
-
     <dependencies>
         <dependency>
             <groupId>cn.hoxise</groupId>
@@ -40,6 +39,7 @@
             <artifactId>hoxise-module-movie-api</artifactId>
             <version>${revision}</version>
         </dependency>
+
         <!--openai-->
         <dependency>
             <groupId>cn.hoxise</groupId>

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2026/1/31 下午12:10
  */
 @Configuration
-public class RabbitMqConfig {
+public class SystemRabbitMqConfig {
 
     @Bean
     public MessageConverter messageConverter() {

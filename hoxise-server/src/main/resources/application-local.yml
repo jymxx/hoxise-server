@@ -118,3 +118,5 @@ hoxise:
   runMode: dev
   #启动后是否加载Embedding
   pushVectorStore: false
+  #临时目录 次日6点自动删除
+  temp-dir: D:\Java\Project\env\work-dir
