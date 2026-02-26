@@ -1,7 +1,7 @@
-package cn.hoxise.module.movie.api.bangumi;
+package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbActorDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbCharacterDTO;
 import cn.hoxise.module.movie.enums.RpcConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,21 +15,21 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 演员/CV
+ * 角色
  *
  * @author hoxise
- * @since 2026/1/28 下午12:54
+ * @since 2026/1/28 下午12:35
  */
 @FeignClient(name = RpcConstants.NAME)
-@Tag(name = "Bangumi 演员/声优")
-public interface BangumiDbActorApi {
+@Tag(name = "Bangumi 角色")
+public interface BangumiDbCharacterApi {
 
-    String PREFIX = RpcConstants.API_PREFIX + "/bangumi/actor";
+    String PREFIX = RpcConstants.API_PREFIX + "/bangumi/character";
 
-    @Operation(summary = "获取演员数据")
+    @Operation(summary = "获取角色信息数据")
     @GetMapping(PREFIX + "/list")
     @Parameters({
-            @Parameter(name = "actorids", description = "过滤演员id", example = "[1,2,3]", required = true)
+            @Parameter(name = "catalogids", description = "过滤目录id", example = "[1,2,3]", required = true)
     })
-    CommonResult<List<BangumiDbActorDTO>> list(@RequestParam("actorids") Collection<Long> actorids);
+    CommonResult<List<BangumiDbCharacterDTO>> list(@RequestParam("catalogids") Collection<Long> catalogids);
 }

@@ -1,4 +1,4 @@
-package cn.hoxise.module.movie.api.bangumi.dto;
+package cn.hoxise.module.movie.api.dto;
 
 import cn.hoxise.module.movie.enums.bangumi.BangumiSubjectTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;

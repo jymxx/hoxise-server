@@ -1,7 +1,7 @@
-package cn.hoxise.module.movie.api.bangumi;
+package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbInfoboxDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxDTO;
 import cn.hoxise.module.movie.dal.entity.BangumiDbInfoboxDO;
 import cn.hoxise.module.movie.service.movie.bangumi.BangumiDbInfoboxService;
 import cn.hutool.core.bean.BeanUtil;

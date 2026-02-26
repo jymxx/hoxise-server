@@ -1,8 +1,8 @@
-package cn.hoxise.module.movie.api.bangumi;
+package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.pojo.PageResult;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbDTO;
 import cn.hoxise.module.movie.enums.RpcConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

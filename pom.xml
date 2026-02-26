@@ -21,7 +21,7 @@
         <!--ai-->
         <module>hoxise-module-ai</module>
         <!--个人-->
-        <module>hoxise-module-self</module>
+        <!--<module>hoxise-module-self</module>-->
 
         <!--网关-->
         <module>hoxise-gateway</module>
@@ -49,7 +49,7 @@
         <redisson.version>3.52.0</redisson.version>
         <!--框架-->
         <satoken.version>1.44.0</satoken.version> <!-- 权限认证框架 -->
-        <spring-openai.version>1.1.2</spring-openai.version> <!-- spring openai -->
+        <spring-ai.version>1.1.2</spring-ai.version> <!-- spring openai -->
         <knife4j.version>4.5.0</knife4j.version>
         <swagger3.version>2.2.19</swagger3.version>
         <!--工具-->

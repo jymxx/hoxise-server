@@ -1,19 +1,18 @@
 package cn.hoxise.module.ai.service.movie;
 
-import cn.hoxise.module.movie.api.bangumi.BangumiDbActorApi;
-import cn.hoxise.module.movie.api.bangumi.BangumiDbApi;
-import cn.hoxise.module.movie.api.bangumi.BangumiDbCharacterApi;
-import cn.hoxise.module.movie.api.bangumi.BangumiDbInfoboxApi;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbActorDTO;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbCharacterDTO;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbDTO;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbInfoboxDTO;
+import cn.hoxise.module.movie.api.BangumiDbActorApi;
+import cn.hoxise.module.movie.api.BangumiDbApi;
+import cn.hoxise.module.movie.api.BangumiDbCharacterApi;
+import cn.hoxise.module.movie.api.BangumiDbInfoboxApi;
+import cn.hoxise.module.movie.api.dto.BangumiDbActorDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbCharacterDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxDTO;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 

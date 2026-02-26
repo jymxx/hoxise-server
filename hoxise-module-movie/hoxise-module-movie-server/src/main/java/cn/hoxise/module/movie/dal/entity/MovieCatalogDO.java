@@ -64,6 +64,17 @@ public class MovieCatalogDO implements Serializable {
     @TableLogic
     private MovieStatusEnum status;
 
+    /**
+     * 用户id
+     */
+    private Long userid;
+
+    /**
+     * 关联bangumi数据id
+     * {@link cn.hoxise.module.movie.dal.entity.BangumiDbDO}
+     */
+    private Long bangumiDbId;
+
     @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

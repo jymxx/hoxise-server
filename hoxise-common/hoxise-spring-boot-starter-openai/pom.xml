@@ -27,31 +27,43 @@
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-openai</artifactId>
-            <version>${spring-openai.version}</version>
+            <version>${spring-ai.version}</version>
         </dependency>
         <!--deepseek-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-deepseek</artifactId>
-            <version>${spring-openai.version}</version>
+            <version>${spring-ai.version}</version>
         </dependency>
         <!--聊天记忆持久化存储-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-chat-memory-repository-jdbc</artifactId>
-            <version>${spring-openai.version}</version>
+            <version>${spring-ai.version}</version>
         </dependency>
         <!--RAG检索增强生成-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-rag</artifactId>
-            <version>${spring-openai.version}</version>
+            <version>${spring-ai.version}</version>
         </dependency>
         <!--redis向量数据库-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-vector-store-redis</artifactId>
-            <version>${spring-openai.version}</version>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <!--MCP客户端-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-client</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <!--mcp服务端-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+            <version>${spring-ai.version}</version>
         </dependency>
     </dependencies>
 

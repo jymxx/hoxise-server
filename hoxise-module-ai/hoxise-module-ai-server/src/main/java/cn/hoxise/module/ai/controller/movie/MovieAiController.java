@@ -33,8 +33,8 @@ public class MovieAiController {
     @Operation(summary = "ai总结")
     @RequestMapping(value = "/aiSummary",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> aiSummary(Long catalogid, String token){
-        Long userid = checkLogin(token);
-        aiRequestRecordService.record(AiMethodEnum.AiSummary,userid);//记录日志
+//        Long userid = checkLogin(token);
+//        aiRequestRecordService.record(AiMethodEnum.AiSummary,userid);//记录日志
 
         return movieChatService.aiSummary(catalogid).concatWith(Flux.just("[DONE]"));
     }
@@ -42,9 +42,10 @@ public class MovieAiController {
     @Operation(summary = "ai推荐")
     @RequestMapping(value = "/aiRecommend",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> aiRecommend(String userText,String chatId, String token,String mode){
-        Long userid = checkLogin(token);
-        aiRequestRecordService.record(AiMethodEnum.AiRecommend,userid);//记录日志
-        aiRequestRecordService.aiRateLimit(userid);//限制请求次数
+//        Long userid = checkLogin(token);
+//        aiRequestRecordService.record(AiMethodEnum.AiRecommend,userid);//记录日志
+//        aiRequestRecordService.aiRateLimit(userid);//限制请求次数
+        Long userid = -1L;//现在不校验用户
         return movieChatService.aiRecommend(userText,chatId,userid,mode).concatWith(Flux.just("[DONE]"));
     }
 
@@ -57,9 +58,9 @@ public class MovieAiController {
      * @author hoxise
      * @since 2026/01/14 14:48:51
      */
-    private Long checkLogin(String token) {
-        Object loginId = StpUtil.getLoginIdByToken(token);
-        Assert.notNull(loginId, "未登录");
-        return Long.valueOf(loginId.toString());
-    }
+//    private Long checkLogin(String token) {
+//        Object loginId = StpUtil.getLoginIdByToken(token);
+//        Assert.notNull(loginId, "未登录");
+//        return Long.valueOf(loginId.toString());
+//    }
 }

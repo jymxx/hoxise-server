@@ -1,8 +1,8 @@
-package cn.hoxise.module.movie.api.bangumi;
+package cn.hoxise.module.movie.api;
 
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.bangumi.dto.BangumiDbCharacterDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbCharacterDTO;
 import cn.hoxise.module.movie.dal.entity.BangumiDbCharacterDO;
 import cn.hoxise.module.movie.service.movie.bangumi.BangumiDbCharacterService;
 import cn.hutool.core.bean.BeanUtil;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2026/01/28 12:39:33
  */
 @RestController
-public class BangumiDbCharacterApiImpl implements BangumiDbCharacterApi{
+public class BangumiDbCharacterApiImpl implements BangumiDbCharacterApi {
 
     @Resource
     private BangumiDbCharacterService bangumiDbCharacterService;
