@@ -29,19 +29,6 @@ spring:
 
   # openai
   ai:
-    openai:
-      # API密钥
-      api-key: ${deepseek.api.key}
-      # OpenAi规范的API端点
-      #      base-url: https://api.deepseek.com
-      chat:
-        options:
-          # 可选模型：deepseek-chat(非思考模式), deepseek-reasoner (思考模式)
-          model: deepseek-chat
-          # 回答随机性 默认1
-          temperature: 1
-          # 最大返回token
-          max-tokens: 5000
     #deepseek
     deepseek:
       api-key: ${deepseek.api.key}
@@ -75,5 +62,3 @@ spring:
 ##########   其它配置   ##########
 
 hoxise:
-  #是否推送向量数据
-  pushVectorStore: false

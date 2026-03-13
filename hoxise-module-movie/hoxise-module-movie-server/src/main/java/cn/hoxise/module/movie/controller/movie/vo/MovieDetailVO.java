@@ -27,7 +27,7 @@ public class MovieDetailVO {
 
     private Long id;
 
-    private String catalogid;
+    private String catalogId;
 
     /**
      * 匹配名称

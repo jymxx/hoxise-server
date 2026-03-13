@@ -11,6 +11,7 @@ import cn.hoxise.module.system.service.sms.SystemSmsService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.module.system.controller.auth.vo.LoginResultVO;
 import cn.hoxise.common.base.exception.ServiceException;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.xingyuv.captcha.model.common.ResponseModel;
 import com.xingyuv.captcha.model.vo.CaptchaVO;
 import com.xingyuv.captcha.service.CaptchaService;
@@ -142,8 +143,9 @@ public class AuthServiceImpl implements AuthService {
      */
     private void afterLogin(SystemUserDO systemUserDO) {
         //更新登录时间
-        systemUserDO.setLastLoginTime(LocalDateTime.now());
-        systemUserService.updateById(systemUserDO);
+        systemUserService.update(Wrappers.lambdaUpdate(SystemUserDO.class)
+                .eq(SystemUserDO::getUserId, systemUserDO.getUserId())
+                .set(SystemUserDO::getLastLoginTime, LocalDateTime.now()));
     }
 
 

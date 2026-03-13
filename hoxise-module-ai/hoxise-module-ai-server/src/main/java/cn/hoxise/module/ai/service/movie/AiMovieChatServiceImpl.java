@@ -1,11 +1,15 @@
 package cn.hoxise.module.ai.service.movie;
 
-import cn.hoxise.common.openai.core.DeepSeekApiImpl;
-import cn.hoxise.common.openai.core.OpenAiApi;
+import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.module.ai.framework.core.deepseek.DeepSeekClient;
+import cn.hoxise.module.ai.framework.core.OpenAiClient;
 import cn.hoxise.common.base.utils.date.DateUtil;
-import cn.hoxise.module.ai.service.AiPromptService;
 import cn.hoxise.module.ai.pojo.constants.AiPromptConstants;
+import cn.hoxise.module.ai.pojo.constants.RedisConstants;
 import jakarta.annotation.Resource;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateType;
+import org.redisson.api.RedissonClient;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -17,6 +21,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,8 +34,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Service
 public class AiMovieChatServiceImpl implements AiMovieChatService {
 
-    @Resource(name = "deepSeekApiImpl")
-    private OpenAiApi openAiApi;
+    @Resource(name = "deepSeekClient")
+    private OpenAiClient openAiClient;
 
     @Resource
     private VectorStore vectorStore;
@@ -38,8 +43,14 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     @Resource
     private AiPromptService aiPromptService;
 
+    @Resource
+    private RedissonClient redissonClient;
+
     @Override
     public Flux<String> aiRecommend(String userText, String chatId, Long userid,String mode){
+        //频率限制
+        aiRateLimit(userid);
+
         //对话id 过日强制重置
         String finalChatId = userid+"_"+ LocalDateTime.now().format(DateUtil.DATE_FORMATTER) + "_"+chatId;
 
@@ -62,7 +73,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      * @since 2026/01/14 21:41:49
      */
     private Flux<String> deepSeekReasoner(String userText, String chatId){
-        ChatClient chatClient = openAiApi.getMemoryChatClient();
+        ChatClient chatClient = openAiClient.getMemoryChatClient();
         Flux<ChatResponse> chatResponseFlux = chatClient.prompt()
                 .system(aiPromptService.buildMovieRecommendPrompt())
                 .user(userText)
@@ -84,7 +95,7 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      */
     private Flux<String> deepSeekChatRag(String userText, String chatId){
 
-        ChatClient chatClient = openAiApi.getMemoryChatClient();
+        ChatClient chatClient = openAiClient.getMemoryChatClient();
         Flux<ChatResponse> chatResponseFlux = chatClient.prompt()
                 .system(AiPromptConstants.AI_MOVIE_RECOMMEN_SYSTEM_PROMPT_RAG)
                 .user(userText)
@@ -102,9 +113,9 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
     }
 
     @Override
-    public Flux<String> aiSummary(Long catalogid){
-        return openAiApi.getChatClient(DeepSeekApiImpl.MODEL_CHAT)
-                .prompt(aiPromptService.buildMovieSummaryPrompt(catalogid))
+    public Flux<String> aiSummary(Long catalogId){
+        return openAiClient.getChatClient(DeepSeekClient.MODEL_CHAT)
+                .prompt(aiPromptService.buildMovieSummaryPrompt(catalogId))
                 .stream()
                 .content();
     }
@@ -147,5 +158,26 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
         }));
     }
 
+    /**
+     * aiRateLimit 频率限制
+     *
+     * @param userid 用户id
+     * @author hoxise
+     * @since 2026/03/01 01:33:21
+     */
+    private void aiRateLimit(Long userid) {
+        if(userid == 0L){
+            return;
+        }
+        //限制请求频率
+        String rateLimitKey = RedisConstants.AI_REQUEST_LIMIT_KEY + "::" + userid ;
+        RRateLimiter rateLimiter = redissonClient.getRateLimiter(rateLimitKey);
+        //每小时限制200次
+        rateLimiter.trySetRate(RateType.OVERALL,200, Duration.ofHours(1));
+
+        if (!rateLimiter.tryAcquire()){
+            throw new ServiceException("请勿频繁调用");
+        }
+    }
 
 }

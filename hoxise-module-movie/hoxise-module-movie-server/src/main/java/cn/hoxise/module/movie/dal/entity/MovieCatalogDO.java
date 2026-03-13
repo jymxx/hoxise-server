@@ -1,6 +1,7 @@
 package cn.hoxise.module.movie.dal.entity;
 
-import cn.hoxise.module.movie.pojo.enums.MovieStatusEnum;
+import cn.hoxise.module.movie.enums.movie.MovieStatusEnum;
+import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
@@ -44,36 +45,35 @@ public class MovieCatalogDO implements Serializable {
     private Double totalSize;
 
     /**
-     * 目录类型 如动漫电影
+     * 目录名称
      */
-    private String directory;
+    private MovieTypeEnum directory;
 
     /**
-     * 最后扫描时间
+     * 用户id 属于哪个用户的数据
      */
-    private LocalDateTime lastScanTime;
+    private Long userid;
 
     /**
-     * 最后更新时间 递归子文件
+     * 关联bangumi数据id
      */
-    private LocalDateTime lastModifyTime;
+    private Long bangumiId;
+
+    /**
+     * 数据创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 匹配时间
+     */
+    private LocalDateTime matchingTime;
 
     /**
      * 存在状态 0正常 1过期
      */
     @TableLogic
     private MovieStatusEnum status;
-
-    /**
-     * 用户id
-     */
-    private Long userid;
-
-    /**
-     * 关联bangumi数据id
-     * {@link cn.hoxise.module.movie.dal.entity.BangumiDbDO}
-     */
-    private Long bangumiDbId;
 
     @Serial
     @TableField(exist = false)

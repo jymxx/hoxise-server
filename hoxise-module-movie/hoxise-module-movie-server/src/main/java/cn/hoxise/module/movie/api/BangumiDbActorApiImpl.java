@@ -1,9 +1,9 @@
 package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.dto.BangumiDbActorDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbActorRespDTO;
 import cn.hoxise.module.movie.dal.entity.BangumiDbActorDO;
-import cn.hoxise.module.movie.service.movie.bangumi.BangumiDbActorService;
+import cn.hoxise.module.movie.service.bangumi.BangumiDbActorService;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
@@ -25,9 +25,9 @@ public class BangumiDbActorApiImpl implements BangumiDbActorApi {
     private BangumiDbActorService bangumiDbActorService;
 
     @Override
-    public CommonResult<List<BangumiDbActorDTO>> list(Collection<Long> actorids) {
+    public CommonResult<List<BangumiDbActorRespDTO>> list(Collection<Long> actorIds) {
         List<BangumiDbActorDO> list = bangumiDbActorService.list(Wrappers.lambdaQuery(BangumiDbActorDO.class)
-                .in(actorids != null && !actorids.isEmpty(), BangumiDbActorDO::getActorId, actorids));
-        return CommonResult.success(BeanUtil.copyToList(list, BangumiDbActorDTO.class));
+                .in(actorIds != null && !actorIds.isEmpty(), BangumiDbActorDO::getActorId, actorIds));
+        return CommonResult.success(BeanUtil.copyToList(list, BangumiDbActorRespDTO.class));
     }
 }

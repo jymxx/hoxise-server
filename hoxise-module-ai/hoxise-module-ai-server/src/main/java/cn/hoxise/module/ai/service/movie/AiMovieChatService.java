@@ -25,10 +25,10 @@ public interface AiMovieChatService {
     /**
      * ai总结
      *
-     * @param catalogid 目录id
+     * @param catalogId 目录id
      * @return 流式返回
      * @author hoxise
      * @since 2026/01/14 14:51:46
      *///AI总结
-    Flux<String> aiSummary(Long catalogid);
+    Flux<String> aiSummary(Long catalogId);
 }

@@ -29,6 +29,11 @@ public class MovieSimpleVO {
     private Long subjectId;
 
     /**
+     * bangumi id
+     */
+    private Long bangumiId;
+
+    /**
      * 海报地址
      */
     @FilePathFormat

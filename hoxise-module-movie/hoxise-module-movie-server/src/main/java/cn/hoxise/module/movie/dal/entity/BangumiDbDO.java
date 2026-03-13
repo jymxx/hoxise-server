@@ -36,19 +36,9 @@ public class BangumiDbDO implements Serializable {
     private Long id;
 
     /**
-     * 目录id
-     */
-    private Long catalogid;
-
-    /**
      * bangumi数据库的id
      */
     private Long bangumiId;
-
-    /**
-     * 匹配名称
-     */
-    private String matchingName;
 
     /**
      * 匹配类型(动漫/电视剧) {@link BangumiSubjectTypeEnum}

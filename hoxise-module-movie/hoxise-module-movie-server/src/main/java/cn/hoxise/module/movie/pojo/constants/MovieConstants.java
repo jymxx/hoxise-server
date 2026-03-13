@@ -10,9 +10,6 @@ import java.util.regex.Pattern;
  */
 public class MovieConstants {
 
-    /** TMDB图片存储目录 **/
-    public static final String TMDB_MINIO_FLODER = "MovieImg-TMDB";
-
     /** Bangumi API番剧图片存储目录 **/
     public static final String BANGUMI_MINIO_FLODER = "MovieImg-Bangumi";
 

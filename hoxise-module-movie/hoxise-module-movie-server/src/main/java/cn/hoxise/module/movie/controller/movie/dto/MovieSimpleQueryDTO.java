@@ -1,9 +1,10 @@
 package cn.hoxise.module.movie.controller.movie.dto;
 
 import cn.hoxise.common.base.pojo.PageParam;
+import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 简单查询结果DTO
@@ -15,8 +16,15 @@ import lombok.EqualsAndHashCode;
 public class MovieSimpleQueryDTO extends PageParam {
 
     @Schema(description = "目录类型", example = "动漫/动漫电影")
-    public String directory;
+    public MovieTypeEnum directory;
 
-    @Schema(description = "名称关键字", example = "Clannad")
+    @Schema(description = "搜索名称关键字", example = "Clannad")
     public String keyword;
+
+    @Schema(description = "过滤用户ID", example = "0")
+    @NotNull(message = "参数不能为空")
+    private Long userId;
+
+    @Schema(description = "是否过滤未匹配", example = "true")
+    private Boolean notMatched;
 }

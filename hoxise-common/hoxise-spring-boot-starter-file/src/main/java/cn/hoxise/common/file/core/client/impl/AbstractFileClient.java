@@ -25,40 +25,46 @@ public abstract class AbstractFileClient implements FileStorageClient {
     /**
      * 配置属性
      */
-    protected static FileStorageProperties.ClientProperties properties;
+    protected FileStorageProperties.ClientProperties properties;
+
+    protected String serializerPrefix;
 
     public AbstractFileClient(FileStorageProperties.ClientProperties clientProperties) {
         if (BeanUtil.hasNullField(clientProperties)){
             log.error("-----！！！请检查文件存储配置.");
             throw new RuntimeException("文件存储功能异常");
         }
-        properties = clientProperties;
+        this.properties = clientProperties;
         doInit();//初始化
     }
 
     protected abstract void doInit();
 
     @Override
-    public FileStorageDTO fileUpload(MultipartFile file) {
+    public FileStorageDTO uploadFile(MultipartFile file) {
         String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(file,folderName);
+        return uploadFile(file,folderName);
     }
 
     @Override
-    public FileStorageDTO fileUpload(InputStream inputStream, String fileName) {
+    public FileStorageDTO uploadFile(InputStream inputStream, String fileName) {
         String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
-        return fileUpload(inputStream,folderName,fileName);
+        return uploadFile(inputStream,folderName,fileName);
     }
 
     @Override
-    public FileStorageDTO fileUpload(MultipartFile file, String folderName) {
+    public FileStorageDTO uploadFile(MultipartFile file, String folderName) {
         try (InputStream inputStream = file.getInputStream()) {
-            return fileUpload(inputStream,folderName, Objects.requireNonNull(file.getOriginalFilename()));
+            return uploadFile(inputStream,folderName, Objects.requireNonNull(file.getOriginalFilename()));
         } catch (IOException e) {
             log.error("Oss文件处理流异常, fileName: {},{}", file.getOriginalFilename(),e.toString());
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public String getAbsoluteUrl(String objectName){
+        return serializerPrefix + "/" + objectName;
+    }
 
 }

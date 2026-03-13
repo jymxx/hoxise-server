@@ -7,6 +7,7 @@ import cn.hoxise.common.file.core.config.FileStorageProperties;
 import cn.hoxise.common.file.core.pojo.enums.FileStorageTypeEnum;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentMap;
  * @since 2026/01/14 06:34:13
  */
 @Slf4j
+@Component
 public class FileStorageClientFactory {
 
     /**

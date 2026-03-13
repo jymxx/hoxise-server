@@ -1,7 +1,7 @@
 package cn.hoxise.module.ai.tool.method;
 
 import cn.hoxise.module.movie.api.MovieCatalogApi;
-import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogDTO;
+import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogRespDTO;
 import jakarta.annotation.Resource;
 import org.springframework.ai.tool.annotation.Tool;
 
@@ -20,7 +20,7 @@ public class MovieServiceImpl implements MovieService{
 
     @Tool(name = "movie_get_user_movie")
     public void getUserMovie(Long userid){
-        List<MovieSimpleCatalogDTO> checkedData = movieCatalogApi.listSimpleCatalog(userid).getCheckedData();
+        List<MovieSimpleCatalogRespDTO> checkedData = movieCatalogApi.listSimpleCatalog(userid).getCheckedData();
 
     }
 }

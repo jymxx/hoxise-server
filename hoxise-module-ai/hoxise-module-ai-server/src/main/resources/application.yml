@@ -44,9 +44,6 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
     banner: false # 启动时控制台是否打印banner
   type-handlers-package: cn.hoxise.common.mybatis.core.type # 类型映射包扫描
-mybatis-plus-join:
-  banner: false
-
 
 # Sa-Token (文档: https://sa-token.cc)
 sa-token:

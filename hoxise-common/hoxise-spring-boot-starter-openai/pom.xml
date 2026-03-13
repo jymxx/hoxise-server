@@ -44,13 +44,19 @@
         <!--RAG检索增强生成-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-rag</artifactId>
+            <artifactId>spring-ai-advisors-vector-store</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
         <!--redis向量数据库-->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-vector-store-redis</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <!--组件：比如重写提示词-->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-rag</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
         <!--MCP客户端-->

@@ -3,11 +3,9 @@ package cn.hoxise.common.file.core.client.impl;
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.file.core.config.FileStorageProperties;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
-import cn.hoxise.common.file.utils.FileStorageUtil;
 import io.minio.*;
 import io.minio.http.Method;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -41,7 +39,7 @@ public class MinioOssClient extends AbstractFileClient {
 
 
     @Override
-    public FileStorageDTO fileUpload(InputStream inputStream, String folderName, String fileName) {
+    public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
         String objectName = folderName + "/"
                 + UUID.randomUUID() + "_" + fileName;
         try {
@@ -52,7 +50,7 @@ public class MinioOssClient extends AbstractFileClient {
 
             return FileStorageDTO.builder()
                     .objectName(objectName)
-                    .absoluteUrl(FileStorageUtil.getAbsoluteUrl(fileName))
+                    .absoluteUrl(getAbsoluteUrl(objectName))
                     .build();
         } catch (Exception e) {
             log.error("minio文件上传失败, fileName: {},{}", fileName,e.toString());

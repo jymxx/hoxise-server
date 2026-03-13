@@ -55,6 +55,18 @@ public class RedisUtil {
     }
 
     /**
+     * 根据pattern删除缓存
+     *
+     * @param pattern 缓存模式，如 "MovieLibraryKey::*"
+     */
+    public void deleteCachePattern(String pattern) {
+        Set<String> keys = redisTemplate.keys(pattern);
+        if (ObjectUtil.isNotNull(keys)) {
+            redisTemplate.delete(keys);
+        }
+    }
+
+    /**
      * 清理redis
      */
     public void clear() {

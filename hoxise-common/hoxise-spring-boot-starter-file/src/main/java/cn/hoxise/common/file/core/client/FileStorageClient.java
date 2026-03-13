@@ -21,7 +21,7 @@ public interface FileStorageClient {
      * @author hoxise
      * @since 2026/01/14 06:54:43
      */
-    FileStorageDTO fileUpload(MultipartFile file);
+    FileStorageDTO uploadFile(MultipartFile file);
     
     /**
      * 文件上传 使用输入流
@@ -32,7 +32,7 @@ public interface FileStorageClient {
      * @author hoxise
      * @since 2026/01/14 06:56:45
      */
-    FileStorageDTO fileUpload(InputStream inputStream, String fileName);
+    FileStorageDTO uploadFile(InputStream inputStream, String fileName);
 
     /**
      * 文件上传 带自定义路径
@@ -43,7 +43,7 @@ public interface FileStorageClient {
      * @author hoxise
      * @since 2026/01/14 06:56:45
      */
-    FileStorageDTO fileUpload(MultipartFile file, String folderName);
+    FileStorageDTO uploadFile(MultipartFile file, String folderName);
 
     /**
      * 文件上传 使用输入流和自定义路径
@@ -55,7 +55,7 @@ public interface FileStorageClient {
      * @author hoxise
      * @since 2026/01/14 06:56:45
      */
-    FileStorageDTO fileUpload(InputStream inputStream, String folderName, String fileName);
+    FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName);
 
     /**
      * 获取文件流
@@ -86,4 +86,14 @@ public interface FileStorageClient {
      */
     String getPresignedUrl(String objectName);
 
+    /**
+     * 获取可直接访问的绝对路径地址
+     * OSS需要配置公开桶
+     *
+     * @param objectName 对象名称
+     * @return 绝对路径
+     * @author hoxise
+     * @since 2026/03/12 13:34:40
+     */
+    String getAbsoluteUrl(String objectName);
 }

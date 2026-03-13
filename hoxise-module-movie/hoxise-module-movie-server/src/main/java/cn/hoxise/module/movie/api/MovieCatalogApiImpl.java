@@ -1,11 +1,10 @@
 package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogDTO;
+import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogRespDTO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
-import cn.hoxise.module.movie.service.movie.MovieCatalogService;
+import cn.hoxise.module.movie.service.MovieCatalogService;
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,14 +22,21 @@ public class MovieCatalogApiImpl implements MovieCatalogApi {
     @Resource
     private MovieCatalogService movieCatalogService;
 
-
     @Override
-    public CommonResult<List<MovieSimpleCatalogDTO>> listSimpleCatalog(Long userid) {
+    public CommonResult<List<MovieSimpleCatalogRespDTO>> listSimpleCatalog(Long userid) {
         List<MovieCatalogDO> list = movieCatalogService.lambdaQuery()
                 .select(MovieCatalogDO::getId, MovieCatalogDO::getName)
-//                .eq()
+                .eq(MovieCatalogDO::getUserid, userid)
                 .list();
-        return CommonResult.success(BeanUtil.copyToList(list, MovieSimpleCatalogDTO.class));
+        return CommonResult.success(BeanUtil.copyToList(list, MovieSimpleCatalogRespDTO.class));
+    }
+
+    @Override
+    public CommonResult<List<MovieSimpleCatalogRespDTO>> listCatalog(Long userid) {
+        List<MovieCatalogDO> list = movieCatalogService.lambdaQuery()
+                .eq(MovieCatalogDO::getUserid, userid)
+                .list();
+        return CommonResult.success(BeanUtil.copyToList(list, MovieSimpleCatalogRespDTO.class));
     }
 
 }

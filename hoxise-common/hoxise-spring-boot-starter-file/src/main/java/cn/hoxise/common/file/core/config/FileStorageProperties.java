@@ -20,11 +20,6 @@ public class FileStorageProperties {
     private FileStorageTypeEnum defaultType;
 
     /**
-     * 序列化前缀，如：配置策略后直接访问的地址；CDN加速服务器
-     */
-    private String serializerPrefix;
-
-    /**
      * MinIO 配置
      */
     private MinioConfig minio = new MinioConfig();
@@ -60,6 +55,11 @@ public class FileStorageProperties {
          * accessSecret
          */
         private String accessSecret;
+
+        /**
+         * 序列化前缀，如：配置策略后直接访问的地址；CDN加速服务器
+         */
+        private String serializerPrefix;
     }
 
     /**

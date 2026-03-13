@@ -23,8 +23,6 @@
         <module>hoxise-spring-boot-starter-security</module>
         <!--文件管理-->
         <module>hoxise-spring-boot-starter-file</module>
-        <!--openAI集成-->
-        <module>hoxise-spring-boot-starter-openai</module>
         <!--mybatis-->
         <module>hoxise-spring-boot-starter-mybatis</module>
         <!--redis-->

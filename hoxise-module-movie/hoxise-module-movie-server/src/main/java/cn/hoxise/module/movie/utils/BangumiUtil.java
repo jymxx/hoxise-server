@@ -2,8 +2,8 @@ package cn.hoxise.module.movie.utils;
 
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.img.ImgUtil;
+import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
-import cn.hoxise.common.file.utils.FileStorageUtil;
 import cn.hoxise.module.movie.pojo.constants.MovieConstants;
 import cn.hoxise.module.movie.pojo.dto.BangumiCharacterResponse;
 import cn.hoxise.module.movie.pojo.dto.BangumiEpisodesResponse;
@@ -31,7 +31,7 @@ public class BangumiUtil {
 
     private static final String BANGUMI_API_URL = "https://api.bgm.tv/v0/";
 
-    @Resource private FileStorageUtil fileStorageUtil;
+    @Resource private FileStorageClientFactory fileStorageClientFactory;
 
     /**
      * 根据req查询数据
@@ -138,7 +138,7 @@ public class BangumiUtil {
         }
         //截取后缀
         String filename = subjectName +"_Bangumi_Img.jpg";
-        FileStorageDTO fileStorageDTO = fileStorageUtil.uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
+        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
         return fileStorageDTO.getObjectName();
     }
 }

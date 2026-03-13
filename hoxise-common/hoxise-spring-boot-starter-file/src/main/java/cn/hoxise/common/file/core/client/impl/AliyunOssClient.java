@@ -61,7 +61,7 @@ public class AliyunOssClient extends AbstractFileClient {
 
 
     @Override
-    public FileStorageDTO fileUpload(InputStream inputStream, String folderName, String fileName) {
+    public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
         String objectName = folderName + "/" + UUID.randomUUID() + "_" + fileName;
 
         try {
@@ -69,7 +69,7 @@ public class AliyunOssClient extends AbstractFileClient {
             ossClient.putObject(putObjectRequest);
             return FileStorageDTO.builder()
                     .objectName(objectName)
-                    .absoluteUrl("") //域名访问在控制台
+                    .absoluteUrl(getAbsoluteUrl(objectName)) //域名访问在控制台
                     .build();
         } catch (Exception e) {
             log.error("aliyunOss文件上传失败, fileName: {},{}", fileName,e.toString());
@@ -100,8 +100,8 @@ public class AliyunOssClient extends AbstractFileClient {
 
     @Override
     public String getPresignedUrl(String objectName) {
-        // 设置预签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
-        long expireTime = 3600 * 1000L * 12;
+        // 设置预签名URL过期时间，单位为毫秒。
+        long expireTime = 3600 * 1000L * 12;//12小时
         Date expiration = new Date(new Date().getTime() + expireTime);
         // 生成以GET方法访问的预签名URL。本示例没有额外请求头，其他人可以直接通过浏览器访问相关内容。
         URL url = ossClient.generatePresignedUrl(properties.getBucket(), objectName, expiration);

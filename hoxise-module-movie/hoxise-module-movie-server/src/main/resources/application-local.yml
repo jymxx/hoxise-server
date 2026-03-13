@@ -27,21 +27,32 @@ spring:
       # 连接端口
       port: 6379
 
+  # RabbitMQ 配置项，对应 RabbitProperties 配置类
+  rabbitmq:
+    host: 127.0.0.1 # RabbitMQ 服务的地址
+    port: 5672 # RabbitMQ 服务的端口
+    username: guest # RabbitMQ 服务的账号
+    password: guest # RabbitMQ 服务的密码
+    listener:
+      simple:
+        default-requeue-rejected: false  # 不重新入队失败消息
+
 ##########   其它配置   ##########
 #文件存储
 file-storage:
   default-type: aliyunOss
-  #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
-  serializer-prefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
   minio:
     endpoint: http://127.0.0.1:9000
-    bucket: hoxise-java
+    bucket: hoxise
     access-key: hoxise
-    access-secret: hoxise-java
+    access-secret: hoxise
+    serializer-prefix: http://localhost:9000
   aliyun-oss:
     region: cn-chengdu
     endpoint: oss-cn-chengdu.aliyuncs.com
     bucket: ${aliyun.oss.bucket}
     access-key: ${aliyun.oss.accessKey}
     access-secret: ${aliyun.oss.accessSecret}
+    #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
+    serializer-prefix: ${aliyun.oss.serializerPrefix}
 

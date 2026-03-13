@@ -4,10 +4,10 @@ import cn.hoxise.module.movie.api.BangumiDbActorApi;
 import cn.hoxise.module.movie.api.BangumiDbApi;
 import cn.hoxise.module.movie.api.BangumiDbCharacterApi;
 import cn.hoxise.module.movie.api.BangumiDbInfoboxApi;
-import cn.hoxise.module.movie.api.dto.BangumiDbActorDTO;
-import cn.hoxise.module.movie.api.dto.BangumiDbCharacterDTO;
-import cn.hoxise.module.movie.api.dto.BangumiDbDTO;
-import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbActorRespDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbCharacterRespDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbRespDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxRespDTO;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +52,7 @@ public class AiMovieVectorStoreServiceImpl implements AiMovieVectorStoreService 
             return;
         }
         log.info("开始推送向量数据...");
+
         //批次查询
         int batchSize = 10;
         long pageNum = bangumiDbApi.count().getCheckedData() / batchSize;
@@ -59,24 +60,24 @@ public class AiMovieVectorStoreServiceImpl implements AiMovieVectorStoreService 
 
         for (int i = 1; i <= 2; i++) {
             log.info("开始处理第{}页数据...", i);
-            List<BangumiDbDTO> list = bangumiDbApi.page(i, batchSize).getCheckedData().getList();
+            List<BangumiDbRespDTO> list = bangumiDbApi.page(i, batchSize).getCheckedData().getList();
             if (list.isEmpty()){
                 break;
             }
-            List<Long> catalogids = list.stream().map(BangumiDbDTO::getCatalogid).toList();
+            List<Long> catalogIds = list.stream().map(BangumiDbRespDTO::getCatalogId).toList();
             //信息框
-            List<BangumiDbInfoboxDTO> infoboxDOList = bangumiDbInfoboxApi.list(catalogids).getCheckedData();
+            List<BangumiDbInfoboxRespDTO> infoboxDOList = bangumiDbInfoboxApi.list(catalogIds).getCheckedData();
             //角色信息
-            List<BangumiDbCharacterDTO> characterDOList = bangumiDbCharacterApi.list(catalogids).getCheckedData();
+            List<BangumiDbCharacterRespDTO> characterDOList = bangumiDbCharacterApi.list(catalogIds).getCheckedData();
             //演员、CV信息
             List<Long> actorIds = characterDOList.stream().flatMap(chara -> chara.getActors().stream()).distinct().map(Long::valueOf).toList();
-            List<BangumiDbActorDTO> actorDOList = bangumiDbActorApi.list(actorIds).getCheckedData();
+            List<BangumiDbActorRespDTO> actorDOList = bangumiDbActorApi.list(actorIds).getCheckedData();
 
             List<Document> documents = new ArrayList<>();
             list.forEach(f->{
-                List<BangumiDbInfoboxDTO> infobox = infoboxDOList.stream().filter(info -> info.getBangumiId().equals(f.getBangumiId())).toList();
-                List<BangumiDbCharacterDTO> characters = characterDOList.stream().filter(character -> character.getCatalogid().equals(f.getCatalogid())).toList();
-                List<BangumiDbActorDTO> actors = actorDOList.stream().filter(actor -> characters.stream().anyMatch(character -> character.getActors().contains(actor.getActorId().toString()))).toList();
+                List<BangumiDbInfoboxRespDTO> infobox = infoboxDOList.stream().filter(info -> info.getBangumiId().equals(f.getBangumiId())).toList();
+                List<BangumiDbCharacterRespDTO> characters = characterDOList.stream().filter(character -> character.getCatalogId().equals(f.getCatalogId())).toList();
+                List<BangumiDbActorRespDTO> actors = actorDOList.stream().filter(actor -> characters.stream().anyMatch(character -> character.getActors().contains(actor.getActorId().toString()))).toList();
                 //构造单个向量数据
                 Document document = buildVectorStore(f, infobox, characters, actors);
                 documents.add(document);
@@ -98,14 +99,14 @@ public class AiMovieVectorStoreServiceImpl implements AiMovieVectorStoreService 
      * @author hoxise
      * @since 2026/01/14 14:53:31
      */
-    private Document buildVectorStore(BangumiDbDTO movieDb, List<BangumiDbInfoboxDTO> infobox, List<BangumiDbCharacterDTO> characters, List<BangumiDbActorDTO> actors) {
+    private Document buildVectorStore(BangumiDbRespDTO movieDb, List<BangumiDbInfoboxRespDTO> infobox, List<BangumiDbCharacterRespDTO> characters, List<BangumiDbActorRespDTO> actors) {
 
         //处理下防止报错
         movieDb.setTags(movieDb.getTags() == null ? new ArrayList<>() : movieDb.getTags());
         movieDb.setMetaTags(movieDb.getMetaTags() == null ? new ArrayList<>() : movieDb.getMetaTags());
 
-        String characterStr = characters.stream().map(BangumiDbCharacterDTO::getName).collect(Collectors.joining(","));
-        String actorStr = actors.stream().map(BangumiDbActorDTO::getName).collect(Collectors.joining(","));
+        String characterStr = characters.stream().map(BangumiDbCharacterRespDTO::getName).collect(Collectors.joining(","));
+        String actorStr = actors.stream().map(BangumiDbActorRespDTO::getName).collect(Collectors.joining(","));
         //向量文本
         HashMap<String,String> textMap = new HashMap<>();
         textMap.put("id", movieDb.getCatalogid().toString());
@@ -134,15 +135,7 @@ public class AiMovieVectorStoreServiceImpl implements AiMovieVectorStoreService 
                 """,textMap);
 
         //元数据
-        Map<String, Object> metaMap = Map.of("id", movieDb.getCatalogid()
-                                            , "name", movieDb.getMatchingName()
-                                            , "originName", movieDb.getOriginalName()
-                                            , "tags","{" + String.join(",", movieDb.getTags()) + "}"
-                                            , "metaTags","{" + String.join(",", movieDb.getMetaTags()) + "}"
-                                            , "type", movieDb.getPlatform()
-                                            , "characters", characterStr
-                                            , "actors",actorStr
-                                            , "releaseYear", movieDb.getReleaseDate()==null?1970.0:(double)movieDb.getReleaseDate().getYear()
+        Map<String, Object> metaMap = Map.of("userid"
         );
 
         return new Document(movieDb.getCatalogid().toString(),text,metaMap);

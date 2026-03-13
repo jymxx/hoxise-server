@@ -36,9 +36,9 @@ public class BangumiDbEpisodeDO implements Serializable {
     private Long episodeId;
 
     /**
-     * 目录id
+     * bangumiId
      */
-    private Long catalogid;
+    private Long bangumiId;
 
     /**
      * 播放日期

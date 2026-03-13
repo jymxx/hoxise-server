@@ -1,2 +1,2 @@
-cn.hoxise.common.openai.config.openai.OpenAiAutoConfig
-cn.hoxise.common.openai.config.HoxiseAiAutoConfiguration
+cn.hoxise.module.ai.config.openai.OpenAiAutoConfig
+cn.hoxise.module.ai.config.HoxiseAiAutoConfiguration

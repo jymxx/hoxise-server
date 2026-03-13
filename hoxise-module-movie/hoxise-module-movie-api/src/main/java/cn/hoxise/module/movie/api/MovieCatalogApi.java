@@ -1,7 +1,7 @@
 package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogDTO;
+import cn.hoxise.module.movie.api.dto.MovieSimpleCatalogRespDTO;
 import cn.hoxise.module.movie.enums.RpcConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +30,6 @@ public interface MovieCatalogApi {
     @Parameters({
             @Parameter(name = "userid", description = "用户id 为空时返回所有", example = "1", required = false),
     })
-    CommonResult<List<MovieSimpleCatalogDTO>> listSimpleCatalog(@RequestParam("userid") Long userid);
+    CommonResult<List<MovieSimpleCatalogRespDTO>> listSimpleCatalog(@RequestParam("userid") Long userid);
 
 }

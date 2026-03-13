@@ -23,6 +23,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!--运行时提供 需要使用里面的枚举类注解-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <scope>provided</scope>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

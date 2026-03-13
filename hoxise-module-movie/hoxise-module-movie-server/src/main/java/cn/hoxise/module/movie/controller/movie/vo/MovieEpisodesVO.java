@@ -30,7 +30,7 @@ public class MovieEpisodesVO {
     /**
      * 目录id
      */
-    private Long catalogid;
+    private Long catalogId;
 
     /**
      * 播放日期

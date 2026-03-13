@@ -1,9 +1,7 @@
 package cn.hoxise.module.ai.api;
 
-import cn.hoxise.common.openai.core.OpenAiApi;
-import cn.hoxise.module.ai.api.ChatApi;
+import cn.hoxise.module.ai.framework.core.OpenAiClient;
 import jakarta.annotation.Resource;
-import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatApiImpl implements ChatApi {
 
     @Resource(name = "deepSeekApiImpl")
-    private OpenAiApi openAiApi;
+    private OpenAiClient openAiClient;
 
     @Override
     public String chat(String systemText, String userText) {
-        return openAiApi.getChatClient().prompt()
+        return openAiClient.getChatClient().prompt()
                 .system(systemText)
                 .user(userText)
                 .call().content();

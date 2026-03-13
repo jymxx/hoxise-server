@@ -32,9 +32,9 @@ public class BangumiDbCharacterDO implements Serializable {
     private Long id;
 
     /**
-     * 目录
+     * bangumiId
      */
-    private Long catalogid;
+    private Long bangumiId;
 
     /**
      * Bangumi ID

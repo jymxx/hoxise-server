@@ -3,10 +3,12 @@ package cn.hoxise.module.movie.controller.movie;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
+import cn.hoxise.module.movie.controller.movie.dto.MovieScanUploadDTO;
+import cn.hoxise.module.movie.controller.movie.dto.MovieUpdateDbDTO;
 import cn.hoxise.module.movie.pojo.dto.BangumiSearchSubjectResponse;
-import cn.hoxise.module.movie.service.movie.MovieCatalogService;
-import cn.hoxise.module.movie.service.movie.bangumi.BangumiManageService;
-import cn.hoxise.module.system.enums.RoleEnum;
+import cn.hoxise.module.movie.service.MovieCatalogService;
+import cn.hoxise.module.movie.service.MovieManageService;
+import cn.hoxise.module.movie.service.bangumi.BangumiManageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -28,36 +30,52 @@ import java.util.List;
 @Validated
 public class MovieManageController {
 
+    @Resource private MovieManageService movieManageService;
+
     @Resource private MovieCatalogService movieCatalogService;
 
     @Resource private BangumiManageService bangumiManageService;
 
-    @Operation(summary = "扫描Bangumi")
+    @Operation(summary = "查询Bangumi")
     @GetMapping("/bangumi")
     public CommonResult<List<BangumiSearchSubjectResponse.Subject>> queryBangumi(String name) {
-        StpUtil.checkRole(RoleEnum.manager.getName());
+        StpUtil.checkLogin();
         return CommonResult.success(bangumiManageService.queryByNameFromBangumi(name));
     }
 
     @OperateLog
     @Operation(summary = "更新指定Bangumi信息")
     @PutMapping("/updateDb")
-    public CommonResult<Boolean> updateDb(Long catalogid, Long bangumiId) {
-        StpUtil.checkRole(RoleEnum.manager.getName());//管理员角色
-        bangumiManageService.updateBangumi(catalogid, bangumiId);
+    public CommonResult<Boolean> updateDb(MovieUpdateDbDTO dto) {
+        movieCatalogService.updateBangumi(dto);
         return CommonResult.ok();
     }
 
     @OperateLog
     @Operation(summary = "删除指定数据,逻辑删除")
-    @DeleteMapping("/deleteCatalog/{catalogid}")
-    public CommonResult<Boolean> delete(@PathVariable @NotNull Long catalogid) {
-        StpUtil.checkRole(RoleEnum.manager.getName());
-        movieCatalogService.removeAndCache(catalogid);
+    @DeleteMapping("/deleteCatalog/{catalogId}")
+    public CommonResult<Boolean> delete(@PathVariable @NotNull Long catalogId) {
+        movieCatalogService.removeAndCache(catalogId);
+        return CommonResult.ok();
+    }
+
+    @OperateLog
+    @Operation(summary = "扫描上传")
+    @PostMapping("/scanUpload")
+    public CommonResult<Boolean> scanUpload(MovieScanUploadDTO movieScanUploadDTO) {
+        StpUtil.checkLogin();
+        movieManageService.scanUpload(movieScanUploadDTO);
         return CommonResult.ok();
     }
 
 
-
+    @OperateLog
+    @Operation(summary = "自动匹配")
+    @PostMapping("/autoMatch")
+    public CommonResult<Boolean> autoMatch() {
+        long loginId = StpUtil.getLoginIdAsLong();
+        movieManageService.autoMatch(loginId);
+        return CommonResult.ok();
+    }
 
 }

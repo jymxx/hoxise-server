@@ -1,7 +1,7 @@
 package cn.hoxise.module.movie.api;
 
 import cn.hoxise.common.base.pojo.CommonResult;
-import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxDTO;
+import cn.hoxise.module.movie.api.dto.BangumiDbInfoboxRespDTO;
 import cn.hoxise.module.movie.enums.RpcConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +29,7 @@ public interface BangumiDbInfoboxApi {
     @Operation(summary = "获取信息框数据")
     @GetMapping(PREFIX + "/list")
     @Parameters({
-            @Parameter(name = "catalogids", description = "过滤目录id", example = "[1,2,3]", required = true)
+            @Parameter(name = "catalogIds", description = "过滤目录id", example = "[1,2,3]", required = true)
     })
-    CommonResult<List<BangumiDbInfoboxDTO>> list(@RequestParam("catalogids") Collection<Long> catalogids);
+    CommonResult<List<BangumiDbInfoboxRespDTO>> list(@RequestParam("catalogIds") Collection<Long> catalogIds);
 }

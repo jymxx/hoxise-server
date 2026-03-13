@@ -1,11 +1,13 @@
 package cn.hoxise.common.file.core.annotations;
 
-import cn.hoxise.common.file.utils.FileStorageUtil;
+import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * 绝对路径序列化
@@ -14,7 +16,10 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2026/01/14 06:42:47
  */
 @Slf4j
+@Component
 public class FilePathSerializer extends JsonSerializer<Object> {
+
+    @Resource private FileStorageClientFactory fileStorageStrategyFactory;
 
     @SneakyThrows
     @Override
@@ -30,7 +35,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
             return;
         }
         //直接访问的地址
-        String presignedUrl = FileStorageUtil.getAbsoluteUrl(objectName);
+        String presignedUrl = fileStorageStrategyFactory.getDefaultStorage().getPresignedUrl(objectName);
         gen.writeString(presignedUrl);
     }
 }
