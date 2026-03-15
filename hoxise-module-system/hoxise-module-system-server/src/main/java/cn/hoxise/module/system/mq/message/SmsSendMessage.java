@@ -3,8 +3,6 @@ package cn.hoxise.module.system.mq.message;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 短信发送消息
  *

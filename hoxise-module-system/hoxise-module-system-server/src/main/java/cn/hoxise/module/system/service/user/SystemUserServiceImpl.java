@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * SystemUserServiceImpl
@@ -58,7 +59,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .userName(phoneNumber)
                 .phoneNumber(phoneNumber)
                 .password(StrUtil.uuid())
-                .nickName(phoneNumber)
+                .nickName("用户_"+ UUID.randomUUID())
                 .roleIds(Collections.singletonList(RoleEnum.USER.getCode().toString()))//默认普通角色
                 .status(CommonStatusEnum.ENABLE.getStatus())
                 .build();

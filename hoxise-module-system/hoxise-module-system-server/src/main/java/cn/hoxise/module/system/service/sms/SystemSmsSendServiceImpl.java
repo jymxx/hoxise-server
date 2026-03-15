@@ -37,7 +37,7 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
         Assert.notBlank(mobile, "手机号码不能为空");
         rateLimit(mobile);
         //MQ发送短信
-        smsSendProducer.asyncSendSmsMessage(new SmsSendMessage(mobile));
+        smsSendProducer.sendSmsMessage(new SmsSendMessage(mobile));
     }
 
     @Override

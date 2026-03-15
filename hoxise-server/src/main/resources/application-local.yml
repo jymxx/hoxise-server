@@ -37,7 +37,12 @@ spring:
     password: guest # RabbitMQ 服务的密码
     listener:
       simple:
-        default-requeue-rejected: false  # 不重新入队失败消息
+        retry:
+          enabled: true          # 开启重试
+          max-attempts: 3        # 最大重试次数
+          initial-interval: 2000 # 第一次和第二次重试之间的延迟 (毫秒)
+          multiplier: 2.0        # 每次重试延迟的倍数
+          max-interval: 10000    # 最大重试间隔 (毫秒)
 
   # openai
   ai:
@@ -90,19 +95,20 @@ spring:
 #文件存储
 file-storage:
   default-type: aliyunOss
-  #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
-  serializer-prefix: ${aliyun.oss.serializerPrefix} # http://localhost:9000
   minio:
     endpoint: http://127.0.0.1:9000
-    bucket: hoxise-java
+    bucket: hoxise
     access-key: hoxise
-    access-secret: hoxise-java
+    access-secret: hoxise
+    serializer-prefix: http://localhost:9000
   aliyun-oss:
     region: cn-chengdu
     endpoint: oss-cn-chengdu.aliyuncs.com
     bucket: ${aliyun.oss.bucket}
     access-key: ${aliyun.oss.accessKey}
     access-secret: ${aliyun.oss.accessSecret}
+    #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
+    serializer-prefix: ${aliyun.oss.serializerPrefix}
 
 
 #短信

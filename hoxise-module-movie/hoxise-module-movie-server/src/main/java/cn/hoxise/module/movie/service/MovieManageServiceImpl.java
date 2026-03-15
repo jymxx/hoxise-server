@@ -5,6 +5,8 @@ import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.module.movie.controller.movie.dto.MovieScanUploadDTO;
 import cn.hoxise.module.movie.dal.entity.BangumiDbDO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
+import cn.hoxise.module.movie.mq.message.AutoMatchMessage;
+import cn.hoxise.module.movie.mq.producer.AutoMatchProducer;
 import cn.hoxise.module.movie.pojo.constants.RedisConstants;
 import cn.hoxise.module.movie.enums.movie.MovieStatusEnum;
 import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
@@ -13,16 +15,17 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
+import org.redisson.api.RRateLimiter;
+import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -40,9 +43,7 @@ public class MovieManageServiceImpl implements MovieManageService{
 
     @Resource private RedissonClient redissonClient;
 
-    @Resource
-    @Qualifier("autoMatchTaskExecutor")
-    private Executor taskExecutor;
+    @Resource private AutoMatchProducer autoMatchProducer;
 
     @Override
     @Transactional
@@ -54,7 +55,7 @@ public class MovieManageServiceImpl implements MovieManageService{
         // 1. 先查询数据库中当前用户在该目录下的所有数据
         List<MovieCatalogDO> dbMovieCatalogs = movieCatalogService.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
                 .eq(MovieCatalogDO::getUserid, loginId)
-                .eq(MovieCatalogDO::getDirectory, directoryName));
+                .eq(MovieCatalogDO::getDirectory, directoryName.getName()));
 
         // 2. 将数据库数据转换为 Map 便于匹配 (key: name, value: id)
         Map<String, Long> dbCatalogMap = dbMovieCatalogs.stream().collect(Collectors.toMap(
@@ -96,30 +97,18 @@ public class MovieManageServiceImpl implements MovieManageService{
     }
 
     @Override
-    public void autoMatch(Long loginId){
-        // 获取分布式锁，锁的 key 为用户 ID
-        String lockKey = RedisConstants.MOVIE_AUTO_MATCH_LOCK_KEY + "::" + loginId;
-        RLock lock = redissonClient.getLock(lockKey);
-
-        try {
-            // 尝试获取锁，最多等待 0 秒，锁持有时间 10 分钟
-            // 等自动释放
-            boolean isLocked = lock.tryLock(0, 10, TimeUnit.MINUTES);
-            if (!isLocked) {
-                log.warn("用户 {} 正在执行其他自动匹配任务，本次请求被拒绝", loginId);
-                throw new ServiceException("正在执行其他匹配任务,请10分钟后重试");
-            }
-            log.info("用户 {} 获得自动匹配锁，开始执行匹配任务", loginId);
-
-            //线程池异步执行
-            taskExecutor.execute(() -> {
-                matchDb(loginId);
-            });
-
-        } catch (InterruptedException e) {
-            // 恢复中断状态
-            Thread.currentThread().interrupt();
-            log.error("用户 {} 自动匹配任务被中断", loginId, e);
+    public void autoMatch(){
+        long loginId = StpUtil.getLoginIdAsLong();
+        // 获取分布式锁
+        String rateLimitKey = RedisConstants.MOVIE_AUTO_MATCH_RATE_LIMIT_KEY + "::" + loginId;
+        RRateLimiter lock = redissonClient.getRateLimiter(rateLimitKey);
+        //每24小时三次
+        lock.trySetRate(RateType.OVERALL, 3, Duration.ofHours(24));
+        if (lock.tryAcquire()){
+            // 发送 MQ 消息，异步执行自动匹配
+            autoMatchProducer.sendAutoMatchMessage(new AutoMatchMessage(loginId));
+        }else{
+            throw new ServiceException("今日自动匹配请求上限.");
         }
     }
 
@@ -130,7 +119,8 @@ public class MovieManageServiceImpl implements MovieManageService{
      * @author hoxise
      * @since 2026/03/06 23:13:54
      */
-    private void matchDb(Long loginId){
+    @Override
+    public void matchDb(Long loginId){
         // 1. 查询当前用户的所有 catalog 数据（排除已经匹配的）
         List<MovieCatalogDO> catalogs = movieCatalogService.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
                 .eq(MovieCatalogDO::getUserid, loginId)

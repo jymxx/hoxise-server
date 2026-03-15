@@ -58,6 +58,12 @@
             <artifactId>hoxise-spring-boot-starter-security</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--mq-->
+        <dependency>
+            <groupId>cn.hoxise</groupId>
+            <artifactId>hoxise-spring-boot-starter-mq</artifactId>
+            <version>${revision}</version>
+        </dependency>
 
         <!-- Nacos 服务发现 -->
         <dependency>

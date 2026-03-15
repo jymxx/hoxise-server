@@ -45,13 +45,13 @@ public class MovieCatalogController {
 
     @Operation(summary = "获取影视库数据")
     @GetMapping("/library")
-    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(MovieSimpleQueryDTO queryDTO) {
+    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieSimpleQueryDTO queryDTO) {
         return CommonResult.success(movieCatalogService.libraryDbCache(queryDTO));
     }
 
     @Operation(summary = "获取影视目录列表")
     @GetMapping("/pageSimple")
-    public CommonResult<PageResult<MovieSimpleVO>> pageSimple(MovieSimpleQueryDTO queryDTO){
+    public CommonResult<PageResult<MovieSimpleVO>> pageSimple(@Validated MovieSimpleQueryDTO queryDTO){
         return CommonResult.success(movieCatalogService.listPageContainDb(queryDTO));
     }
 
@@ -60,5 +60,6 @@ public class MovieCatalogController {
     public CommonResult<MovieStatVO> movieStat(@NotNull Long userid){
         return CommonResult.success(movieCatalogService.statCount(userid));
     }
+
 
 }

@@ -2,7 +2,6 @@ package cn.hoxise.module.system.service.sms;
 
 import cn.hoxise.module.system.dal.entity.SystemSmsLogDO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import cn.hoxise.module.system.dal.entity.SystemSmsLogDO;
 import cn.hoxise.module.system.dal.mapper.SystemSmsLogMapper;
 import org.springframework.stereotype.Service;
 

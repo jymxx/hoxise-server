@@ -6,10 +6,8 @@ import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import cn.hoxise.module.system.service.user.SystemRoleService;
 import cn.hoxise.module.system.service.user.SystemUserService;
 import jakarta.annotation.Resource;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 /**

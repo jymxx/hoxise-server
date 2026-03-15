@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@JacksonAnnotationsInside
+@JacksonAnnotationsInside //标记这是 Jackson 注解容器
 @JsonSerialize(using = FilePathSerializer.class)
 public @interface FilePathFormat {
 

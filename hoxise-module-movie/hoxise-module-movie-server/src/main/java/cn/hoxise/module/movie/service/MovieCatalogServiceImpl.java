@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogMapper;
 import jakarta.annotation.Resource;
+import jodd.util.StringUtil;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,8 +49,8 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
         Page<MovieCatalogDO> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
         return baseMapper.selectPage(page,Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, queryDTO.getUserId())
-                .eq(queryDTO.directory != null,MovieCatalogDO::getDirectory, queryDTO.getDirectory())
+                .eq(MovieCatalogDO::getUserid, queryDTO.getUserid())
+                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory,queryDTO.getDirectory())
                 .isNull(queryDTO.getNotMatched() !=null && queryDTO.getNotMatched(),MovieCatalogDO::getBangumiId)
                 .like(StrUtil.isNotBlank(queryDTO.getKeyword()),MovieCatalogDO::getName, queryDTO.getKeyword())
         );
@@ -69,7 +70,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     @Override
     @Cacheable(
             cacheNames = RedisConstants.MOVIE_LIBRARY_KEY,
-            key = "{#queryDTO.userId, #queryDTO.directory, #queryDTO.pageNum }"
+            key = "{#queryDTO.userid, #queryDTO.directory, #queryDTO.pageNum }"
     )
     public PageResult<MovieSimpleVO> libraryDbCache(MovieSimpleQueryDTO queryDTO) {
         int batchSize = 50;//一次拉五十条下去
@@ -83,13 +84,11 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         MovieStatVO result = new MovieStatVO();
         result.setTotalCount(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserid, userid)));
         result.setTotalAnime(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.anime)));
+                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.anime.getName())));
         result.setTotalAnimeMovie(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.animeMovie)));
-        result.setTotalReal(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory, MovieTypeEnum.real)));
+                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.animeMovie.getName())));
         result.setTotalOther(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).notIn(MovieCatalogDO::getDirectory,List.of(MovieTypeEnum.anime, MovieTypeEnum.animeMovie, MovieTypeEnum.real))));
+                .eq(MovieCatalogDO::getUserid, userid).notIn(MovieCatalogDO::getDirectory,List.of(MovieTypeEnum.anime.getName(), MovieTypeEnum.animeMovie.getName()))));
         return result;
     }
 
@@ -186,10 +185,10 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
 
     @Override
     public List<Long> getBangumiIdByCatalogId(Collection<Long> catalogIds){
-        return this.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .select(MovieCatalogDO::getBangumiId)
-                .in(catalogIds != null && !catalogIds.isEmpty(), MovieCatalogDO::getId, catalogIds))
-                .stream().map(MovieCatalogDO::getBangumiId).toList();
+        return this.baseMapper.selectObjs(Wrappers.lambdaQuery(MovieCatalogDO.class)
+                        .select(MovieCatalogDO::getBangumiId)
+                        .in(catalogIds != null && !catalogIds.isEmpty(), MovieCatalogDO::getId, catalogIds))
+                .stream().map(Long.class::cast).toList();
     }
 
     /**
@@ -202,8 +201,8 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     private Long checkCatalogPermission(Long catalogId){
         long loginIdAsLong = StpUtil.getLoginIdAsLong();
         MovieCatalogDO catalogDO = this.getById(catalogId);
-        //只能操作自己的数据 超级账号不受限制
-        if (!catalogDO.getUserid().equals(loginIdAsLong) && !(0L == loginIdAsLong)){
+        //只能操作自己的数据
+        if (!catalogDO.getUserid().equals(loginIdAsLong)){
             throw new NotPermissionException("不能操作别人的数据");
         }
         return catalogDO.getUserid();

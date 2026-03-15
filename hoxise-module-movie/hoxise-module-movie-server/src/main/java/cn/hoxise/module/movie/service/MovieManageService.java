@@ -27,7 +27,16 @@ public interface MovieManageService {
      * @author hoxise
      * @since 2026/03/06 21:49:59
      */
-    void autoMatch(Long loginId);
+    void autoMatch();
+
+    /**
+     * 简单匹配数据库 DB
+     *
+     * @param loginId 登录用户
+     * @author hoxise
+     * @since 2026/03/06 23:13:54
+     */
+    void matchDb(Long loginId);
 
 
 //    /**

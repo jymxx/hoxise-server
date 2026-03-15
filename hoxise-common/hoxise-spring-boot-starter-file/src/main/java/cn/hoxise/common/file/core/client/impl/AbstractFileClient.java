@@ -27,8 +27,6 @@ public abstract class AbstractFileClient implements FileStorageClient {
      */
     protected FileStorageProperties.ClientProperties properties;
 
-    protected String serializerPrefix;
-
     public AbstractFileClient(FileStorageProperties.ClientProperties clientProperties) {
         if (BeanUtil.hasNullField(clientProperties)){
             log.error("-----！！！请检查文件存储配置.");
@@ -64,7 +62,7 @@ public abstract class AbstractFileClient implements FileStorageClient {
 
     @Override
     public String getAbsoluteUrl(String objectName){
-        return serializerPrefix + "/" + objectName;
+        return properties.getSerializerPrefix() + "/" + objectName;
     }
 
 }

@@ -1,4 +1,4 @@
-package cn.hoxise.module.system.framework;
+package cn.hoxise.module.system.mq.config;
 
 import cn.hoxise.module.system.mq.message.SmsSendMessage;
 import org.springframework.amqp.core.Binding;
@@ -48,7 +48,7 @@ public class SystemRabbitMqConfig {
 
         // 创建 Binding
         @Bean
-        public Binding demo01Binding() {
+        public Binding smsSendBinding() {
             return BindingBuilder.bind(smsSendQueue()).to(smsSendExchange()).with(SmsSendMessage.ROUTING_KEY);
         }
 

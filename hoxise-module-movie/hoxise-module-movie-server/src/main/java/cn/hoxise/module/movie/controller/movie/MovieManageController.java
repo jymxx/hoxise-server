@@ -46,7 +46,7 @@ public class MovieManageController {
     @OperateLog
     @Operation(summary = "更新指定Bangumi信息")
     @PutMapping("/updateDb")
-    public CommonResult<Boolean> updateDb(MovieUpdateDbDTO dto) {
+    public CommonResult<Boolean> updateDb(@Validated MovieUpdateDbDTO dto) {
         movieCatalogService.updateBangumi(dto);
         return CommonResult.ok();
     }
@@ -62,7 +62,7 @@ public class MovieManageController {
     @OperateLog
     @Operation(summary = "扫描上传")
     @PostMapping("/scanUpload")
-    public CommonResult<Boolean> scanUpload(MovieScanUploadDTO movieScanUploadDTO) {
+    public CommonResult<Boolean> scanUpload(@Validated MovieScanUploadDTO movieScanUploadDTO) {
         StpUtil.checkLogin();
         movieManageService.scanUpload(movieScanUploadDTO);
         return CommonResult.ok();
@@ -70,12 +70,12 @@ public class MovieManageController {
 
 
     @OperateLog
-    @Operation(summary = "自动匹配")
+    @Operation(summary = "自动匹配自己的数据")
     @PostMapping("/autoMatch")
     public CommonResult<Boolean> autoMatch() {
-        long loginId = StpUtil.getLoginIdAsLong();
-        movieManageService.autoMatch(loginId);
+        movieManageService.autoMatch();
         return CommonResult.ok();
     }
+
 
 }

@@ -17,15 +17,13 @@ public enum MovieTypeEnum {
 
     other("other", "其它"),
     anime("anime", "动漫"),
-    animeMovie("animeMovie", "动漫电影"),
-    real("real", "三次元");
+    animeMovie("animeMovie", "动漫电影");
 
 
     @EnumValue
     private final String name;
     @JsonValue
-    private final String directory;
-
+    private final String desc;
 
     public static MovieTypeEnum getByName(String name) {
         for (MovieTypeEnum value : values()) {
@@ -33,6 +31,6 @@ public enum MovieTypeEnum {
                 return value;
             }
         }
-        return other;
+        return null;
     }
 }

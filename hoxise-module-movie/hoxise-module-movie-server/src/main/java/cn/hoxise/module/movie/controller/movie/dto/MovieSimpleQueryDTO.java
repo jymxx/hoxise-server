@@ -15,15 +15,15 @@ import lombok.Data;
 @Data
 public class MovieSimpleQueryDTO extends PageParam {
 
-    @Schema(description = "目录类型", example = "动漫/动漫电影")
-    public MovieTypeEnum directory;
+    @Schema(description = "目录类型", example = "anime/animeMovie")
+    private String directory;
 
     @Schema(description = "搜索名称关键字", example = "Clannad")
-    public String keyword;
+    private String keyword;
 
     @Schema(description = "过滤用户ID", example = "0")
     @NotNull(message = "参数不能为空")
-    private Long userId;
+    private Long userid;
 
     @Schema(description = "是否过滤未匹配", example = "true")
     private Boolean notMatched;

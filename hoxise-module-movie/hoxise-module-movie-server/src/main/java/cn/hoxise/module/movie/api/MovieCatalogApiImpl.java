@@ -31,12 +31,4 @@ public class MovieCatalogApiImpl implements MovieCatalogApi {
         return CommonResult.success(BeanUtil.copyToList(list, MovieSimpleCatalogRespDTO.class));
     }
 
-    @Override
-    public CommonResult<List<MovieSimpleCatalogRespDTO>> listCatalog(Long userid) {
-        List<MovieCatalogDO> list = movieCatalogService.lambdaQuery()
-                .eq(MovieCatalogDO::getUserid, userid)
-                .list();
-        return CommonResult.success(BeanUtil.copyToList(list, MovieSimpleCatalogRespDTO.class));
-    }
-
 }

@@ -1,13 +1,14 @@
 package cn.hoxise.common.file.core.annotations;
 
 import cn.hoxise.common.file.core.client.FileStorageClientFactory;
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonComponent;
 
 /**
  * 绝对路径序列化
@@ -16,26 +17,29 @@ import org.springframework.stereotype.Component;
  * @since 2026/01/14 06:42:47
  */
 @Slf4j
-@Component
+@JsonComponent // 将序列化类注册到Jackson中
 public class FilePathSerializer extends JsonSerializer<Object> {
 
-    @Resource private FileStorageClientFactory fileStorageStrategyFactory;
+    private static FileStorageClientFactory factory;
+    @Autowired
+    public void setFactory(FileStorageClientFactory factory) {
+        FilePathSerializer.factory = factory;
+    }
 
     @SneakyThrows
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
-        String objectName = val == null ? null:String.valueOf(val);
-        if (objectName == null){
-            gen.writeString("");
+        String objectName = val == null ? null : String.valueOf(val);
+        if (StrUtil.isBlank(objectName) || objectName.startsWith("http")) {
+            gen.writeObject(val);
             return;
         }
-        //不匹配http开头的
-        if (objectName.startsWith("http")){
-            gen.writeString(objectName);
-            return;
+        if (factory == null){
+            log.warn("序列化警告--factory为空");
+            gen.writeObject(val);
         }
-        //直接访问的地址
-        String presignedUrl = fileStorageStrategyFactory.getDefaultStorage().getPresignedUrl(objectName);
+        // 直接访问的地址 配置了公共桶
+        String presignedUrl = factory.getDefaultStorage().getAbsoluteUrl(objectName);
         gen.writeString(presignedUrl);
     }
 }

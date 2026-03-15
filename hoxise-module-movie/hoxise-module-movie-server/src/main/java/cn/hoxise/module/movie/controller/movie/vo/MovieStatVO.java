@@ -24,9 +24,6 @@ public class MovieStatVO {
     //动漫电影
     private Long totalAnimeMovie;
 
-    //日剧
-    private Long totalReal;
-
     //其它
     private Long totalOther;
 }

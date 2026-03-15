@@ -31,7 +31,7 @@ public class SmsSendConsumer {
             String code = body.getModel().getRequestId();
             systemSmsLogService.saveSendLog(message.getMobile(),code,"验证码(阿里云)");
         }else{
-            log.error("短信发送失败:"+body.getMessage());
+            log.error("短信发送失败:{}", body.getMessage());
         }
     }
 }
