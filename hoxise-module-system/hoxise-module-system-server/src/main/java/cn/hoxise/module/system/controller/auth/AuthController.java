@@ -1,7 +1,9 @@
 package cn.hoxise.module.system.controller.auth;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
+import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hoxise.module.system.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.module.system.controller.auth.vo.LoginResultVO;
 import cn.hoxise.module.system.service.auth.AuthService;
@@ -10,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,22 +35,20 @@ public class AuthController {
 //        return CommonResult.success(authService.loginValidate(authLoginDTO));
 //    }
 
+    @OperateLog(enable = false)
     @Operation(summary = "退出登录")
-    @RequestMapping("/logout")
+    @PostMapping("/logout")
     public CommonResult<Boolean> logout() {
         authService.logout();
         return CommonResult.success(true);
     }
 
+    @OperateLog(enable = false)
     @Operation(summary = "短信登录")
     @PostMapping("/loginSms")
-    public CommonResult<LoginResultVO> loginSms(@Validated AuthLoginSmsDTO authLoginSmsDTO) {
+    @SaIgnore
+    public CommonResult<LoginResultVO> loginSms(@Validated @RequestBody AuthLoginSmsDTO authLoginSmsDTO) {
         return CommonResult.success(authService.loginSms(authLoginSmsDTO));
     }
 
-    @Operation(summary = "验证是否登录")
-    @RequestMapping("/isLogin")
-    public CommonResult<Boolean> isLogin() {
-        return CommonResult.success(StpUtil.isLogin());
-    }
 }

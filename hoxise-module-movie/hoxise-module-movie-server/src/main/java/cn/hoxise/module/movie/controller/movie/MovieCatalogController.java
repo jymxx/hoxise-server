@@ -1,19 +1,19 @@
 package cn.hoxise.module.movie.controller.movie;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.pojo.PageResult;
 import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieStatVO;
 import cn.hoxise.module.movie.service.MovieCatalogService;
+import cn.hoxise.module.movie.service.MovieDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,34 +32,42 @@ public class MovieCatalogController {
     @Resource private MovieCatalogService movieCatalogService;
 
     @Operation(summary = "随机查询数据")
-    @GetMapping("/randomQuery")
-    public CommonResult<List<MovieSimpleVO>> randomQuery(Integer limit,@NotNull Long userid){
+    @GetMapping("/{userid}/randomQuery")
+    @SaIgnore
+    public CommonResult<List<MovieSimpleVO>> randomQuery(Integer limit,@NotNull @PathVariable Long userid){
         return CommonResult.success(movieCatalogService.randomQuery(limit,userid));
     }
 
     @Operation(summary = "获取最近更新的数据")
-    @GetMapping("/lastUpdate")
-    public CommonResult<List<MovieSimpleVO>> lastUpdate(@NotNull Long userid){
+    @GetMapping("/{userid}/lastUpdate")
+    @SaIgnore
+    public CommonResult<List<MovieSimpleVO>> lastUpdate(@NotNull @PathVariable Long userid){
         return CommonResult.success(movieCatalogService.lastUpdate(userid));
     }
 
     @Operation(summary = "获取影视库数据")
-    @GetMapping("/library")
-    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieSimpleQueryDTO queryDTO) {
+    @GetMapping("/{userid}/library")
+    @SaIgnore
+    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieSimpleQueryDTO queryDTO, @NotNull @PathVariable Long userid) {
+        queryDTO.setUserid(userid);
         return CommonResult.success(movieCatalogService.libraryDbCache(queryDTO));
     }
 
     @Operation(summary = "获取影视目录列表")
-    @GetMapping("/pageSimple")
-    public CommonResult<PageResult<MovieSimpleVO>> pageSimple(@Validated MovieSimpleQueryDTO queryDTO){
+    @GetMapping("/{userid}/pageSimple")
+    @SaIgnore
+    public CommonResult<PageResult<MovieSimpleVO>> pageSimple(@Validated MovieSimpleQueryDTO queryDTO,@NotNull @PathVariable Long userid){
+        queryDTO.setUserid(userid);
         return CommonResult.success(movieCatalogService.listPageContainDb(queryDTO));
     }
 
     @Operation(summary = "获取影视统计数据")
-    @GetMapping("/movieStat")
-    public CommonResult<MovieStatVO> movieStat(@NotNull Long userid){
+    @GetMapping("/{userid}/movieStat")
+    @SaIgnore
+    public CommonResult<MovieStatVO> movieStat(@NotNull @PathVariable Long userid){
         return CommonResult.success(movieCatalogService.statCount(userid));
     }
+
 
 
 }

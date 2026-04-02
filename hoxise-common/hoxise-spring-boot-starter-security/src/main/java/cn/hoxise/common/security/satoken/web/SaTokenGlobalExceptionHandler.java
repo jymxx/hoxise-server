@@ -20,7 +20,7 @@ import static cn.hoxise.common.base.enums.ResultCodeEnum.UNAUTHORIZED;
 @Slf4j
 @RestControllerAdvice
 @AllArgsConstructor
-public class GlobalExceptionHandler {
+public class SaTokenGlobalExceptionHandler {
 
     /**
      * 处理 satoken 框架产生的未登录异常
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NotLoginException.class)
     public CommonResult<?> notLoginExceptionHandler(NotLoginException ex) {
         log.warn("[未登录]", ex);
-        return CommonResult.error(UNAUTHORIZED.getCode(),ex.getMessage());
+        return CommonResult.error(UNAUTHORIZED);
     }
 
     /**
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = SaTokenException.class)
     public CommonResult<?> saTokenExceptionHandler(SaTokenException ex) {
-        log.warn("[satoken异常]", ex);
+        log.warn("[sa-token异常]", ex);
         return CommonResult.error(FORBIDDEN);
     }
 }

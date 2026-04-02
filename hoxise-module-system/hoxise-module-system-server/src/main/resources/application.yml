@@ -1,9 +1,13 @@
+server:
+  servlet:
+    context-path: /hoxise
+
 spring:
   application:
-    name: hoxise-system
+    name: hoxise-server
 
   profiles:
-    active: local
+    include: local
 
   main:
     allow-circular-references: true #允许循环引用
@@ -19,6 +23,11 @@ spring:
     redis:
       time-to-live: 1h #缓存时间
 
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false  #false=字符串，true=时间戳
 
 #springdoc-openapi接口文档配置
 springdoc:
@@ -50,7 +59,7 @@ sa-token:
   # token 名称（同时也是 cookie 名称）
   token-name: Authorization
   # token 有效期（单位：秒） 默认30天(2592000)，-1 代表永久有效
-  timeout: 259200
+  timeout: 2592000
   # token 最低活跃频率（单位：秒），如果 token 超过此时间没有访问系统就会被冻结，默认-1 代表不限制，永不冻结
   active-timeout: -1
   # 是否允许同一账号多地同时登录 （为 true 时允许一起登录, 为 false 时新登录挤掉旧登录）
@@ -61,4 +70,3 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
-

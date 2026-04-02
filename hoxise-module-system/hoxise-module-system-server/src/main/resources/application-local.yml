@@ -3,6 +3,7 @@ server:
   port: 18001
 
 ##########   数据库   ##########
+
 spring:
   cloud:
     nacos:

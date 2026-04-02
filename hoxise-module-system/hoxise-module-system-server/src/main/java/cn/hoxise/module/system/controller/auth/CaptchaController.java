@@ -1,6 +1,8 @@
 package cn.hoxise.module.system.controller.auth;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.utils.servlet.ServletUtil;
+import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hutool.core.util.StrUtil;
 import com.xingyuv.captcha.model.common.ResponseModel;
 import com.xingyuv.captcha.model.vo.CaptchaVO;
@@ -28,16 +30,20 @@ public class CaptchaController {
     @Resource
     private CaptchaService captchaService;
 
-    @PostMapping({"/get"})
+    @OperateLog(enable = false)
     @Operation(summary = "获得验证码")
+    @PostMapping({"/get"})
+    @SaIgnore
     public ResponseModel get(@RequestBody CaptchaVO data, HttpServletRequest request) {
         assert request.getRemoteHost() != null;
         data.setBrowserInfo(getRemoteId(request));
         return captchaService.get(data);
     }
 
-    @PostMapping("/check")
+    @OperateLog(enable = false)
     @Operation(summary = "校验验证码")
+    @PostMapping("/check")
+    @SaIgnore
     public ResponseModel check(@RequestBody CaptchaVO data, HttpServletRequest request) {
         data.setBrowserInfo(getRemoteId(request));
         return captchaService.check(data);

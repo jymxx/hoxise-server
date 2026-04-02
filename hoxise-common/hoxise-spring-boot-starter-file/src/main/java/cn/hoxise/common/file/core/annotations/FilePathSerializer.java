@@ -30,6 +30,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
         String objectName = val == null ? null : String.valueOf(val);
+        // 如果是http开头的，直接返回
         if (StrUtil.isBlank(objectName) || objectName.startsWith("http")) {
             gen.writeObject(val);
             return;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author hoxise
  * @since 2026/01/14 06:11:24
  */
-@FeignClient(name = RpcConstants.NAME)
+@FeignClient(name = RpcConstants.NAME, contextId = "DictApi")
 @Tag(name = "RPC 字典接口")
 public interface DictApi {
 

@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * BangumiUtil
@@ -137,7 +138,7 @@ public class BangumiUtil {
             return "";
         }
         //截取后缀
-        String filename = subjectName +"_Bangumi_Img.jpg";
+        String filename = UUID.randomUUID() +"_Bangumi_Img.jpg";
         FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
         return fileStorageDTO.getObjectName();
     }

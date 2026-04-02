@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @author hoxise
  * @since 2026/01/14 06:11:36
  */
-@FeignClient(name = RpcConstants.NAME)
+@FeignClient(name = RpcConstants.NAME, contextId = "OperateLogApi")
 @Tag(name = "RPC 操作日志接口")
 public interface OperateLogApi{
 

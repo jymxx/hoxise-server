@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class MovieRabbitMqConfig {
 
     @Bean
-    public MessageConverter messageConverter() {
+    public MessageConverter movieMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 

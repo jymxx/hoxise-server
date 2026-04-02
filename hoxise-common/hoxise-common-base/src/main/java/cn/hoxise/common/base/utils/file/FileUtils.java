@@ -59,4 +59,15 @@ public class FileUtils {
             throw new RuntimeException("下载文件异常"+e.getMessage());
         }
     }
+
+    /**
+     * 获取文件扩展名（包含点）
+     */
+    public static String getExtension(String filename) {
+        if (filename == null || !filename.contains(".")) {
+            return "";
+        }
+        return filename.substring(filename.lastIndexOf("."));
+    }
+
 }

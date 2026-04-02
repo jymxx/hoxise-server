@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.controller.movie;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
@@ -62,8 +63,8 @@ public class MovieManageController {
     @OperateLog
     @Operation(summary = "扫描上传")
     @PostMapping("/scanUpload")
+    @SaCheckLogin
     public CommonResult<Boolean> scanUpload(@Validated MovieScanUploadDTO movieScanUploadDTO) {
-        StpUtil.checkLogin();
         movieManageService.scanUpload(movieScanUploadDTO);
         return CommonResult.ok();
     }

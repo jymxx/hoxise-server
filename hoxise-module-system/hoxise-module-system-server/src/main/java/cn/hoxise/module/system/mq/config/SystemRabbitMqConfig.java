@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 public class SystemRabbitMqConfig {
 
     @Bean
-    public MessageConverter messageConverter() {
+    public MessageConverter systemMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 

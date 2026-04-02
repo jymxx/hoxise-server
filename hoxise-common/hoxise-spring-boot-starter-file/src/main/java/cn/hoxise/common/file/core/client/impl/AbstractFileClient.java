@@ -1,17 +1,21 @@
 package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.utils.date.DateUtil;
+import cn.hoxise.common.base.utils.file.FileUtils;
 import cn.hoxise.common.file.core.client.FileStorageClient;
 import cn.hoxise.common.file.core.config.FileStorageProperties;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 抽象类 提供模版方法简化实现类代码
@@ -27,6 +31,8 @@ public abstract class AbstractFileClient implements FileStorageClient {
      */
     protected FileStorageProperties.ClientProperties properties;
 
+    private static final String DEFAULT_FOLDER_NAME = "default";
+
     public AbstractFileClient(FileStorageProperties.ClientProperties clientProperties) {
         if (BeanUtil.hasNullField(clientProperties)){
             log.error("-----！！！请检查文件存储配置.");
@@ -40,20 +46,22 @@ public abstract class AbstractFileClient implements FileStorageClient {
 
     @Override
     public FileStorageDTO uploadFile(MultipartFile file) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
+        String folderName = DEFAULT_FOLDER_NAME + "/" + LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
         return uploadFile(file,folderName);
     }
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String fileName) {
-        String folderName = LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
+        String folderName = DEFAULT_FOLDER_NAME + "/" +LocalDateTime.now().format(DateUtil.DATE_FORMATTER);
         return uploadFile(inputStream,folderName,fileName);
     }
 
     @Override
     public FileStorageDTO uploadFile(MultipartFile file, String folderName) {
         try (InputStream inputStream = file.getInputStream()) {
-            return uploadFile(inputStream,folderName, Objects.requireNonNull(file.getOriginalFilename()));
+            String extension = FileUtils.getExtension(file.getOriginalFilename());
+            String newFileName = UUID.randomUUID() + extension;
+            return uploadFile(inputStream,folderName, newFileName);
         } catch (IOException e) {
             log.error("Oss文件处理流异常, fileName: {},{}", file.getOriginalFilename(),e.toString());
             throw new RuntimeException(e);

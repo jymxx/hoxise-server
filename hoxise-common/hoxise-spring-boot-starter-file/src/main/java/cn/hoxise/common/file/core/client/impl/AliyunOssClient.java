@@ -62,8 +62,7 @@ public class AliyunOssClient extends AbstractFileClient {
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
-        String objectName = folderName + "/" + UUID.randomUUID() + "_" + fileName;
-
+        String objectName = folderName + "/" + fileName;
         try {
             PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), objectName, inputStream);
             ossClient.putObject(putObjectRequest);

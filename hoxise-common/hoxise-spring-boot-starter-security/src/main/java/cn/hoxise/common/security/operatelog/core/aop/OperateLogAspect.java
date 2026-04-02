@@ -59,25 +59,25 @@ public class OperateLogAspect {
 
     @Resource private OperateLogBaseService operateLogBaseService;
 
-//    @Around("@annotation(operation)")
-//    public Object around(ProceedingJoinPoint joinPoint, Operation operation) throws Throwable {
-//        // 可能也添加了 @ApiOperation 注解
-//        OperateLog operateLog = getMethodAnnotation(joinPoint, OperateLog.class);
-//        return around0(joinPoint, operateLog, operation);
-//    }
-//
-//    @Around("!@annotation(io.swagger.v3.oas.annotations.Operation) && @annotation(operateLog)")
-//    // 兼容处理，只添加 @OperateLog 注解的情况
-//    public Object around(ProceedingJoinPoint joinPoint,OperateLog operateLog) throws Throwable {
-//        return around0(joinPoint, operateLog, null);
-//    }
-
-    /** 目前只记录显示注解的操作日志 */
-    @Around("@annotation(operateLog)")
-    public Object around(ProceedingJoinPoint joinPoint, OperateLog operateLog) throws Throwable {
-        Operation operation = getMethodAnnotation(joinPoint, Operation.class);
+    @Around("@annotation(operation)")
+    public Object around(ProceedingJoinPoint joinPoint, Operation operation) throws Throwable {
+        // 可能也添加了 @ApiOperation 注解
+        OperateLog operateLog = getMethodAnnotation(joinPoint, OperateLog.class);
         return around0(joinPoint, operateLog, operation);
     }
+
+    @Around("!@annotation(io.swagger.v3.oas.annotations.Operation) && @annotation(operateLog)")
+    // 兼容处理，只添加 @OperateLog 注解的情况
+    public Object around(ProceedingJoinPoint joinPoint,OperateLog operateLog) throws Throwable {
+        return around0(joinPoint, operateLog, null);
+    }
+
+//    /** 目前只记录显示注解的操作日志 */
+//    @Around("@annotation(operateLog)")
+//    public Object around(ProceedingJoinPoint joinPoint, OperateLog operateLog) throws Throwable {
+//        Operation operation = getMethodAnnotation(joinPoint, Operation.class);
+//        return around0(joinPoint, operateLog, operation);
+//    }
 
     private Object around0(ProceedingJoinPoint joinPoint,
                            OperateLog operateLog,
@@ -299,7 +299,6 @@ public class OperateLogAspect {
     }
 
     private static String obtainMethodArgs(ProceedingJoinPoint joinPoint) {
-        // TODO 提升：参数脱敏和忽略
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String[] argNames = methodSignature.getParameterNames();
         Object[] argValues = joinPoint.getArgs();
@@ -315,7 +314,6 @@ public class OperateLogAspect {
     }
 
     private static String obtainResultData(Object result) {
-        // TODO 提升：结果脱敏和忽略
         if (result instanceof CommonResult<?>) {
             result = ((CommonResult<?>) result).getData();
         }

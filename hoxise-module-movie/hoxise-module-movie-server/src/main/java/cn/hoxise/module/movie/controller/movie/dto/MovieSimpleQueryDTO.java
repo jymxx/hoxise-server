@@ -21,10 +21,9 @@ public class MovieSimpleQueryDTO extends PageParam {
     @Schema(description = "搜索名称关键字", example = "Clannad")
     private String keyword;
 
-    @Schema(description = "过滤用户ID", example = "0")
-    @NotNull(message = "参数不能为空")
-    private Long userid;
-
     @Schema(description = "是否过滤未匹配", example = "true")
     private Boolean notMatched;
+
+    @Schema(description = "用户ID 从请求路径读取 无需参数传递", example = "0")
+    private Long userid;
 }

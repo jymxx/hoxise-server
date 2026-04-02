@@ -166,9 +166,6 @@ public class AiMovieChatServiceImpl implements AiMovieChatService {
      * @since 2026/03/01 01:33:21
      */
     private void aiRateLimit(Long userid) {
-        if(userid == 0L){
-            return;
-        }
         //限制请求频率
         String rateLimitKey = RedisConstants.AI_REQUEST_LIMIT_KEY + "::" + userid ;
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(rateLimitKey);

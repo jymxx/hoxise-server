@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.controller.movie;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.module.movie.controller.movie.vo.MovieCharactersVO;
@@ -34,8 +35,6 @@ import java.util.List;
 @Validated
 public class MovieDbController {
 
-    @Resource private MovieCatalogService movieCatalogService;
-
     @Resource private BangumiDbService bangumiDbService;
 
     @Resource private BangumiDbCharacterService bangumiDbCharacterService;
@@ -46,22 +45,22 @@ public class MovieDbController {
 
     @Operation(summary = "获取影视详情")
     @GetMapping("/detail")
-    public CommonResult<MovieDetailVO> detail(@NotNull Long catalogId){
-        Long bangumiId = movieCatalogService.getBangumiIdByCatalogId(Collections.singleton(catalogId)).getFirst();
+    @SaIgnore
+    public CommonResult<MovieDetailVO> detail(@NotNull Long bangumiId){
         return CommonResult.success(bangumiDbService.detailByBangumiId(bangumiId));
     }
 
     @Operation(summary = "获取角色信息")
     @GetMapping("/characters")
-    public CommonResult<List<MovieCharactersVO>> characters(@NotNull Long catalogId){
-        Long bangumiId = movieCatalogService.getBangumiIdByCatalogId(Collections.singleton(catalogId)).getFirst();
+    @SaIgnore
+    public CommonResult<List<MovieCharactersVO>> characters(@NotNull Long bangumiId){
         return CommonResult.success(bangumiDbCharacterService.getCharacters(bangumiId));
     }
 
     @Operation(summary = "获取章节信息")
     @GetMapping("/episodes")
-    public CommonResult<List<MovieEpisodesVO>> episodes(@NotNull Long catalogId){
-        Long bangumiId = movieCatalogService.getBangumiIdByCatalogId(Collections.singleton(catalogId)).getFirst();
+    @SaIgnore
+    public CommonResult<List<MovieEpisodesVO>> episodes(@NotNull Long bangumiId){
         return CommonResult.success(bangumiDbEpisodeService.listVoByBangumiId(bangumiId));
     }
 

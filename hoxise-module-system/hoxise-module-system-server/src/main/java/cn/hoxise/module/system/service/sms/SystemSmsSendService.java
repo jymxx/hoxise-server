@@ -6,7 +6,7 @@ package cn.hoxise.module.system.service.sms;
  * @author hoxise
  * @since 2026/01/14 05:53:59
  */
-public interface SystemSmsService {
+public interface SystemSmsSendService {
     /**
      * 发送登录短信验证码
      *
@@ -26,4 +26,13 @@ public interface SystemSmsService {
      * @since 2026/01/14 05:54:24
      */
     boolean checkLoginVerifyCode(String mobile, String code);
+
+    /**
+     * 发送阿里云短信
+     *
+     * @param mobile 手机号
+     * @author hoxise
+     * @since 2026/04/02 11:20:58
+     */
+    void sendVerifyCodeAliyun(String mobile);
 }

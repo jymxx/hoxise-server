@@ -1,5 +1,6 @@
 package cn.hoxise.module.system.convert;
 
+import cn.hoxise.module.system.api.user.dto.UserInfoRespDTO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
@@ -18,4 +19,6 @@ public interface SystemUserConvert {
     SystemUserConvert INSTANCE = Mappers.getMapper(SystemUserConvert.class);
 
     UserInfoVO convert(SystemUserDO systemUserDO);
+
+    UserInfoRespDTO convertToInfoRespDTO(SystemUserDO systemUserDO);
 }

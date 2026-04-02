@@ -7,7 +7,7 @@ import cn.hoxise.module.system.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import cn.hoxise.module.system.service.user.SystemUserService;
-import cn.hoxise.module.system.service.sms.SystemSmsService;
+import cn.hoxise.module.system.service.sms.SystemSmsSendService;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.module.system.controller.auth.vo.LoginResultVO;
 import cn.hoxise.common.base.exception.ServiceException;
@@ -37,9 +37,9 @@ public class AuthServiceImpl implements AuthService {
     private CaptchaService captchaService;
 
     @Resource
-    private SystemSmsService systemSmsService;
+    private SystemSmsSendService systemSmsSendService;
 
-    @Value("${hoxise.runMode}")
+    @Value("${hoxise.runMode:prod}")
     private String runMode;
 
 
@@ -68,18 +68,17 @@ public class AuthServiceImpl implements AuthService {
     public LoginResultVO loginSms(AuthLoginSmsDTO authLoginSmsDTO) {
         if (!"dev".equals(runMode)) {
             //校验验证码
-            boolean checked = systemSmsService.checkLoginVerifyCode(authLoginSmsDTO.getPhone(), authLoginSmsDTO.getVerifyCode());
+            boolean checked = systemSmsSendService.checkLoginVerifyCode(authLoginSmsDTO.getPhone(), authLoginSmsDTO.getVerifyCode());
             if (!checked){
                 throw new ServiceException("验证码错误");
             }
         }
-
         SystemUserDO userDO = systemUserService.queryByPhoneNumber(authLoginSmsDTO.getPhone());
         if (userDO == null){
             //注册
             userDO = systemUserService.register(authLoginSmsDTO.getPhone());
         }
-
+        //检查是否可用
         checkStatus(userDO);
         return realLogin(userDO);
     }
@@ -124,8 +123,10 @@ public class AuthServiceImpl implements AuthService {
                 .userInfo(UserInfoVO.builder()
                         .userId(systemUserDO.getUserId())
                         .userName(systemUserDO.getUserName())
+                        .nickName(systemUserDO.getNickName())
                         .phoneNumber(systemUserDO.getPhoneNumber())
                         .roles(systemUserDO.getRoleIds())
+                        .avatar(systemUserDO.getAvatar())
                         .build())
                 .build();
         //登录后逻辑处理

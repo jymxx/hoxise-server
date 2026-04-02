@@ -21,7 +21,7 @@ import java.time.Duration;
  * @since 2026/01/14 05:53:53
  */
 @Service
-public class SystemSmsSendServiceImpl implements SystemSmsService{
+public class SystemSmsSendServiceImpl implements SystemSmsSendService {
 
     @Resource
     private SystemSmsLogService systemSmsLogService;
@@ -61,6 +61,7 @@ public class SystemSmsSendServiceImpl implements SystemSmsService{
 
     // ################ 暂时只有阿里云 ############ //
 
+    @Override
     public void sendVerifyCodeAliyun(String mobile) {
         SendSmsVerifyCodeResponseBody body  = AliyunSmsClient.sendVerifyCodeAliyun(mobile);
         //保存日志

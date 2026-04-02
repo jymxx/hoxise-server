@@ -1,11 +1,11 @@
 package cn.hoxise.common.security.satoken.config;
 
 import cn.hoxise.common.security.satoken.core.PermissionSecurityService;
+import cn.hoxise.common.security.satoken.core.SaTokenConfigure;
 import cn.hoxise.common.security.satoken.core.StpInterfaceImpl;
 import cn.hoxise.common.security.satoken.core.PermissionSecurityServiceImpl;
-import cn.hoxise.common.security.satoken.web.GlobalExceptionHandler;
+import cn.hoxise.common.security.satoken.web.SaTokenGlobalExceptionHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
@@ -24,15 +24,19 @@ public class HoxiseStpAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(name = "permissionSecurityService")
     public StpInterfaceImpl stpInterface(){
         return new StpInterfaceImpl();
     }
 
     @Bean
-    @Order(1)//处理顺序
-    public GlobalExceptionHandler globalExceptionHandler(){
-        return new GlobalExceptionHandler();
+    public SaTokenConfigure saTokenConfigure(){
+        return new SaTokenConfigure();
+    }
+
+    @Bean
+    @Order(-100)//处理顺序提前
+    public SaTokenGlobalExceptionHandler saTokenGlobalExceptionHandler(){
+        return new SaTokenGlobalExceptionHandler();
     }
 
 }

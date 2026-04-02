@@ -1,5 +1,6 @@
 package cn.hoxise.module.system.controller.user.vo;
 
+import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
@@ -23,9 +24,17 @@ public class UserInfoVO {
     @Schema(name = "用户名")
     private String userName;
 
+    @Schema(name = "昵称")
+    private String nickName;
+
     @Schema(name = "手机号")
     private String phoneNumber;
 
     @Schema(name = "角色")
     private List<String> roles;
+
+    @Schema(name = "头像地址")
+    @FilePathFormat
+    private String avatar;
+
 }

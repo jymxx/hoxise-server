@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author Hoxise
  * @since 2026/01/14 06:07:59
  */
-@Mapper
 public interface SystemRoleMapper extends BaseMapper<SystemRoleDO> {
 
 }

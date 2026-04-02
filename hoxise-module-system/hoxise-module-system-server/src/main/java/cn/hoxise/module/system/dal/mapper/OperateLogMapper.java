@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author hoxise
  * @since 2026/01/14 06:08:12
  */
-@Mapper
 public interface OperateLogMapper extends BaseMapper<OperateLogDO> {
 
 

@@ -122,5 +122,5 @@ sms:
 hoxise:
   #启动模式 (dev 1.登录不需要验证码;)
   runMode: dev
-  #启动后是否加载Embedding
-  pushVectorStore: false
+  #默认头像地址
+  defaultAvatar: user/avatar/default.png
