@@ -1,5 +1,7 @@
 package cn.hoxise.module.movie.service;
 
+import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.module.movie.controller.movie.vo.AllowAccessUserInfoVO;
 import cn.hoxise.module.system.api.user.SystemUserApi;
 import cn.hoxise.module.system.api.user.dto.UserInfoRespDTO;
 import cn.hutool.core.bean.BeanUtil;
@@ -20,10 +22,16 @@ public class MovieDataServiceImpl implements MovieDataService{
     @Resource private SystemUserApi systemUserApi;
 
     @Override
-    public boolean allowAccess(Long userId) {
+    public AllowAccessUserInfoVO allowAccess(Long userId) {
         //暂时只校验用户是否存在
         UserInfoRespDTO data = systemUserApi.getUserById(userId).getCheckedData();
-        return BeanUtil.isNotEmpty(data);
+        if (BeanUtil.isEmpty(data)){
+            throw new ServiceException("用户不存在");
+        };
+        return AllowAccessUserInfoVO.builder()
+                .userId(data.getUserId())
+                .nickName(data.getNickName())
+                .build();
     }
 
 }

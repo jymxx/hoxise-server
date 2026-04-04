@@ -1,6 +1,8 @@
 package cn.hoxise.module.movie.controller.movie;
 
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
+import cn.hoxise.module.movie.controller.movie.vo.AllowAccessUserInfoVO;
 import cn.hoxise.module.movie.service.MovieDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +30,8 @@ public class MovieDataController {
 
     @Operation(summary = "判断用户数据是否可以访问")
     @GetMapping("/allowAccess")
-    public CommonResult<Boolean> allowAccess(@NotNull Long userid){
+    @SaIgnore
+    public CommonResult<AllowAccessUserInfoVO> allowAccess(@NotNull Long userid){
         return CommonResult.success(movieDataService.allowAccess(userid));
     }
 

@@ -4,6 +4,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.PageResult;
 import cn.hoxise.common.redis.utils.RedisUtil;
+import cn.hoxise.module.movie.controller.movie.dto.MovieLibraryQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieUpdateDbDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
@@ -16,10 +17,13 @@ import cn.hoxise.module.movie.pojo.constants.MovieConstants;
 import cn.hoxise.module.movie.pojo.constants.RedisConstants;
 import cn.hoxise.module.movie.service.bangumi.BangumiManageService;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogMapper;
+import com.google.gson.JsonObject;
 import jakarta.annotation.Resource;
 import jodd.util.StringUtil;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -47,13 +52,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
 
     @Override
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
-        Page<MovieCatalogDO> page = new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize());
-        return baseMapper.selectPage(page,Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, queryDTO.getUserid())
-                .eq(StrUtil.isNotBlank(queryDTO.getDirectory()),MovieCatalogDO::getDirectory,queryDTO.getDirectory())
-                .isNull(queryDTO.getNotMatched() !=null && queryDTO.getNotMatched(),MovieCatalogDO::getBangumiId)
-                .like(StrUtil.isNotBlank(queryDTO.getKeyword()),MovieCatalogDO::getName, queryDTO.getKeyword())
-        );
+        return baseMapper.pageList(queryDTO);
     }
 
     @Override
@@ -68,14 +67,20 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     }
 
     @Override
-    @Cacheable(
-            cacheNames = RedisConstants.MOVIE_LIBRARY_KEY,
-            key = "{#queryDTO.userid, #queryDTO.directory, #queryDTO.pageNum }"
-    )
-    public PageResult<MovieSimpleVO> libraryDbCache(MovieSimpleQueryDTO queryDTO) {
-        int batchSize = 50;//一次拉五十条下去
-        queryDTO.setPageSize(batchSize);
-        return listPageContainDb(queryDTO);
+    @Cacheable(cacheNames = RedisConstants.MOVIE_LIBRARY_KEY,
+            key = "{ #queryDTO.userid, #queryDTO.directory, #queryDTO.pageNum}")
+    public PageResult<MovieSimpleVO> libraryDbCache(MovieLibraryQueryDTO queryDTO) {
+        //默认一次查50条数据
+        int batchSize = 50;
+
+        MovieSimpleQueryDTO query = MovieSimpleQueryDTO.builder()
+                .userid(queryDTO.getUserid())
+                .directory(queryDTO.getDirectory())
+                .build();
+        query.setPageNum(queryDTO.getPageNum());
+        query.setPageSize(batchSize);
+
+        return listPageContainDb(query);
     }
 
     @Override
@@ -96,7 +101,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     public List<MovieSimpleVO> randomQuery(Integer limit,Long userid){
         limit = Math.min(limit, 20);
 
-        //todo 改成es
+        //todo 改成redis随机
         List<MovieCatalogDO> catalogList = this.list(
                 Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserid, userid)
                         .last("order by RAND() LIMIT " + limit)
@@ -142,10 +147,8 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
             if (movieDbDO == null){
                 return;
             }
-            //清理字符
-            f.setName(MovieConstants.MOVIE_CLEAN_PATTERN.matcher(f.getName()).replaceAll(""));
 
-            f.setSubjectId(movieDbDO.getBangumiId());
+            f.setOriginName(movieDbDO.getOriginalName());
             f.setPosterUrl(movieDbDO.getPosterUrl());
             f.setRating(movieDbDO.getRating());
             f.setReleaseYear(movieDbDO.getReleaseDate() == null ? null : movieDbDO.getReleaseDate().getYear());
@@ -203,7 +206,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         MovieCatalogDO catalogDO = this.getById(catalogId);
         //只能操作自己的数据
         if (!catalogDO.getUserid().equals(loginIdAsLong)){
-            throw new NotPermissionException("不能操作别人的数据");
+            throw new NotPermissionException("禁止操作别人的数据");
         }
         return catalogDO.getUserid();
     }

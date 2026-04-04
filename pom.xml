@@ -40,7 +40,8 @@
         <alibaba-druid.version>1.2.27</alibaba-druid.version>
         <dynamic-datasource.version>4.5.0</dynamic-datasource.version>
         <mysql-connector.version>9.6.0</mysql-connector.version>
-        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <mybatis-plus.version>3.5.16</mybatis-plus.version>
+        <mybatis-plus-join.version>1.5.6</mybatis-plus-join.version>
         <redisson.version>3.52.0</redisson.version>
         <!--框架-->
         <satoken.version>1.45.0</satoken.version> <!-- 权限认证框架 -->

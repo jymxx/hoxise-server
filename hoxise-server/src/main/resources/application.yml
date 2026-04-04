@@ -23,6 +23,13 @@ spring:
     redis:
       time-to-live: 1h #缓存时间
 
+  # Jackson 配置项
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false # true时间戳 false日期格式
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
 #springdoc-openapi接口文档配置
 springdoc:
   api-docs:

@@ -3,11 +3,11 @@ package cn.hoxise.module.movie.controller.movie;
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.pojo.PageResult;
+import cn.hoxise.module.movie.controller.movie.dto.MovieLibraryQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieStatVO;
 import cn.hoxise.module.movie.service.MovieCatalogService;
-import cn.hoxise.module.movie.service.MovieDataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -48,7 +48,7 @@ public class MovieCatalogController {
     @Operation(summary = "获取影视库数据")
     @GetMapping("/{userid}/library")
     @SaIgnore
-    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieSimpleQueryDTO queryDTO, @NotNull @PathVariable Long userid) {
+    public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieLibraryQueryDTO queryDTO, @NotNull @PathVariable Long userid) {
         queryDTO.setUserid(userid);
         return CommonResult.success(movieCatalogService.libraryDbCache(queryDTO));
     }

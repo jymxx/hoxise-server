@@ -2,8 +2,6 @@ package cn.hoxise.module.movie.controller.movie.vo;
 
 import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import cn.hoxise.module.movie.dal.entity.BangumiDbActorDO;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +22,6 @@ public class MovieCharactersVO {
     /**
      * 主键ID
      */
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

@@ -66,11 +66,12 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     @Override
     public SystemUserDO register(String phoneNumber){
+        String name = "用户_" + UUID.randomUUID();//随机名称
         SystemUserDO userDO = SystemUserDO.builder()
-                .userName(phoneNumber)
+                .userName(name)
                 .phoneNumber(phoneNumber)
                 .password(StrUtil.uuid())
-                .nickName("用户_"+ UUID.randomUUID())
+                .nickName(name)
                 .roleIds(Collections.singletonList(RoleEnum.USER.getCode().toString()))//默认普通角色
                 .status(CommonStatusEnum.ENABLE.getStatus())
                 .avatar(defaultAvatar)
@@ -96,10 +97,10 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
             throw new ServiceException("只能上传图片文件");
         }
 
-        // 校验文件大小（限制 20MB）
-        long maxSize = 20 * 1024 * 1024;
+        // 校验文件大小（限制 10MB）
+        long maxSize = 10 * 1024 * 1024;
         if (file.getSize() > maxSize) {
-            throw new ServiceException("文件大小不能超过 20MB");
+            throw new ServiceException("文件大小不能超过 10MB");
         }
 
         // 上传文件到头像目录

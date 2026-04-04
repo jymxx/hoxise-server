@@ -1,6 +1,9 @@
 package cn.hoxise.common.redis.config;
 
 import cn.hoxise.common.redis.utils.RedisUtil;
+import cn.hutool.core.util.ReflectUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,6 +17,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
@@ -34,7 +38,7 @@ public class HoxiseRedisAutoConfiguration {
         RedisCacheConfiguration defaultCacheConfig =
                 RedisCacheConfiguration.defaultCacheConfig()
                         .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())) // 使用strSerializer对key进行数据类型转换
-                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())) // 使用jacksonSeial对value的数据类型进行转换
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(buildRedisSerializer())) // 使用jacksonSeial对value的数据类型进行转换
                         .entryTtl(cacheProperties.getRedis().getTimeToLive());
         return RedisCacheManager.builder(redisCacheWriter)
                 .cacheDefaults(defaultCacheConfig)
@@ -49,14 +53,22 @@ public class HoxiseRedisAutoConfiguration {
         template.setConnectionFactory(redisConnectionFactory);
 
         //设置默认序列化方式
-        template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setDefaultSerializer(buildRedisSerializer());
         //设置key序列化 这里用String
         template.setKeySerializer(new StringRedisSerializer());
         //设置val序列化方式为jackson
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setValueSerializer(buildRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashValueSerializer(buildRedisSerializer());
         return template;
+    }
+
+    public static RedisSerializer<?> buildRedisSerializer() {
+        RedisSerializer<Object> json = RedisSerializer.json();
+        // 注册Java8的LocalDateTime 解决序列化问题
+        ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(json, "mapper");
+        objectMapper.registerModules(new JavaTimeModule());
+        return json;
     }
 
     @Bean

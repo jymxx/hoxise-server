@@ -1,12 +1,15 @@
 package cn.hoxise.module.movie.controller.movie.vo;
 
+import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import cn.hoxise.module.movie.enums.bangumi.BangumiSubjectTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -24,14 +27,30 @@ public class MovieSimpleVO {
     private Long id;
 
     /**
-     * Bangumi id
+     * 名称
      */
-    private Long subjectId;
+    private String name;
+
+    /**
+     * 文件大小
+     */
+    private Double totalSize;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = DateUtil.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND, timezone = DateUtil.TIME_ZONE_DEFAULT)
+    private LocalDateTime createTime;
 
     /**
      * bangumi id
      */
     private Long bangumiId;
+
+    /**
+     * 原始名称
+     */
+    private String originName;
 
     /**
      * 海报地址
@@ -43,11 +62,6 @@ public class MovieSimpleVO {
      * 平台
      */
     private String platform;
-
-    /**
-     * 名称
-     */
-    private String name;
 
     /**
      * 评分

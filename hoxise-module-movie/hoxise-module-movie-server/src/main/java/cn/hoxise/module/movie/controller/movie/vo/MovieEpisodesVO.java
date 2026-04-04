@@ -36,7 +36,7 @@ public class MovieEpisodesVO {
      * 播放日期
      */
     @JsonFormat(pattern = DateUtil.FORMAT_YEAR_MONTH_DAY)
-    private LocalDateTime airdate;
+    private LocalDateTime airDate;
 
     /**
      * 原始名称

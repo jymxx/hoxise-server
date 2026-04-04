@@ -1,5 +1,7 @@
 package cn.hoxise.module.movie.service;
 
+import cn.hoxise.module.movie.controller.movie.vo.AllowAccessUserInfoVO;
+
 /**
  * 影视数据
  *
@@ -9,12 +11,12 @@ package cn.hoxise.module.movie.service;
 public interface MovieDataService {
 
     /**
-     * 判断数据是否允许访问
+     * 验证数据是否允许访问
      *
      * @param userId 用户ID
      * @return boolean
      * @author hoxise
      * @since 2026/04/02 23:45:27
      */
-    boolean allowAccess(Long userId);
+    AllowAccessUserInfoVO allowAccess(Long userId);
 }

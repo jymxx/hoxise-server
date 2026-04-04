@@ -23,4 +23,7 @@ public class RedisConstants {
     //自动匹配速率限制：每天 3 次
     public final static String MOVIE_AUTO_MATCH_RATE_LIMIT_KEY = "MovieAutoMatchRateLimit";
 
+    //随机查询：用户影视目录 ID 集合
+    public final static String MOVIE_RANDOM_CATALOG_KEY = "MovieRandomCatalogKey";
+
 }

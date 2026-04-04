@@ -1,6 +1,7 @@
 package cn.hoxise.module.movie.service;
 
 import cn.hoxise.common.base.pojo.PageResult;
+import cn.hoxise.module.movie.controller.movie.dto.MovieLibraryQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieUpdateDbDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
@@ -49,7 +50,7 @@ public interface MovieCatalogService extends IService<MovieCatalogDO> {
      * @author hoxise
      * @since 2026/01/14 15:20:45
      */
-    PageResult<MovieSimpleVO> libraryDbCache(MovieSimpleQueryDTO queryDTO);
+    PageResult<MovieSimpleVO> libraryDbCache(MovieLibraryQueryDTO queryDTO);
 
     /**
      * 统计数据

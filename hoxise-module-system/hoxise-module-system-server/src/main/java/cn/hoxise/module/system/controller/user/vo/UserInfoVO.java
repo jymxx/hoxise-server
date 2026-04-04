@@ -1,5 +1,6 @@
 package cn.hoxise.module.system.controller.user.vo;
 
+import cn.hoxise.common.base.json.annotation.PhoneMask;
 import cn.hoxise.common.file.core.annotations.FilePathFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class UserInfoVO {
     private String nickName;
 
     @Schema(name = "手机号")
+    @PhoneMask  // 手机号脱敏：138****5678
     private String phoneNumber;
 
     @Schema(name = "角色")
@@ -36,5 +38,4 @@ public class UserInfoVO {
     @Schema(name = "头像地址")
     @FilePathFormat
     private String avatar;
-
 }
