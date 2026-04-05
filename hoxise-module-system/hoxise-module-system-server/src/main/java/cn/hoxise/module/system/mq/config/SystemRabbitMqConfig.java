@@ -5,8 +5,6 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,38 +17,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SystemRabbitMqConfig {
 
+    // 创建 Queue
     @Bean
-    public MessageConverter systemMessageConverter() {
-        return new Jackson2JsonMessageConverter();
+    public Queue smsSendQueue() {
+        return new Queue(SmsSendMessage.QUEUE, // Queue 名字
+                true, // durable: 是否持久化
+                false, // exclusive: 是否排它
+                false); // autoDelete: 是否自动删除
     }
 
-    /**
-     * Direct Exchange 配置类
-     */
-    public static class DirectExchangeDemoConfiguration {
+    // 创建 Direct Exchange
+    @Bean
+    public DirectExchange smsSendExchange() {
+        return new DirectExchange(SmsSendMessage.EXCHANGE,
+                true,  // durable: 是否持久化
+                false);  // exclusive: 是否排它
+    }
 
-        // 创建 Queue
-        @Bean
-        public Queue smsSendQueue() {
-            return new Queue(SmsSendMessage.QUEUE, // Queue 名字
-                    true, // durable: 是否持久化
-                    false, // exclusive: 是否排它
-                    false); // autoDelete: 是否自动删除
-        }
-
-        // 创建 Direct Exchange
-        @Bean
-        public DirectExchange smsSendExchange() {
-            return new DirectExchange(SmsSendMessage.EXCHANGE,
-                    true,  // durable: 是否持久化
-                    false);  // exclusive: 是否排它
-        }
-
-        // 创建 Binding
-        @Bean
-        public Binding smsSendBinding() {
-            return BindingBuilder.bind(smsSendQueue()).to(smsSendExchange()).with(SmsSendMessage.ROUTING_KEY);
-        }
-
+    // 创建 Binding
+    @Bean
+    public Binding smsSendBinding() {
+        return BindingBuilder.bind(smsSendQueue()).to(smsSendExchange()).with(SmsSendMessage.ROUTING_KEY);
     }
 }

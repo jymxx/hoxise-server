@@ -19,11 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MovieRabbitMqConfig {
 
-    @Bean
-    public MessageConverter movieMessageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
     /**
      * 自动匹配 Direct Exchange 配置
      */

@@ -4,12 +4,11 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hoxise.module.system.service.sms.SystemSmsSendService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 短信服务
