@@ -74,7 +74,8 @@ public class MovieFavoriteServiceImpl extends ServiceImpl<MovieFavoriteMapper, M
     public List<Long> getFavoriteCatalogIds() {
         Long userId = StpUtil.getLoginIdAsLong();
         List<MovieFavoriteDO> favorites = this.list(Wrappers.lambdaQuery(MovieFavoriteDO.class)
-                .eq(MovieFavoriteDO::getUserId, userId));
+                .eq(MovieFavoriteDO::getUserId, userId)
+                .orderByDesc(MovieFavoriteDO::getCreateTime));
         return favorites.stream()
                 .map(MovieFavoriteDO::getCatalogId)
                 .collect(Collectors.toList());

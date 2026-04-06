@@ -6,11 +6,9 @@ import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.module.movie.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieEpisodesVO;
-import cn.hoxise.module.movie.service.MovieCatalogService;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbCharacterService;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbEpisodeService;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbService;
-import cn.hoxise.module.system.api.dict.DictApi;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,8 +38,6 @@ public class MovieDbController {
 
     @Resource private BangumiDbEpisodeService bangumiDbEpisodeService;
 
-    @Resource private FileStorageClientFactory fileStorageClientFactory;
-
     @Operation(summary = "获取影视详情")
     @GetMapping("/detail")
     @SaIgnore
@@ -62,13 +57,5 @@ public class MovieDbController {
     @SaIgnore
     public CommonResult<List<MovieEpisodesVO>> episodes(@NotNull Long bangumiId){
         return CommonResult.success(bangumiDbEpisodeService.listVoByBangumiId(bangumiId));
-    }
-
-    //后续可能删掉播放功能 临时放着
-    @Resource private DictApi dictApi;
-    @Operation(summary = "获取播放地址")
-    @GetMapping("/playerUrl")
-    public CommonResult<String> playerUrl(){
-        return CommonResult.success(fileStorageClientFactory.getDefaultStorage().getPresignedUrl(dictApi.getByKey("movie_player_url").getCheckedData()));
     }
 }

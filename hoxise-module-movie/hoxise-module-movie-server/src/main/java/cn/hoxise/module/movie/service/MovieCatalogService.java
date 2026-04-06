@@ -137,4 +137,13 @@ public interface MovieCatalogService extends IService<MovieCatalogDO> {
      * @since 2026/04/06 08:43:09
      */
     void fillFavoriteInfo(List<MovieSimpleVO> simpleVos);
+
+    /**
+     * handleNoLogin 处理未登录
+     *
+     * @param result 结果数据
+     * @author hoxise
+     * @since 2026/04/06 16:28:56
+     */
+    void handleNoLogin(List<MovieSimpleVO> result);
 }

@@ -39,14 +39,20 @@ public class MovieCatalogController {
     @GetMapping("/{userid}/randomQuery")
     @SaIgnore
     public CommonResult<List<MovieSimpleVO>> randomQuery(Integer limit,@NotNull @PathVariable Long userid){
-        return CommonResult.success(movieCatalogService.randomQuery(limit,userid));
+        List<MovieSimpleVO> list = movieCatalogService.randomQuery(limit, userid);
+        movieCatalogService.fillFavoriteInfo(list); // 填充收藏信息
+        movieCatalogService.handleNoLogin(list); // 处理未登录状态
+        return CommonResult.success(list);
     }
 
     @Operation(summary = "获取最近更新的数据")
     @GetMapping("/{userid}/lastUpdate")
     @SaIgnore
     public CommonResult<List<MovieSimpleVO>> lastUpdate(@NotNull @PathVariable Long userid){
-        return CommonResult.success(movieCatalogService.lastUpdate(userid));
+        List<MovieSimpleVO> list = movieCatalogService.lastUpdate(userid);
+        movieCatalogService.fillFavoriteInfo(list); // 填充收藏信息
+        movieCatalogService.handleNoLogin(list); // 处理未登录状态
+        return CommonResult.success(list);
     }
 
     @Operation(summary = "获取影视库数据")
@@ -54,9 +60,9 @@ public class MovieCatalogController {
     @SaIgnore
     public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieLibraryQueryDTO queryDTO, @NotNull @PathVariable Long userid) {
         queryDTO.setUserid(userid);
-        //补充收藏信息 放外面是防缓存
         PageResult<MovieSimpleVO> result = movieCatalogService.libraryDbCache(queryDTO);
-        movieCatalogService.fillFavoriteInfo(result.getList());
+        movieCatalogService.fillFavoriteInfo(result.getList()); // 填充收藏信息 放在外面防缓存
+        movieCatalogService.handleNoLogin(result.getList()); // 处理未登录状态
         return CommonResult.success(result);
     }
 
@@ -66,7 +72,8 @@ public class MovieCatalogController {
     public CommonResult<PageResult<MovieSimpleVO>> pageSimple(@Validated MovieSimpleQueryDTO queryDTO,@NotNull @PathVariable Long userid){
         queryDTO.setUserid(userid);
         PageResult<MovieSimpleVO> result = movieCatalogService.listPageContainDb(queryDTO);
-        movieCatalogService.fillFavoriteInfo(result.getList());
+        movieCatalogService.fillFavoriteInfo(result.getList()); // 填充收藏信息
+        movieCatalogService.handleNoLogin(result.getList()); // 处理未登录状态
         return CommonResult.success(result);
     }
 
@@ -82,5 +89,8 @@ public class MovieCatalogController {
     public CommonResult<List<MovieSimpleVO>> getFavoriteList() {
         return CommonResult.success(movieCatalogService.getFavoriteList());
     }
+
+
+
 
 }

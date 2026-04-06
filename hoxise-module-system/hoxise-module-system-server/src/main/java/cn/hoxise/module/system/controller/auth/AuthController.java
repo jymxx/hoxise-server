@@ -38,6 +38,7 @@ public class AuthController {
     @OperateLog(enable = false)
     @Operation(summary = "退出登录")
     @PostMapping("/logout")
+    @SaIgnore
     public CommonResult<Boolean> logout() {
         authService.logout();
         return CommonResult.success(true);

@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.service;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.module.movie.controller.movie.vo.AllowAccessUserInfoVO;
 import cn.hoxise.module.system.api.user.SystemUserApi;
@@ -23,11 +24,21 @@ public class MovieDataServiceImpl implements MovieDataService{
 
     @Override
     public AllowAccessUserInfoVO allowAccess(Long userId) {
+        // 已登录且在访问自己数据
+        if (StpUtil.isLogin() && StpUtil.getLoginId().equals(userId)){
+            return AllowAccessUserInfoVO.builder()
+                    .userId(userId)
+                    .nickName("")
+                    .build();
+        }
+
         //暂时只校验用户是否存在
         UserInfoRespDTO data = systemUserApi.getUserById(userId).getCheckedData();
         if (BeanUtil.isEmpty(data)){
             throw new ServiceException("用户不存在");
         };
+
+
         return AllowAccessUserInfoVO.builder()
                 .userId(data.getUserId())
                 .nickName(data.getNickName())
