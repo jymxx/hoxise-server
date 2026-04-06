@@ -6,6 +6,7 @@ import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hoxise.module.movie.controller.movie.dto.MovieScanUploadDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieUpdateDbDTO;
+import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.pojo.dto.BangumiSearchSubjectResponse;
 import cn.hoxise.module.movie.service.MovieCatalogService;
 import cn.hoxise.module.movie.service.MovieManageService;
@@ -77,6 +78,5 @@ public class MovieManageController {
         movieManageService.autoMatch();
         return CommonResult.ok();
     }
-
 
 }

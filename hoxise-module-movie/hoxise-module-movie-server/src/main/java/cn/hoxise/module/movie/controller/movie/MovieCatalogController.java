@@ -1,6 +1,7 @@
 package cn.hoxise.module.movie.controller.movie;
 
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.pojo.PageResult;
 import cn.hoxise.module.movie.controller.movie.dto.MovieLibraryQueryDTO;
@@ -8,6 +9,7 @@ import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieStatVO;
 import cn.hoxise.module.movie.service.MovieCatalogService;
+import cn.hoxise.module.movie.service.MovieFavoriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -31,6 +33,8 @@ public class MovieCatalogController {
 
     @Resource private MovieCatalogService movieCatalogService;
 
+    @Resource private MovieFavoriteService movieFavoriteService;
+
     @Operation(summary = "随机查询数据")
     @GetMapping("/{userid}/randomQuery")
     @SaIgnore
@@ -50,7 +54,10 @@ public class MovieCatalogController {
     @SaIgnore
     public CommonResult<PageResult<MovieSimpleVO>> libraryDdCache(@Validated MovieLibraryQueryDTO queryDTO, @NotNull @PathVariable Long userid) {
         queryDTO.setUserid(userid);
-        return CommonResult.success(movieCatalogService.libraryDbCache(queryDTO));
+        //补充收藏信息 放外面是防缓存
+        PageResult<MovieSimpleVO> result = movieCatalogService.libraryDbCache(queryDTO);
+        movieCatalogService.fillFavoriteInfo(result.getList());
+        return CommonResult.success(result);
     }
 
     @Operation(summary = "获取影视目录列表")
@@ -58,7 +65,9 @@ public class MovieCatalogController {
     @SaIgnore
     public CommonResult<PageResult<MovieSimpleVO>> pageSimple(@Validated MovieSimpleQueryDTO queryDTO,@NotNull @PathVariable Long userid){
         queryDTO.setUserid(userid);
-        return CommonResult.success(movieCatalogService.listPageContainDb(queryDTO));
+        PageResult<MovieSimpleVO> result = movieCatalogService.listPageContainDb(queryDTO);
+        movieCatalogService.fillFavoriteInfo(result.getList());
+        return CommonResult.success(result);
     }
 
     @Operation(summary = "获取影视统计数据")
@@ -68,6 +77,10 @@ public class MovieCatalogController {
         return CommonResult.success(movieCatalogService.statCount(userid));
     }
 
-
+    @Operation(summary = "获取收藏列表（含 DB 数据）")
+    @GetMapping("/listFavorite")
+    public CommonResult<List<MovieSimpleVO>> getFavoriteList() {
+        return CommonResult.success(movieCatalogService.getFavoriteList());
+    }
 
 }

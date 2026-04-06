@@ -109,4 +109,32 @@ public interface MovieCatalogService extends IService<MovieCatalogDO> {
      * @since 2026/03/12 20:57:57
      */
     List<Long> getBangumiIdByCatalogId(Collection<Long> catalogIds);
+
+    /**
+     * 根据目录 ID 列表查询详情（含 DB 数据）
+     *
+     * @param catalogIds 目录 ID 列表
+     * @return 影视目录 VO 列表
+     * @author hoxise
+     * @since 2026/04/06
+     */
+    List<MovieSimpleVO> listByCatalogIds(Collection<Long> catalogIds);
+
+    /**
+     * 获取收藏列表（含 DB 数据）
+     *
+     * @return 影视目录 VO 列表
+     * @author hoxise
+     * @since 2026/04/06
+     */
+    List<MovieSimpleVO> getFavoriteList();
+
+    /**
+     * 填充收藏信息
+     *
+     * @param simpleVos 影视目录 VO 列表
+     * @author hoxise
+     * @since 2026/04/06 08:43:09
+     */
+    void fillFavoriteInfo(List<MovieSimpleVO> simpleVos);
 }

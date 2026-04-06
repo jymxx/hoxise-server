@@ -20,7 +20,7 @@ public interface MovieCatalogMapper extends MPJBaseMapper<MovieCatalogDO> {
         MPJLambdaWrapper<MovieCatalogDO> wrapper = new MPJLambdaWrapper<>(MovieCatalogDO.class)
                 .leftJoin(BangumiDbDO.class, BangumiDbDO::getBangumiId, MovieCatalogDO::getBangumiId)
                 .selectAll(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, queryDTO.getUserid())
+                .eq(MovieCatalogDO::getUserId, queryDTO.getUserid())
                 .eq(StrUtil.isNotBlank(queryDTO.getDirectory()), MovieCatalogDO::getDirectory, queryDTO.getDirectory())
                 .isNull(queryDTO.getNotMatched() != null && queryDTO.getNotMatched(), MovieCatalogDO::getBangumiId)
                 .like(StrUtil.isNotBlank(queryDTO.getKeyword()), MovieCatalogDO::getName, queryDTO.getKeyword());
@@ -42,7 +42,6 @@ public interface MovieCatalogMapper extends MPJBaseMapper<MovieCatalogDO> {
         }
         return selectPage(new Page<>(queryDTO.getPageNum(), queryDTO.getPageSize()), wrapper);
     }
-
 }
 
 

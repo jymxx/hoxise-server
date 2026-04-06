@@ -52,7 +52,7 @@ public class MovieCatalogDO implements Serializable {
     /**
      * 用户id 属于哪个用户的数据
      */
-    private Long userid;
+    private Long userId;
 
     /**
      * 关联bangumi数据id

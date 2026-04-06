@@ -74,13 +74,18 @@ public class MovieSimpleVO {
     private Integer releaseYear;
 
     /**
-     * 类型
+     * 集数
      */
-    private BangumiSubjectTypeEnum subjectType;
+    private Integer eps;
 
     /**
      * 元标签
      */
     private List<String> metaTags;
+
+    /**
+     * 是否收藏(与登录用户绑定)
+     */
+    private boolean isFavorite;
 
 }

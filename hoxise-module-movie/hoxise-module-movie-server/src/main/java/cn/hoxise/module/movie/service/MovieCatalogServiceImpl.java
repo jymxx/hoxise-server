@@ -13,25 +13,18 @@ import cn.hoxise.module.movie.convert.MovieCatalogConvert;
 import cn.hoxise.module.movie.dal.entity.*;
 import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbService;
-import cn.hoxise.module.movie.pojo.constants.MovieConstants;
 import cn.hoxise.module.movie.pojo.constants.RedisConstants;
 import cn.hoxise.module.movie.service.bangumi.BangumiManageService;
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogMapper;
-import com.google.gson.JsonObject;
 import jakarta.annotation.Resource;
-import jodd.util.StringUtil;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +42,8 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     @Resource private BangumiDbService bangumiDbService;
 
     @Resource private RedisUtil redisUtil;
+
+    @Resource private MovieFavoriteService movieFavoriteService;
 
     @Override
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
@@ -87,13 +82,13 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     @Cacheable(cacheNames = RedisConstants.MOVIE_STAT_KEY, key = "#userid")
     public MovieStatVO statCount(Long userid){
         MovieStatVO result = new MovieStatVO();
-        result.setTotalCount(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserid, userid)));
+        result.setTotalCount(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserId, userid)));
         result.setTotalAnime(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.anime.getName())));
+                .eq(MovieCatalogDO::getUserId, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.anime.getName())));
         result.setTotalAnimeMovie(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.animeMovie.getName())));
+                .eq(MovieCatalogDO::getUserId, userid).eq(MovieCatalogDO::getDirectory,MovieTypeEnum.animeMovie.getName())));
         result.setTotalOther(this.count(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, userid).notIn(MovieCatalogDO::getDirectory,List.of(MovieTypeEnum.anime.getName(), MovieTypeEnum.animeMovie.getName()))));
+                .eq(MovieCatalogDO::getUserId, userid).notIn(MovieCatalogDO::getDirectory,List.of(MovieTypeEnum.anime.getName(), MovieTypeEnum.animeMovie.getName()))));
         return result;
     }
 
@@ -103,7 +98,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
 
         //todo 改成redis随机
         List<MovieCatalogDO> catalogList = this.list(
-                Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserid, userid)
+                Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserId, userid)
                         .last("order by RAND() LIMIT " + limit)
         );
 
@@ -117,7 +112,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
     public List<MovieSimpleVO> lastUpdate(Long userid){
         //最后20条 以ID主键索引排序
         Page<MovieCatalogDO> page = this.page(new Page<>(1, 20)
-                , Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserid, userid).orderByDesc(MovieCatalogDO::getId));
+                , Wrappers.lambdaQuery(MovieCatalogDO.class).eq(MovieCatalogDO::getUserId, userid).orderByDesc(MovieCatalogDO::getId));
 
         List<MovieSimpleVO> result = MovieCatalogConvert.INSTANCE.convert(page.getRecords());
         // 添加DB数据
@@ -153,7 +148,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
             f.setRating(movieDbDO.getRating());
             f.setReleaseYear(movieDbDO.getReleaseDate() == null ? null : movieDbDO.getReleaseDate().getYear());
             f.setPlatform(movieDbDO.getPlatform());
-            f.setSubjectType(movieDbDO.getSubjectType());
+            f.setEps(movieDbDO.getEps());
             f.setMetaTags(movieDbDO.getMetaTags());
         });
     }
@@ -194,6 +189,21 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
                 .stream().map(Long.class::cast).toList();
     }
 
+    @Override
+    public List<MovieSimpleVO> listByCatalogIds(Collection<Long> catalogIds) {
+        if (catalogIds == null || catalogIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        // 查询目录数据
+        List<MovieCatalogDO> catalogList = this.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
+                .in(MovieCatalogDO::getId, catalogIds));
+        // 转换为 VO
+        List<MovieSimpleVO> result = MovieCatalogConvert.INSTANCE.convert(catalogList);
+        // 追加 DB 数据
+        addDbData(result);
+        return result;
+    }
+
     /**
      * checkCatalogPermission 检查目录权限
      *
@@ -205,10 +215,10 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         long loginIdAsLong = StpUtil.getLoginIdAsLong();
         MovieCatalogDO catalogDO = this.getById(catalogId);
         //只能操作自己的数据
-        if (!catalogDO.getUserid().equals(loginIdAsLong)){
+        if (!catalogDO.getUserId().equals(loginIdAsLong)){
             throw new NotPermissionException("禁止操作别人的数据");
         }
-        return catalogDO.getUserid();
+        return catalogDO.getUserId();
     }
 
 
@@ -231,6 +241,32 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         // 删除最后更新缓存
         String lastUpdateKey = RedisConstants.MOVIE_LAST_UPDATE_KEY + "::" + userid;
         redisUtil.deleteCachePattern(lastUpdateKey + "*");
+    }
+
+
+    @Override
+    public List<MovieSimpleVO> getFavoriteList() {
+        List<Long> catalogIds = movieFavoriteService.getFavoriteCatalogIds();
+        List<MovieSimpleVO> result = listByCatalogIds(catalogIds);
+        // 收藏列表全部标记为已收藏
+        result.forEach(f -> f.setFavorite(true));
+        return result;
+    }
+
+    @Override
+    public void fillFavoriteInfo(List<MovieSimpleVO> simpleVos){
+        if (simpleVos.isEmpty() || !StpUtil.isLogin()){
+            return;
+        }
+
+        // 获取用户收藏的目录 ID 列表
+        List<Long> favoriteCatalogIds = movieFavoriteService.getFavoriteCatalogIds();
+        if (favoriteCatalogIds.isEmpty()){
+            return;
+        }
+        // 设置收藏状态
+        Set<Long> favoriteSet = new HashSet<>(favoriteCatalogIds);
+        simpleVos.forEach(f -> f.setFavorite(favoriteSet.contains(f.getId())));
     }
 }
 

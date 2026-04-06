@@ -54,7 +54,7 @@ public class MovieManageServiceImpl implements MovieManageService{
 
         // 1. 先查询数据库中当前用户在该目录下的所有数据
         List<MovieCatalogDO> dbMovieCatalogs = movieCatalogService.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, loginId)
+                .eq(MovieCatalogDO::getUserId, loginId)
                 .eq(MovieCatalogDO::getDirectory, directoryName.getName()));
 
         // 2. 将数据库数据转换为 Map 便于匹配 (key: name, value: id)
@@ -76,7 +76,7 @@ public class MovieManageServiceImpl implements MovieManageService{
                         .path(directory.getPath())
                         .totalSize(directory.getTotalSize())
                         .status(MovieStatusEnum.NORMAL)
-                        .userid(loginId)
+                        .userId(loginId)
                         .createTime(LocalDateTime.now())
                         .build());
             } else {
@@ -123,7 +123,7 @@ public class MovieManageServiceImpl implements MovieManageService{
     public void matchDb(Long loginId){
         // 1. 查询当前用户的所有 catalog 数据（排除已经匹配的）
         List<MovieCatalogDO> catalogs = movieCatalogService.list(Wrappers.lambdaQuery(MovieCatalogDO.class)
-                .eq(MovieCatalogDO::getUserid, loginId)
+                .eq(MovieCatalogDO::getUserId, loginId)
                 .isNull(MovieCatalogDO::getBangumiId)
                 .last("LIMIT 1000"));
 
