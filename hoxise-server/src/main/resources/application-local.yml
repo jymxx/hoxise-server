@@ -29,21 +29,6 @@ spring:
 #      # 连接密码（默认为空）
 #      password:
 
-  # RabbitMQ 配置项，对应 RabbitProperties 配置类
-  rabbitmq:
-    host: 127.0.0.1 # RabbitMQ 服务的地址
-    port: 5672 # RabbitMQ 服务的端口
-    username: guest # RabbitMQ 服务的账号
-    password: guest # RabbitMQ 服务的密码
-    listener:
-      simple:
-        retry:
-          enabled: true          # 开启重试
-          max-attempts: 3        # 最大重试次数
-          initial-interval: 2000 # 第一次和第二次重试之间的延迟 (毫秒)
-          multiplier: 2.0        # 每次重试延迟的倍数
-          max-interval: 10000    # 最大重试间隔 (毫秒)
-
   # openai
   ai:
     openai:
@@ -87,8 +72,6 @@ spring:
         initialize-schema: false
         index-name: spring-ai-index
         prefix: "embedding:"
-
-
 
 ##########   其它配置   ##########
 

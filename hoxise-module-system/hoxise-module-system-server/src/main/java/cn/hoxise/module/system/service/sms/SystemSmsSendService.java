@@ -27,12 +27,4 @@ public interface SystemSmsSendService {
      */
     boolean checkLoginVerifyCode(String mobile, String code);
 
-    /**
-     * 发送阿里云短信
-     *
-     * @param mobile 手机号
-     * @author hoxise
-     * @since 2026/04/02 11:20:58
-     */
-    void sendVerifyCodeAliyun(String mobile);
 }
