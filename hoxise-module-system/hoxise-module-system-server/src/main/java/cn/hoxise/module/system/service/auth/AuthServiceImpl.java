@@ -1,11 +1,11 @@
 package cn.hoxise.module.system.service.auth;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.module.system.controller.auth.dto.AuthLoginDTO;
 import cn.hoxise.module.system.controller.auth.dto.AuthLoginSmsDTO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
+import cn.hoxise.module.system.enums.UserStatusEnum;
 import cn.hoxise.module.system.service.user.SystemUserService;
 import cn.hoxise.module.system.service.sms.SystemSmsSendService;
 import cn.hutool.core.bean.BeanUtil;
@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
      */
     private void checkStatus(SystemUserDO systemUserDO){
         //是否可用
-        if (!CommonStatusEnum.ENABLE.getStatus().equals(systemUserDO.getStatus())) {
+        if (!UserStatusEnum.ENABLE.getStatus().equals(systemUserDO.getStatus())) {
             throw new ServiceException("用户已锁定,禁止登录.");
         }
     }

@@ -6,7 +6,6 @@ server:
 spring:
   application:
     name: hoxise-server
-
   profiles:
     include: local
 

@@ -5,6 +5,8 @@ import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.module.movie.controller.movie.dto.MovieScanUploadDTO;
 import cn.hoxise.module.movie.dal.entity.BangumiDbDO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
+import cn.hoxise.module.movie.mq.message.AutoMatchMessage;
+import cn.hoxise.module.movie.mq.producer.AutoMatchProducer;
 import cn.hoxise.module.movie.pojo.constants.RedisConstants;
 import cn.hoxise.module.movie.enums.movie.MovieStatusEnum;
 import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
@@ -12,6 +14,7 @@ import cn.hoxise.module.movie.service.bangumi.BangumiDbService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
 import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
@@ -23,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +42,8 @@ public class MovieManageServiceImpl implements MovieManageService{
     @Resource private BangumiDbService bangumiDbService;
 
     @Resource private RedissonClient redissonClient;
+
+    @Resource private AutoMatchProducer autoMatchProducer;
 
     @Override
     @Transactional
@@ -100,8 +106,7 @@ public class MovieManageServiceImpl implements MovieManageService{
         lock.trySetRate(RateType.OVERALL, 3, Duration.ofHours(24));
         if (lock.tryAcquire()){
             // 发送 MQ 消息，异步执行自动匹配
-            // mq删了 这里可能改改定时任务什么的
-            matchDb(loginId);
+            autoMatchProducer.sendAutoMatchMessage(new AutoMatchMessage(loginId));
         }else{
             throw new ServiceException("今日自动匹配请求上限.");
         }

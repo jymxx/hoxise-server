@@ -1,7 +1,6 @@
 package cn.hoxise.module.system.service.user;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hoxise.common.base.enums.CommonStatusEnum;
 import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
@@ -12,6 +11,7 @@ import cn.hoxise.module.system.dal.entity.SystemRoleDO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import cn.hoxise.module.system.dal.mapper.SystemUserMapper;
 import cn.hoxise.module.system.enums.RoleEnum;
+import cn.hoxise.module.system.enums.UserStatusEnum;
 import cn.hoxise.module.system.pojo.constants.SystemConstants;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -73,7 +73,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .password(StrUtil.uuid())
                 .nickName(name)
                 .roleIds(Collections.singletonList(RoleEnum.USER.getCode().toString()))//默认普通角色
-                .status(CommonStatusEnum.ENABLE.getStatus())
+                .status(UserStatusEnum.ENABLE.getStatus())
                 .avatar(defaultAvatar)
                 .build();
         baseMapper.insert(userDO);

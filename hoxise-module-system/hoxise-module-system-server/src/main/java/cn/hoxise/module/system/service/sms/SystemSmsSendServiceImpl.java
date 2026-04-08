@@ -1,6 +1,8 @@
 package cn.hoxise.module.system.service.sms;
 
 import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.module.system.mq.message.SmsSendMessage;
+import cn.hoxise.module.system.mq.producer.SmsSendProducer;
 import cn.hoxise.module.system.pojo.constants.RedisConstants;
 import cn.hutool.core.lang.Assert;
 import com.aliyun.dypnsapi20170525.models.SendSmsVerifyCodeResponseBody;
@@ -25,13 +27,17 @@ public class SystemSmsSendServiceImpl implements SystemSmsSendService {
     private SystemSmsLogService systemSmsLogService;
 
     @Resource
+    private SmsSendProducer smsSendProducer;
+
+    @Resource
     private RedissonClient redissonClient;
 
     @Override
     public void sendLoginVerifyCode(String mobile) {
         Assert.notBlank(mobile, "手机号码不能为空");
         rateLimit(mobile);
-        sendVerifyCodeAliyun(mobile);
+        //MQ发送短信
+        smsSendProducer.sendSmsMessage(new SmsSendMessage(mobile));
     }
 
     @Override
@@ -55,7 +61,8 @@ public class SystemSmsSendServiceImpl implements SystemSmsSendService {
 
     // ################ 暂时只有阿里云 ############ //
 
-    private void sendVerifyCodeAliyun(String mobile) {
+    @Override
+    public void sendVerifyCodeAliyun(String mobile) {
         SendSmsVerifyCodeResponseBody body  = AliyunSmsClient.sendVerifyCodeAliyun(mobile);
         //保存日志
         if (body.getSuccess()){

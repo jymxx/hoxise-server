@@ -1,6 +1,5 @@
 #本地配置
 
-##########   数据库   ##########
 spring:
   cloud:
     nacos:
@@ -8,6 +7,8 @@ spring:
         enabled: false # 禁用 Nacos 的注册发现
       config:
         enabled: false # 禁用 Nacos 的配置中心
+
+##########   数据库   ##########
 
   datasource:
     url: jdbc:mysql://localhost:3306/hoxise
@@ -80,17 +81,17 @@ file-storage:
   default-type: aliyunOss
   minio:
     endpoint: http://127.0.0.1:9000
-    bucket: hoxise
+    bucket: hoxise-java
     access-key: hoxise
-    access-secret: hoxise
-    serializer-prefix: http://localhost:9000
+    access-secret: hoxise-java
+    serializer-prefix: http://localhost:9000/hoxise-java
   aliyun-oss:
     region: cn-chengdu
     endpoint: oss-cn-chengdu.aliyuncs.com
     bucket: ${aliyun.oss.bucket}
     access-key: ${aliyun.oss.accessKey}
     access-secret: ${aliyun.oss.accessSecret}
-    #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器
+    #序列化前缀 如: 配置策略后直接访问的地址; CDN加速服务器; 域名前缀
     serializer-prefix: ${aliyun.oss.serializerPrefix}
 
 
