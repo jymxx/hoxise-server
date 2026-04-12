@@ -96,4 +96,6 @@ public interface FileStorageClient {
      * @since 2026/03/12 13:34:40
      */
     String getAbsoluteUrl(String objectName);
+
+
 }

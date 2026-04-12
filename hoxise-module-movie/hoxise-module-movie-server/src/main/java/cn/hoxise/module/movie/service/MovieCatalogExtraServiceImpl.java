@@ -1,14 +1,16 @@
 package cn.hoxise.module.movie.service;
 
+import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogExtraMapper;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * MovieCatalogExtraService 实现类
@@ -21,32 +23,29 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         implements MovieCatalogExtraService {
 
     @Override
-    public String getPlayUrl(Long catalogId) {
+    public MovieExtraCheckVO hasInfo(Long catalogId){
         MovieCatalogExtraDO extra = this.getOne(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
                 .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
-        return extra.getPlayUrl();
+        if (BeanUtil.isEmpty(extra)) {
+            new MovieExtraCheckVO();
+        }
+
+        return MovieExtraCheckVO.builder()
+                .hasPlayUrl(StrUtil.isNotBlank(extra.getPlayUrl()))
+                .hasResourceUrl(StrUtil.isNotBlank(extra.getExtraData()))
+                .hasSecret(StrUtil.isNotBlank(extra.getSecret()))
+                .build();
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void saveOrUpdatePlayUrl(Long catalogId, String playUrl) {
+    public String getExtraInfo(Long catalogId, String secret , Function<MovieCatalogExtraDO, String> function) {
         MovieCatalogExtraDO extra = this.getOne(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
                 .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
-
-        if (extra == null) {
-            // 不存在则新建
-            extra = MovieCatalogExtraDO.builder()
-                    .catalogId(catalogId)
-                    .playUrl(playUrl)
-                    .updateTime(LocalDateTime.now())
-                    .build();
-            this.save(extra);
-        } else {
-            // 存在则更新
-            extra.setPlayUrl(playUrl);
-            extra.setUpdateTime(LocalDateTime.now());
-            this.updateById(extra);
+        if (StrUtil.isNotBlank(extra.getSecret()) && !extra.getSecret().equals(secret)){
+            throw new ServiceException("获取密码错误");
         }
+        return function.apply(extra);
     }
+
 
 }

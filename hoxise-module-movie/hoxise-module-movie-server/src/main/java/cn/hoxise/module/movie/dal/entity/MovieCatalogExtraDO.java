@@ -43,14 +43,25 @@ public class MovieCatalogExtraDO implements Serializable {
     private String playUrl;
 
     /**
+     * 资源地址
+     */
+    private String resourceUrl;
+
+    /**
      * 扩展数据
      */
     private String extraData;
 
     /**
+     * 密钥
+     */
+    private String secret;
+
+    /**
      * 更新时间
      */
     private LocalDateTime updateTime;
+
 
     @Serial
     @TableField(exist = false)

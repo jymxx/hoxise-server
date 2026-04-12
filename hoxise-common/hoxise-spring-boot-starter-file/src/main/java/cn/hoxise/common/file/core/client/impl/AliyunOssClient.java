@@ -1,22 +1,24 @@
 package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
+import cn.hoxise.common.file.core.client.CloudOSSCapable;
 import cn.hoxise.common.file.core.config.FileStorageProperties;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import com.aliyun.oss.ClientBuilderConfiguration;
+import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.common.comm.Protocol;
 import com.aliyun.oss.common.comm.SignVersion;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 阿里云OSS
@@ -25,7 +27,8 @@ import java.util.UUID;
  * @since 2026/01/14 06:53:19
  */
 @Slf4j
-public class AliyunOssClient extends AbstractFileClient {
+public class AliyunOssClient extends AbstractFileClient
+        implements CloudOSSCapable {
 
     private OSS ossClient;
 
@@ -57,8 +60,6 @@ public class AliyunOssClient extends AbstractFileClient {
                 .build();
         log.info("----end.初始化AliyunOss连接配置完成----");
     }
-
-
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
@@ -107,4 +108,17 @@ public class AliyunOssClient extends AbstractFileClient {
         return url.toString();
     }
 
+    @Override
+    public String generatePresignedUrl(String objectName){
+        // 指定生成的预签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
+        Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+
+        // 生成预签名URL。
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(properties.getBucket(), objectName, HttpMethod.PUT);
+        // 设置过期时间。
+        request.setExpiration(expiration);
+        // 通过HTTP PUT请求生成预签名URL。
+        URL url = ossClient.generatePresignedUrl(request);
+        return url.toString();
+    }
 }

@@ -38,7 +38,7 @@ public class FilePathSerializer extends JsonSerializer<Object> {
             return;
         }
         // 直接访问的地址 配置了公共桶
-        String presignedUrl = factory.getDefaultStorage().getAbsoluteUrl(objectName);
+        String presignedUrl = factory.getDefaultStorage().getPresignedUrl(objectName);
         gen.writeString(presignedUrl);
     }
 }

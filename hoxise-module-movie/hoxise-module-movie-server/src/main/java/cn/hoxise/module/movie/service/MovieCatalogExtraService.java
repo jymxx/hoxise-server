@@ -1,9 +1,11 @@
 package cn.hoxise.module.movie.service;
 
+import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * MovieCatalogExtraService
@@ -14,24 +16,22 @@ import java.util.Optional;
 public interface MovieCatalogExtraService extends IService<MovieCatalogExtraDO> {
 
     /**
-     * 获取播放地址
+     * 判断是否有拓展信息
      *
      * @param catalogId 目录 ID
-     * @return 播放地址
+     * @return 拓展信息检查VO
      * @author hoxise
-     * @since 2026/04/06
+     * @since 2026/04/09 20:32:49
      */
-    String getPlayUrl(Long catalogId);
+    MovieExtraCheckVO hasInfo(Long catalogId);
 
     /**
-     * 保存或更新播放地址
+     * 获取拓展信息
      *
      * @param catalogId 目录 ID
-     * @param playUrl 播放地址
+     * @param function 获取信息函数
      * @author hoxise
-     * @since 2026/04/06
+     * @since 2026/04/10 08:46:50
      */
-    void saveOrUpdatePlayUrl(Long catalogId, String playUrl);
-
-
+    String getExtraInfo(Long catalogId, String secret, Function<MovieCatalogExtraDO, String> function);
 }
