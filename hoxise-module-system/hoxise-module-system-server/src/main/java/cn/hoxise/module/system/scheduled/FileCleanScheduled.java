@@ -1,0 +1,41 @@
+package cn.hoxise.module.system.scheduled;
+
+import cn.hoxise.module.system.service.file.SystemFileService;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+/**
+ * 文件清理定时任务
+ *
+ * @author hoxise
+ * @since 2026/04/12
+ */
+@Slf4j
+@Component
+@ConditionalOnProperty(prefix = "hoxise.file-clean", name = "enabled", havingValue = "true")
+public class FileCleanScheduled {
+
+    @Resource
+    private SystemFileService systemFileService;
+
+    @Value("${hoxise.file-clean.expire-days}")
+    private int expireDays;
+
+    /**
+     * 清理过期文件
+     */
+    @Scheduled(cron = "${hoxise.file-clean.cron}")
+    public void cleanOrphanFiles() {
+        log.info("开始执行过期文件清理任务");
+        try {
+            int count = systemFileService.cleanExpireFiles(expireDays);
+            log.info("过期文件清理任务完成，清理文件数: {}", count);
+        } catch (Exception e) {
+            log.error("过期文件清理任务执行失败", e);
+        }
+    }
+}

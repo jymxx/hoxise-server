@@ -36,8 +36,8 @@ public class MovieFavoriteController {
     }
 
     @Operation(summary = "取消收藏")
-    @DeleteMapping("/cancel/{catalogId}")
-    public CommonResult<Boolean> remove(@PathVariable @NotNull Long catalogId) {
+    @DeleteMapping("/cancel")
+    public CommonResult<Boolean> remove(@NotNull Long catalogId) {
         movieFavoriteService.unfavorite(catalogId);
         return CommonResult.success(true);
     }

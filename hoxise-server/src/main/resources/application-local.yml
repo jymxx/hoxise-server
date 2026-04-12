@@ -106,5 +106,10 @@ sms:
 hoxise:
   #启动模式 (dev 1.登录不需要验证码;)
   runMode: dev
-  #默认头像地址
-  defaultAvatar: user/avatar/default.png
+  #默认头像ID
+  defaultAvatarFileId: 1
+  #Oss文件清理 清理掉未绑定的文件数据
+  file-clean:
+    enabled: true
+    expire-days: 1      # 计划过期天数
+    cron: "0 0 2 * * ?" # 每天凌晨2点执行

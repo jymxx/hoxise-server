@@ -5,7 +5,6 @@ import cn.hoxise.module.system.controller.user.dto.ModifyUserInfoDTO;
 import cn.hoxise.module.system.controller.user.vo.UserInfoVO;
 import cn.hoxise.module.system.dal.entity.SystemUserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * SystemUserService
@@ -63,15 +62,5 @@ public interface SystemUserService extends IService<SystemUserDO> {
      * @since 2026/04/02 10:14:05
      */
     void modifyUserInfo(ModifyUserInfoDTO dto);
-
-    /**
-     * 上传用户头像
-     *
-     * @param file 头像文件
-     * @return 头像访问地址
-     * @author hoxise
-     * @since 2026/04/02
-     */
-    String uploadAvatar(MultipartFile file);
 
 }

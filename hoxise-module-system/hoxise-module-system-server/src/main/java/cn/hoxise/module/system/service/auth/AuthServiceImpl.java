@@ -126,7 +126,6 @@ public class AuthServiceImpl implements AuthService {
                         .nickName(systemUserDO.getNickName())
                         .phoneNumber(systemUserDO.getPhoneNumber())
                         .roles(systemUserDO.getRoleIds())
-                        .avatar(systemUserDO.getAvatar())
                         .build())
                 .build();
         //登录后逻辑处理

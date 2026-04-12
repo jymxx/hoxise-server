@@ -50,8 +50,8 @@ public class SystemUserDO extends BaseDO implements Serializable {
     /** 状态,0正常 1(禁止登录) */
     private Integer status;
 
-    /** 头像 */
-    private String avatar;
+    /** 头像文件ID */
+    private Long avatarFileId;
 
     @Serial
     @TableField(exist = false)

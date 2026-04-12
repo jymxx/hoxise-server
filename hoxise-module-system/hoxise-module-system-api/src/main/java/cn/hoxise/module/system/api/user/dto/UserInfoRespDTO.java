@@ -37,7 +37,4 @@ public class UserInfoRespDTO {
     @Schema(description = "状态,0正常 1(禁止登录)")
     private Integer status;
 
-    /** 头像 */
-    @Schema(description = "头像")
-    private String avatar;
 }

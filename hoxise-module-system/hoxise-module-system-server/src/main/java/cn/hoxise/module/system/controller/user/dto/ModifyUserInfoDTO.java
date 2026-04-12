@@ -3,6 +3,7 @@ package cn.hoxise.module.system.controller.user.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -13,9 +14,13 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ModifyUserInfoDTO {
 
     @Schema(description = "昵称")
     @Length(max = 20)
     private String nickName;
+
+    @Schema(description = "头像文件ID")
+    private Long avatarFileId;
 }
