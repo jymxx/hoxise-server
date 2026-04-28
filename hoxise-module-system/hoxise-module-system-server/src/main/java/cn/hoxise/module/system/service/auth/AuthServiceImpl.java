@@ -12,9 +12,6 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hoxise.module.system.controller.auth.vo.LoginResultVO;
 import cn.hoxise.common.base.exception.ServiceException;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.xingyuv.captcha.model.common.ResponseModel;
-import com.xingyuv.captcha.model.vo.CaptchaVO;
-import com.xingyuv.captcha.service.CaptchaService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,9 +29,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Resource
     private SystemUserService systemUserService;
-
-    @Resource
-    private CaptchaService captchaService;
 
     @Resource
     private SystemSmsSendService systemSmsSendService;
@@ -126,6 +120,7 @@ public class AuthServiceImpl implements AuthService {
                         .nickName(systemUserDO.getNickName())
                         .phoneNumber(systemUserDO.getPhoneNumber())
                         .roles(systemUserDO.getRoleIds())
+                        .avatar(systemUserDO.getAvatar())
                         .build())
                 .build();
         //登录后逻辑处理
@@ -162,13 +157,7 @@ public class AuthServiceImpl implements AuthService {
             return;
         }
         // 校验验证码
-        CaptchaVO captchaVO = new CaptchaVO();
-        captchaVO.setCaptchaVerification(captcha);
-        ResponseModel response = captchaService.verification(captchaVO);
-        // 验证不通过
-        if (!response.isSuccess()) {
-            throw new ServiceException("验证码错误.");
-        }
+        //....
     }
 
 

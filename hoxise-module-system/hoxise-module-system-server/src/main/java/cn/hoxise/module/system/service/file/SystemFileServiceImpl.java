@@ -124,21 +124,21 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
     public int cleanExpireFiles(int expireDays) {
         // 查询未绑定且超过指定天数的文件
         LocalDateTime expireTime = LocalDateTime.now().minusDays(expireDays);
-        List<SystemFileDO> orphanFiles = list(Wrappers.lambdaQuery(SystemFileDO.class)
+        List<SystemFileDO> expireFiles = list(Wrappers.lambdaQuery(SystemFileDO.class)
                 .eq(SystemFileDO::getBindStatus, FileBindStatusEnum.UNBIND.getStatus())
                 .lt(SystemFileDO::getCreateTime, expireTime));
 
-        if (orphanFiles.isEmpty()) {
+        if (expireFiles.isEmpty()) {
             log.info("没有需要清理的过期文件");
             return 0;
         }
 
         int count = 0;
-        for (SystemFileDO fileDO : orphanFiles) {
+        for (SystemFileDO fileDO : expireFiles) {
             try {
                 // 删除OSS文件
                 fileStorageClientFactory.getDefaultStorage().deleteFile(fileDO.getObjectName());
-                // 删除数据库记录（物理删除）
+                // 删除数据库记录
                 baseMapper.deleteById(fileDO.getId());
                 count++;
             } catch (Exception e) {

@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author hoxise
  */
 @Data
-@ConfigurationProperties(prefix = "file-storage")
+@ConfigurationProperties(prefix = "hoxise.file-storage")
 public class FileStorageProperties {
 
     /**

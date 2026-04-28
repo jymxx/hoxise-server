@@ -14,7 +14,8 @@ import lombok.Getter;
 public enum UserStatusEnum {
 
     ENABLE(0, "正常"),
-    DISABLE(1, "禁用");
+    DISABLE(1, "禁用"),
+    FORBIDDEN(2, "禁止登录");
 
     /**
      * 状态值

@@ -1,17 +1,21 @@
 server:
+  port: 18001
   servlet:
-    context-path: /hoxise
+    context-path: /hoxise-system
 
 spring:
   application:
-    name: hoxise-server
-
+    name: hoxise-system
   profiles:
     include: local
 
+  autoconfigure:
+    exclude:
+      - cn.hoxise.common.security.operatelog.config.HoxiseOperateLogRpcAutoConfiguration
+      - cn.hoxise.common.security.satoken.config.HoxiseStpRpcAutoConfiguration
+
   main:
     allow-circular-references: true #允许循环引用
-    allow-bean-definition-overriding: true # 允许Bean覆盖，解决Cloud Feign问题
 
   servlet:
     # 文件上传相关配置项
@@ -23,11 +27,12 @@ spring:
     redis:
       time-to-live: 1h #缓存时间
 
+  # Jackson 配置项
   jackson:
+    serialization:
+      write-dates-as-timestamps: false # true时间戳 false日期格式
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    serialization:
-      write-dates-as-timestamps: false  #false=字符串，true=时间戳
 
 #springdoc-openapi接口文档配置
 springdoc:
