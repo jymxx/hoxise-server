@@ -1,16 +1,19 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
 import cn.hoxise.module.movie.enums.movie.MovieStatusEnum;
 import cn.hoxise.module.movie.enums.movie.MovieTypeEnum;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * 影视目录
@@ -21,11 +24,12 @@ import lombok.Data;
 @Schema(description = "影视目录")
 @TableName(value ="movie_catalog")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
-public class MovieCatalogDO implements Serializable {
-    /**
-     * 
-     */
+@NoArgsConstructor
+@AllArgsConstructor
+public class MovieCatalogDO extends BaseDO {
+
     @TableId(type = IdType.AUTO)
     private Long id;
 
@@ -60,11 +64,6 @@ public class MovieCatalogDO implements Serializable {
     private Long bangumiId;
 
     /**
-     * 数据创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
      * 匹配时间
      */
     private LocalDateTime matchingTime;
@@ -72,7 +71,6 @@ public class MovieCatalogDO implements Serializable {
     /**
      * 存在状态 0正常 1过期
      */
-    @TableLogic
     private MovieStatusEnum status;
 
     @Serial

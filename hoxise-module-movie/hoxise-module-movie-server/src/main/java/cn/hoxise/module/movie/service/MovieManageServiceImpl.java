@@ -77,7 +77,6 @@ public class MovieManageServiceImpl implements MovieManageService{
                         .totalSize(directory.getTotalSize())
                         .status(MovieStatusEnum.NORMAL)
                         .userId(loginId)
-                        .createTime(LocalDateTime.now())
                         .build());
             } else {
                 // 如果已存在，从 DB map 中移除，剩下的就是需要删除的 即数据库还有 但实际不存在

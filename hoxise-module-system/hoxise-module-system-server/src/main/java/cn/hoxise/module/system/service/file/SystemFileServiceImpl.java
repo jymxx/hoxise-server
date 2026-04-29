@@ -50,7 +50,6 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
                 .fileSize(file.getSize())
                 .fileType(file.getContentType())
                 .extension(extension)
-                .bizType(bizType.getType())
                 .bindStatus(FileBindStatusEnum.UNBIND.getStatus())
                 .build();
         save(fileDO);
@@ -59,10 +58,9 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
     }
 
     @Override
-    public void bindFile(Long fileId, Long bizId) {
+    public void bindFile(Long fileId) {
         update(Wrappers.lambdaUpdate(SystemFileDO.class)
                 .eq(SystemFileDO::getId, fileId)
-                .set(SystemFileDO::getBizId, bizId)
                 .set(SystemFileDO::getBindStatus, FileBindStatusEnum.BIND.getStatus()));
     }
 
@@ -73,15 +71,6 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
             return null;
         }
         return fileStorageClientFactory.getDefaultStorage().getPresignedUrl(fileDO.getObjectName());
-    }
-
-    @Override
-    public String getObjectName(Long fileId) {
-        SystemFileDO fileDO = getById(fileId);
-        if (fileDO == null) {
-            return null;
-        }
-        return fileDO.getObjectName();
     }
 
     @Override

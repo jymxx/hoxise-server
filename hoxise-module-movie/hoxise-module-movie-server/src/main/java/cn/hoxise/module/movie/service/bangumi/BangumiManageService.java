@@ -1,8 +1,7 @@
 package cn.hoxise.module.movie.service.bangumi;
 
 import cn.hoxise.module.movie.dal.entity.BangumiDbDO;
-import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
-import cn.hoxise.module.movie.pojo.dto.BangumiSearchSubjectResponse;
+import cn.hoxise.module.movie.pojo.dto.bangumi.BangumiSearchSubjectResponse;
 
 import java.util.List;
 

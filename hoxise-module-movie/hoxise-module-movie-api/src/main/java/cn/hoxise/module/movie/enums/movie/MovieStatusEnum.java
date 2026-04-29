@@ -18,7 +18,7 @@ public enum MovieStatusEnum {
     NORMAL(0, "正常"),
     EXPIRED(1, "过期"),
     HIDDEN(2, "对外隐藏"),
-    Unknown(10, "未知");
+    UNKNOWN(10, "未知");
 
     @EnumValue
     private final Integer code;

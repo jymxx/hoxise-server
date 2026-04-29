@@ -17,18 +17,17 @@ public interface SystemFileService extends IService<SystemFileDO> {
      * 上传文件
      *
      * @param file    文件
-     * @param bizType 业务类型
+     * @param bizType 业务类型（用于校验和OSS路径）
      * @return 文件ID
      */
     Long uploadFile(MultipartFile file, FileBizTypeEnum bizType);
 
     /**
-     * 绑定文件到业务
+     * 绑定文件（更新绑定状态）
      *
      * @param fileId 文件ID
-     * @param bizId  业务ID
      */
-    void bindFile(Long fileId, Long bizId);
+    void bindFile(Long fileId);
 
     /**
      * 根据文件ID获取访问URL
@@ -37,15 +36,6 @@ public interface SystemFileService extends IService<SystemFileDO> {
      * @return 访问URL
      */
     String getAccessUrl(Long fileId);
-
-    /**
-     * 根据文件ID获取ObjectName
-     *
-     * @param fileId 文件ID
-     * @author hoxise
-     * @since 2026/04/12 23:48:59
-     */
-    String getObjectName(Long fileId);
 
     /**
      * 删除文件（物理删除OSS文件 + 逻辑删除记录）

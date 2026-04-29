@@ -1,12 +1,16 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Bangumi 的infobox
@@ -17,8 +21,11 @@ import lombok.Data;
 @Schema(description = "Bangumi 的信息框")
 @TableName("movie_db_bangumi_infobox")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
-public class BangumiDbInfoboxDO {
+@NoArgsConstructor
+@AllArgsConstructor
+public class BangumiDbInfoboxDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -28,4 +35,8 @@ public class BangumiDbInfoboxDO {
     private String infoboxKey;
 
     private String infoboxValue;
+
+    @java.io.Serial
+    @com.baomidou.mybatisplus.annotation.TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

@@ -5,6 +5,7 @@ import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogExtraMapper;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,22 +28,25 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         MovieCatalogExtraDO extra = this.getOne(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
                 .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
         if (BeanUtil.isEmpty(extra)) {
-            new MovieExtraCheckVO();
+           return null;
         }
 
         return MovieExtraCheckVO.builder()
-                .hasPlayUrl(StrUtil.isNotBlank(extra.getPlayUrl()))
-                .hasResourceUrl(StrUtil.isNotBlank(extra.getExtraData()))
+                .hasPlayUrl(ObjUtil.isNotNull(extra.getPlayUrl()))
+                .hasResourceUrl(ObjUtil.isNotNull(extra.getExtraData()))
                 .hasSecret(StrUtil.isNotBlank(extra.getSecret()))
                 .build();
     }
 
     @Override
-    public String getExtraInfo(Long catalogId, String secret , Function<MovieCatalogExtraDO, String> function) {
+    public <T> T getExtraInfo(Long catalogId, String secret, Function<MovieCatalogExtraDO, T> function) {
         MovieCatalogExtraDO extra = this.getOne(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
                 .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
-        if (StrUtil.isNotBlank(extra.getSecret()) && !extra.getSecret().equals(secret)){
-            throw new ServiceException("获取密码错误");
+        if (extra == null) {
+            return null;
+        }
+        if (StrUtil.isNotBlank(extra.getSecret()) && !extra.getSecret().equals(secret)) {
+            throw new ServiceException("密钥错误");
         }
         return function.apply(extra);
     }

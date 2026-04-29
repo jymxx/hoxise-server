@@ -1,6 +1,5 @@
 package cn.hoxise.module.system.controller.file;
 
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.module.system.enums.FileBizTypeEnum;
 import cn.hoxise.module.system.service.file.SystemFileService;

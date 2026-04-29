@@ -12,7 +12,6 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -303,7 +302,7 @@ public class OperateLogAspect {
         String[] argNames = methodSignature.getParameterNames();
         Object[] argValues = joinPoint.getArgs();
         // 拼接参数
-        Map<String, Object> args = Maps.newHashMapWithExpectedSize(argValues.length);
+        Map<String, Object> args = new HashMap<>(argNames.length);
         for (int i = 0; i < argNames.length; i++) {
             String argName = argNames[i];
             Object argValue = argValues[i];

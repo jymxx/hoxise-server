@@ -4,7 +4,6 @@ import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -29,9 +28,11 @@ public interface MovieCatalogExtraService extends IService<MovieCatalogExtraDO> 
      * 获取拓展信息
      *
      * @param catalogId 目录 ID
-     * @param function 获取信息函数
+     * @param secret 密钥
+     * @param function 获取指定字段的函数
+     * @return 指定字段的数据
      * @author hoxise
      * @since 2026/04/10 08:46:50
      */
-    String getExtraInfo(Long catalogId, String secret, Function<MovieCatalogExtraDO, String> function);
+    <T> T getExtraInfo(Long catalogId, String secret, Function<MovieCatalogExtraDO, T> function);
 }

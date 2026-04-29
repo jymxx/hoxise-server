@@ -56,16 +56,6 @@ public class SystemFileDO extends BaseDO {
     private String extension;
 
     /**
-     * 业务类型
-     */
-    private String bizType;
-
-    /**
-     * 关联业务ID
-     */
-    private Long bizId;
-
-    /**
      * 绑定状态: 0-未绑定 1-已绑定
      */
     private Integer bindStatus;

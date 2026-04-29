@@ -1,16 +1,21 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
+import cn.hoxise.module.movie.pojo.dto.PlayUrlDTO;
+import cn.hoxise.module.movie.pojo.dto.ResourceUrlDTO;
 import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 
 import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 /**
  * 影视目录扩展信息表
@@ -19,12 +24,13 @@ import lombok.AllArgsConstructor;
  * @since 2026/04/06
  */
 @Schema(description = "影视目录扩展信息")
-@TableName("movie_catalog_extra")
+@TableName(value = "movie_catalog_extra", autoResultMap = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieCatalogExtraDO implements Serializable {
+public class MovieCatalogExtraDO extends BaseDO {
 
     /**
      * 主键 ID
@@ -40,28 +46,25 @@ public class MovieCatalogExtraDO implements Serializable {
     /**
      * 播放地址
      */
-    private String playUrl;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private PlayUrlDTO playUrl;
 
     /**
-     * 资源地址
+     * 资源地址列表
      */
-    private String resourceUrl;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<ResourceUrlDTO> resourceUrl;
 
     /**
-     * 扩展数据
+     * 扩展数据（保留字段）
      */
-    private String extraData;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> extraData;
 
     /**
      * 密钥
      */
     private String secret;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
-
 
     @Serial
     @TableField(exist = false)

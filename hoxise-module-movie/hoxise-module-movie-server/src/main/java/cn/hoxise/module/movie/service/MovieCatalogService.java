@@ -7,7 +7,6 @@ import cn.hoxise.module.movie.controller.movie.dto.MovieUpdateDbDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieStatVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
-import cn.hoxise.module.movie.pojo.dto.BangumiSearchSubjectResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 

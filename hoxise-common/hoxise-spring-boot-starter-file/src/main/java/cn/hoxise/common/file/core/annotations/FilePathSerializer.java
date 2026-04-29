@@ -6,10 +6,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.jackson.JsonComponent;
 
 /**
  * 绝对路径序列化
@@ -18,7 +16,6 @@ import org.springframework.boot.jackson.JsonComponent;
  * @since 2026/01/14 06:42:47
  */
 @Slf4j
-@JsonComponent // 将序列化类注册到Jackson中
 public class FilePathSerializer extends JsonSerializer<Object> {
 
     @SneakyThrows

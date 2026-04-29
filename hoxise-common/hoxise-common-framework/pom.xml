@@ -9,7 +9,6 @@
     </parent>
 
     <artifactId>hoxise-common-framework</artifactId>
-    <version>${revision}</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 

@@ -9,7 +9,6 @@
     </parent>
 
     <artifactId>hoxise-spring-boot-starter-security</artifactId>
-    <version>${revision}</version>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 

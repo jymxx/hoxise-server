@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
 import cn.hoxise.common.mybatis.core.type.StringListTypeHandler;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -7,12 +8,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Bangumi演员/声优表
@@ -22,9 +24,11 @@ import lombok.Data;
  */
 @TableName(value ="movie_db_bangumi_actor")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class BangumiDbActorDO implements Serializable {
+public class BangumiDbActorDO extends BaseDO {
     /**
      * 主键ID
      */

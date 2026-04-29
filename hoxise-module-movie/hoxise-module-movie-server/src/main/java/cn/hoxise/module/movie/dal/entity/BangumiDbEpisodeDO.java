@@ -1,17 +1,19 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Bangumi剧集表
@@ -21,9 +23,11 @@ import lombok.Data;
  */
 @TableName(value ="movie_db_bangumi_episode")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-public class BangumiDbEpisodeDO implements Serializable {
+public class BangumiDbEpisodeDO extends BaseDO {
     /**
      * 主键ID
      */

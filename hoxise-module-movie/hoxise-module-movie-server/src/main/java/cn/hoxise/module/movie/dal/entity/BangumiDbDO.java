@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.dal.entity;
 
+import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
 import cn.hoxise.common.mybatis.core.type.StringListTypeHandler;
 import cn.hoxise.module.movie.enums.bangumi.BangumiSubjectTypeEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -8,7 +9,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -27,10 +28,11 @@ import lombok.NoArgsConstructor;
 @Schema(description = "影视数据")
 @TableName(value ="movie_db_bangumi")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BangumiDbDO implements Serializable {
+public class BangumiDbDO extends BaseDO {
 
     @TableId(type = IdType.AUTO)
     private Long id;

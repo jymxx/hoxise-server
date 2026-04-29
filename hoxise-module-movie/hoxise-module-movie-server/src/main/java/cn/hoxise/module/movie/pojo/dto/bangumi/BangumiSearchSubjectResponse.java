@@ -1,4 +1,4 @@
-package cn.hoxise.module.movie.pojo.dto;
+package cn.hoxise.module.movie.pojo.dto.bangumi;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
