@@ -42,7 +42,6 @@ public class MovieDetailVO {
     /**
      * 发布日期
      */
-    @JsonFormat(pattern = DateUtil.FORMAT_YEAR_MONTH_DAY)
     private LocalDateTime releaseDate;
 
     /**

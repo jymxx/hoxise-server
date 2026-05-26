@@ -103,9 +103,9 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
             throw new ServiceException("文件大小不能超过 10MB");
         }
 
-        // 上传文件到头像目录
-        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(file, SystemConstants.USER_AVATAR_OSS_DIR);
-
+        // 上传文件到头像目录 然后直接迁移
+        FileStorageDTO tmpFileDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(file, SystemConstants.USER_AVATAR_OSS_DIR);
+        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().migrate(tmpFileDTO.getObjectName());
         // 更新用户头像
         long loginId = StpUtil.getLoginIdAsLong();
         SystemUserDO one = getById(loginId);
@@ -121,7 +121,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
                 .eq(SystemUserDO::getUserId, loginId)
                 .set(SystemUserDO::getAvatar, fileStorageDTO.getObjectName()));
 
-        return fileStorageClientFactory.getDefaultStorage().getAbsoluteUrl(fileStorageDTO.getObjectName());
+        return fileStorageClientFactory.getDefaultStorage().getPresignedUrl(fileStorageDTO.getObjectName());
     }
 
 }

@@ -50,14 +50,14 @@ public class DateUtil {
     }
 
     /**
-     * 时间字符串转LocalDate
+     * 格式化日期字符串 yyyy-MM-dd
      *
-     * @param dateStr  yyyy-MM-dd 日期字符串
-     * @return LocalDateTime
+     * @param dateStr 日期字符串
+     * @return LocalDate
      * @author hoxise
-     * @since 2026/01/14 06:51:04
+     * @since 2026/05/25 11:25:48
      */
-    public static LocalDateTime handleDateStr(String dateStr){
+    public static LocalDateTime formatDate(String dateStr){
         if (StrUtil.isBlank(dateStr)){
             return null;
         }
@@ -65,16 +65,31 @@ public class DateUtil {
     }
 
     /**
-     * 格式化为Date类型 兼容多种格式
+     * 格式化时间字符串 yyyy-MM-dd HH:mm:SS
+     *
+     * @param dateTimeStr 时间字符串
+     * @return LocalDateTime
+     * @author hoxise
+     * @since 2026/05/25 11:26:34
+     */
+    public static LocalDateTime formatDateTime(String dateTimeStr){
+        if (StrUtil.isBlank(dateTimeStr)){
+            return null;
+        }
+        return LocalDate.parse(dateTimeStr, DateUtil.DATE_TIME_FORMATTER).atStartOfDay();
+    }
+
+    /**
+     * 格式化为LocalDateTime类型 兼容多种格式
      *
      * @param dateStr 日期字符串
      * @author hoxise
      * @since 2026/04/15 10:02:06
      */
-    public static DateTime parseDateTime(String dateStr){
+    public static LocalDateTime parseDateTime(String dateStr){
         if (StrUtil.isBlank(dateStr)){
             return null;
         }
-        return cn.hutool.core.date.DateUtil.parse(dateStr, FORMATTERS);
+        return cn.hutool.core.date.DateUtil.parse(dateStr, FORMATTERS).toLocalDateTime();
     }
 }

@@ -243,39 +243,6 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         redisUtil.deleteCachePattern(lastUpdateKey + "*");
     }
 
-
-    @Override
-    public List<MovieSimpleVO> getFavoriteList() {
-        List<Long> catalogIds = movieFavoriteService.getFavoriteCatalogIds();
-        List<MovieSimpleVO> result = listByCatalogIds(catalogIds);
-
-        // 按照 catalogIds 的顺序排序（收藏先后顺序）
-        Map<Long, Integer> orderMap = new HashMap<>();
-        for (int i = 0; i < catalogIds.size(); i++) {
-            orderMap.put(catalogIds.get(i), i);
-        }
-        result.sort(Comparator.comparingInt(vo -> orderMap.getOrDefault(vo.getId(), Integer.MAX_VALUE)));
-        // 收藏列表全部标记为已收藏
-        result.forEach(f -> f.setFavorite(true));
-        return result;
-    }
-
-    @Override
-    public void fillFavoriteInfo(List<MovieSimpleVO> simpleVos){
-        if (simpleVos.isEmpty() || !StpUtil.isLogin()){
-            return;
-        }
-
-        // 获取用户收藏的目录 ID 列表
-        List<Long> favoriteCatalogIds = movieFavoriteService.getFavoriteCatalogIds();
-        if (favoriteCatalogIds.isEmpty()){
-            return;
-        }
-        // 设置收藏状态
-        Set<Long> favoriteSet = new HashSet<>(favoriteCatalogIds);
-        simpleVos.forEach(f -> f.setFavorite(favoriteSet.contains(f.getId())));
-    }
-
     @Override
     public void handleNoLogin(List<MovieSimpleVO> result){
         //未登录屏蔽这两条字段

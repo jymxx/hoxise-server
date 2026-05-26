@@ -24,7 +24,6 @@ public class LoginResultVO {
     private String status;
 
     @Schema(name = "时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private LocalDateTime loginTime;
 
     @Schema(name = "token")

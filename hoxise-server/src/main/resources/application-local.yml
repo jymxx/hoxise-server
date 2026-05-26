@@ -85,7 +85,7 @@ hoxise:
   #系统
   system:
     #默认头像地址
-    defaultAvatar: user/avatar/default.png
+    defaultAvatar: formal/user/avatar/default.png
   #Oss文件清理
   file-clean:
     enabled: true

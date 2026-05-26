@@ -1,6 +1,7 @@
 package cn.hoxise.common.framework.config;
 
 import cn.hoxise.common.framework.core.banner.BannerApplicationRunner;
+import cn.hoxise.common.framework.core.jackson.JacksonConfiguration;
 import cn.hoxise.common.framework.core.swagger.SwaggerConfig;
 import cn.hoxise.common.framework.core.web.CorsFilterConfig;
 import cn.hoxise.common.framework.core.web.GlobalExceptionHandler;
@@ -27,6 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 @Import({
         CorsFilterConfig.class, // 跨域配置
         SwaggerConfig.class, // swagger配置
+        JacksonConfiguration.class,// jackson序列化配置
 })
 public class HoxiseFrameworkAutoConfiguration {
 
@@ -46,5 +48,6 @@ public class HoxiseFrameworkAutoConfiguration {
     public BannerApplicationRunner bannerApplicationRunner() {
         return new BannerApplicationRunner();
     }
+
 
 }

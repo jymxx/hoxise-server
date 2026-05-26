@@ -30,6 +30,10 @@ public class MovieCatalogExtraController {
 
     @Resource private MovieCatalogExtraService movieCatalogExtraService;
 
+//    public CommonResult<Boolean> uploadFile(Long fileId,Long catalogId){
+//
+//    }
+
     @OperateLog
     @Operation(summary = "检查是否存在可获取的信息")
     @GetMapping("/hasInfo")

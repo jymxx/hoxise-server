@@ -69,7 +69,6 @@ public class MovieManageController {
         return CommonResult.ok();
     }
 
-
     @OperateLog
     @Operation(summary = "自动匹配自己的数据")
     @PostMapping("/autoMatch")

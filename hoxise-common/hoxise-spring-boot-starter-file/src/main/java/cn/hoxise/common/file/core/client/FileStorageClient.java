@@ -97,5 +97,12 @@ public interface FileStorageClient {
      */
     String getAbsoluteUrl(String objectName);
 
+    /**
+     * 将临时目录文件迁移到正式路径（复制后删除源文件）
+     *
+     * @param tmpObjectName    临时目录下的对象名称
+     * @return 迁移后的文件存储结果
+     */
+    FileStorageDTO migrate(String tmpObjectName);
 
 }

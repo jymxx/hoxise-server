@@ -63,7 +63,8 @@ public class AliyunOssClient extends AbstractFileClient
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
-        String objectName = folderName + "/" + fileName;
+        // 所有上传先到临时目录
+        String objectName = TMP_FOLDER_NAME + "/" + folderName + "/" + fileName;
         try {
             PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), objectName, inputStream);
             ossClient.putObject(putObjectRequest);
@@ -74,6 +75,26 @@ public class AliyunOssClient extends AbstractFileClient
         } catch (Exception e) {
             log.error("aliyunOss文件上传失败, fileName: {},{}", fileName,e.toString());
             throw new ServiceException("文件上传异常");
+        }
+    }
+
+    @Override
+    public FileStorageDTO migrate(String tmpObjectName) {
+        if (!tmpObjectName.startsWith(TMP_FOLDER_NAME + "/")) {
+            throw new ServiceException("非临时目录文件，无法迁移");
+        }
+        // 移除临时目录前缀，拼接到正式目录下
+        String targetObjectName = FORMAL_FOLDER_NAME + "/" + tmpObjectName.substring(TMP_FOLDER_NAME.length() + 1);
+        try {
+            ossClient.copyObject(properties.getBucket(), tmpObjectName, properties.getBucket(), targetObjectName);
+            ossClient.deleteObject(properties.getBucket(), tmpObjectName);
+            return FileStorageDTO.builder()
+                    .objectName(targetObjectName)
+                    .absoluteUrl(getAbsoluteUrl(targetObjectName))
+                    .build();
+        } catch (Exception e) {
+            log.error("aliyunOss文件迁移失败, tmpObjectName: {}, targetObjectName: {}, {}", tmpObjectName, targetObjectName, e.toString());
+            throw new ServiceException("文件迁移异常");
         }
     }
 

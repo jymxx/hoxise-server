@@ -7,8 +7,10 @@ import cn.hoxise.module.system.dal.entity.SystemFileDO;
 import cn.hoxise.module.system.dal.mapper.SystemFileMapper;
 import cn.hoxise.module.system.enums.FileBindStatusEnum;
 import cn.hoxise.module.system.enums.FileBizTypeEnum;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
@@ -59,8 +61,15 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
 
     @Override
     public void bindFile(Long fileId) {
+        SystemFileDO one = getById(fileId);
+        if (BeanUtil.isEmpty(one)){
+            throw new ServiceException("未找到文件");
+        }
+        // 迁移到正式目录
+        FileStorageDTO migrate = fileStorageClientFactory.getDefaultStorage().migrate(one.getObjectName());
         update(Wrappers.lambdaUpdate(SystemFileDO.class)
                 .eq(SystemFileDO::getId, fileId)
+                .set(SystemFileDO::getObjectName,migrate) // 设置为正式目录
                 .set(SystemFileDO::getBindStatus, FileBindStatusEnum.BIND.getStatus()));
     }
 

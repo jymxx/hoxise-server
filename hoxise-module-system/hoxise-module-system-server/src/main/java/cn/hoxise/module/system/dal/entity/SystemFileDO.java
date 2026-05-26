@@ -24,7 +24,7 @@ import java.io.Serial;
 public class SystemFileDO extends BaseDO {
 
     @Serial
-    @TableField(exist = false)
+    @TableField
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.ASSIGN_ID)

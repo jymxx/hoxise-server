@@ -31,7 +31,14 @@ public abstract class AbstractFileClient implements FileStorageClient {
      */
     protected FileStorageProperties.ClientProperties properties;
 
-    private static final String DEFAULT_FOLDER_NAME = "default";
+    // 默认目录前缀
+    protected static final String DEFAULT_FOLDER_NAME = "default";
+
+    // 临时文件目录
+    protected static final String TMP_FOLDER_NAME = "tmp";
+
+    // 正式文件目录
+    protected static final String FORMAL_FOLDER_NAME = "formal";
 
     public AbstractFileClient(FileStorageProperties.ClientProperties clientProperties) {
         if (BeanUtil.hasNullField(clientProperties)){
@@ -71,6 +78,11 @@ public abstract class AbstractFileClient implements FileStorageClient {
     @Override
     public String getAbsoluteUrl(String objectName){
         return properties.getSerializerPrefix() + "/" + objectName;
+    }
+
+    @Override
+    public FileStorageDTO migrate(String tmpObjectName) {
+        throw new UnsupportedOperationException("当前存储实现不支持文件迁移操作");
     }
 
 }

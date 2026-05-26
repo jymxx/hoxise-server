@@ -102,14 +102,4 @@ sms:
     access-key: ${aliyun.sms.accessKey}
     access-secret: ${aliyun.sms.accessSecret}
 
-#系统配置
-hoxise:
-  #启动模式 (dev 1.登录不需要验证码;)
-  runMode: dev
-  #默认头像ID
-  defaultAvatarFileId: 1
-  #Oss文件清理
-  file-clean:
-    enabled: true
-    expire-days: 1      # 计划过期天数
-    cron: "0 0 2 * * ?" # 每天凌晨2点执行
+

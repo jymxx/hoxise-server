@@ -53,4 +53,10 @@ public class MovieFavoriteController {
     public CommonResult<List<Long>> getFavoriteCatalogIds() {
         return CommonResult.success(movieFavoriteService.getFavoriteCatalogIds());
     }
+
+    @Operation(summary = "获取收藏列表（含 DB 数据）")
+    @GetMapping("/listFavorite")
+    public CommonResult<List<MovieSimpleVO>> getFavoriteList() {
+        return CommonResult.success(movieFavoriteService.getFavoriteList());
+    }
 }

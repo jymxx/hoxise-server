@@ -10,9 +10,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -81,4 +79,36 @@ public class MovieFavoriteServiceImpl extends ServiceImpl<MovieFavoriteMapper, M
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void fillFavoriteInfo(List<MovieSimpleVO> simpleVos){
+        if (simpleVos.isEmpty() || !StpUtil.isLogin()){
+            return;
+        }
+
+        // 获取用户收藏的目录 ID 列表
+        List<Long> favoriteCatalogIds = getFavoriteCatalogIds();
+        if (favoriteCatalogIds.isEmpty()){
+            return;
+        }
+        // 设置收藏状态
+        Set<Long> favoriteSet = new HashSet<>(favoriteCatalogIds);
+        simpleVos.forEach(f -> f.setFavorite(favoriteSet.contains(f.getId())));
+    }
+
+
+    @Override
+    public List<MovieSimpleVO> getFavoriteList() {
+        List<Long> catalogIds = getFavoriteCatalogIds();
+        List<MovieSimpleVO> result = movieCatalogService.listByCatalogIds(catalogIds);
+
+        // 按照 catalogIds 的顺序排序（收藏先后顺序）
+        Map<Long, Integer> orderMap = new HashMap<>();
+        for (int i = 0; i < catalogIds.size(); i++) {
+            orderMap.put(catalogIds.get(i), i);
+        }
+        result.sort(Comparator.comparingInt(vo -> orderMap.getOrDefault(vo.getId(), Integer.MAX_VALUE)));
+        // 收藏列表全部标记为已收藏
+        result.forEach(f -> f.setFavorite(true));
+        return result;
+    }
 }

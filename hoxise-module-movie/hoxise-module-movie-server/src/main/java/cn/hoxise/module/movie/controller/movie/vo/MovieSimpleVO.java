@@ -39,7 +39,6 @@ public class MovieSimpleVO {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = DateUtil.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime createTime;
 
     /**
