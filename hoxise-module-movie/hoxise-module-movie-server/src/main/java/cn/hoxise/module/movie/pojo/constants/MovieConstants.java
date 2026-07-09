@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
  */
 public class MovieConstants {
 
-    /** Bangumi API番剧图片存储目录 **/
-    public static final String BANGUMI_MINIO_FLODER = "MovieImg-Bangumi";
 
     /** 不匹配的字符 **/
     public static final Pattern MOVIE_CLEAN_PATTERN = Pattern.compile("❤|系列|合集");

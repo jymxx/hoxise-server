@@ -5,18 +5,10 @@ import cn.hoxise.common.framework.core.jackson.JacksonConfiguration;
 import cn.hoxise.common.framework.core.swagger.SwaggerConfig;
 import cn.hoxise.common.framework.core.web.CorsFilterConfig;
 import cn.hoxise.common.framework.core.web.GlobalExceptionHandler;
-import cn.hutool.extra.spring.SpringUtil;
-import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 /**
  * 框架自动配置

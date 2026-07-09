@@ -1,5 +1,6 @@
 #本地配置
-
+server:
+  port: 18888
 spring:
   cloud:
     nacos:
@@ -85,12 +86,8 @@ hoxise:
   #系统
   system:
     #默认头像地址
-    defaultAvatar: formal/user/avatar/default.png
-  #Oss文件清理
-  file-clean:
-    enabled: true
-    expire-days: 1      # 计划过期天数
-    cron: "0 0 2 * * ?" # 每天凌晨2点执行
+    defaultAvatar: user/avatar/default.png
+
 
   #短信
   sms:
@@ -99,8 +96,17 @@ hoxise:
       access-key: ${aliyun.sms.accessKey}
       access-secret: ${aliyun.sms.accessSecret}
 
+
+
   #文件存储
   file-storage:
+    # Oss文件清理
+    file-clean:
+      # 阿里云使用临时目录, 通过配置自动清理, 因此这里不开启
+      enabled: false  # 是否启用
+      expire-days: 3      # 计划过期天数
+      cron: "0 0 2 * * ?" # 每天凌晨2点执行
+    # 默认存储类型
     default-type: aliyunOss
     minio:
       endpoint: http://127.0.0.1:9000

@@ -1,5 +1,6 @@
 package cn.hoxise.common.file.core.client;
 
+import cn.hoxise.common.file.core.pojo.FileMetadataDTO;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,11 +99,31 @@ public interface FileStorageClient {
     String getAbsoluteUrl(String objectName);
 
     /**
-     * 将临时目录文件迁移到正式路径（复制后删除源文件）
+     * 生成预签名 URL（用于前端直传或临时访问）
      *
-     * @param tmpObjectName    临时目录下的对象名称
-     * @return 迁移后的文件存储结果
+     * @param objectName 对象名称
+     * @author hoxise
+     * @since 2026/07/09 11:29:01
      */
-    FileStorageDTO migrate(String tmpObjectName);
+    String generatePresignedUrl(String objectName);
 
+    /**
+     * 获取对象元数据（文件大小、MIME 类型等，不下载文件内容）
+     *
+     * @param objectName 对象名称
+     * @return 文件元数据
+     * @author hoxise
+     * @since 2026/07/09
+     */
+    FileMetadataDTO getObjectMetadata(String objectName);
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param objectName 对象名称
+     * @return 存在返回 true
+     * @author hoxise
+     * @since 2026/07/09
+     */
+    boolean doesObjectExist(String objectName);
 }

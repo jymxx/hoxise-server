@@ -40,8 +40,7 @@ public class MinioOssClient extends AbstractFileClient {
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
-        String objectName = folderName + "/"
-                + UUID.randomUUID() + "_" + fileName;
+        String objectName = folderName + "/" + UUID.randomUUID() + "_" + fileName;
         try {
             minioClient.putObject(PutObjectArgs.builder().bucket(properties.getBucket())
                     .object(objectName)
@@ -91,6 +90,5 @@ public class MinioOssClient extends AbstractFileClient {
             throw new ServiceException("获取文件预览地址异常");
         }
     }
-
 
 }

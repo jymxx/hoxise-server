@@ -1,8 +1,8 @@
 package cn.hoxise.common.file.core.client.impl;
 
 import cn.hoxise.common.base.exception.ServiceException;
-import cn.hoxise.common.file.core.client.CloudOSSCapable;
 import cn.hoxise.common.file.core.config.FileStorageProperties;
+import cn.hoxise.common.file.core.pojo.FileMetadataDTO;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.HttpMethod;
@@ -17,8 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 阿里云OSS
@@ -27,8 +25,7 @@ import java.util.stream.Collectors;
  * @since 2026/01/14 06:53:19
  */
 @Slf4j
-public class AliyunOssClient extends AbstractFileClient
-        implements CloudOSSCapable {
+public class AliyunOssClient extends AbstractFileClient {
 
     private OSS ossClient;
 
@@ -63,8 +60,7 @@ public class AliyunOssClient extends AbstractFileClient
 
     @Override
     public FileStorageDTO uploadFile(InputStream inputStream, String folderName, String fileName) {
-        // 所有上传先到临时目录
-        String objectName = TMP_FOLDER_NAME + "/" + folderName + "/" + fileName;
+        String objectName = folderName + "/" + fileName;
         try {
             PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucket(), objectName, inputStream);
             ossClient.putObject(putObjectRequest);
@@ -79,48 +75,40 @@ public class AliyunOssClient extends AbstractFileClient
     }
 
     @Override
-    public FileStorageDTO migrate(String tmpObjectName) {
-        if (!tmpObjectName.startsWith(TMP_FOLDER_NAME + "/")) {
-            throw new ServiceException("非临时目录文件，无法迁移");
-        }
-        // 移除临时目录前缀，拼接到正式目录下
-        String targetObjectName = FORMAL_FOLDER_NAME + "/" + tmpObjectName.substring(TMP_FOLDER_NAME.length() + 1);
-        try {
-            ossClient.copyObject(properties.getBucket(), tmpObjectName, properties.getBucket(), targetObjectName);
-            ossClient.deleteObject(properties.getBucket(), tmpObjectName);
-            return FileStorageDTO.builder()
-                    .objectName(targetObjectName)
-                    .absoluteUrl(getAbsoluteUrl(targetObjectName))
-                    .build();
-        } catch (Exception e) {
-            log.error("aliyunOss文件迁移失败, tmpObjectName: {}, targetObjectName: {}, {}", tmpObjectName, targetObjectName, e.toString());
-            throw new ServiceException("文件迁移异常");
-        }
+    public String generatePresignedUrl(String objectName){
+        // 指定生成的预签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
+        Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+        // 生成预签名URL。
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(properties.getBucket(), objectName, HttpMethod.PUT);
+        // 设置过期时间。
+        request.setExpiration(expiration);
+        // 通过HTTP PUT请求生成预签名URL。
+        URL url = ossClient.generatePresignedUrl(request);
+        return url.toString();
     }
 
     @Override
     public InputStream getFileInputStream(String objectName) {
-        try{
-            OSSObject ossObject = ossClient.getObject(properties.getBucket(), objectName);
-            return ossObject.getObjectContent();
-        }catch (Exception e){
-            log.error("aliyunOss文件下载异常,objectName: {},{}", objectName,e.toString());
-            throw new ServiceException("文件下载异常");
+        if (!doesObjectExist(objectName)){
+            throw new ServiceException("OSS文件不存在");
         }
+        OSSObject ossObject = ossClient.getObject(properties.getBucket(), objectName);
+        return ossObject.getObjectContent();
     }
 
     @Override
     public void deleteFile(String objectName) {
-        try{
-            ossClient.deleteObject(properties.getBucket(), objectName);
-        }catch (Exception e){
-            log.error("aliyunOss文件删除失败,objectName: {},{}", objectName,e.toString());
-            throw new ServiceException("文件删除失败");
+        if (!doesObjectExist(objectName)){
+            log.warn("目标删除文件不存在,objectName:{}", objectName);
         }
+        ossClient.deleteObject(properties.getBucket(), objectName);
     }
 
     @Override
     public String getPresignedUrl(String objectName) {
+        if (!doesObjectExist(objectName)){
+            throw new ServiceException("OSS文件不存在");
+        }
         // 设置预签名URL过期时间，单位为毫秒。
         long expireTime = 3600 * 1000L * 12;//12小时
         Date expiration = new Date(new Date().getTime() + expireTime);
@@ -130,16 +118,25 @@ public class AliyunOssClient extends AbstractFileClient
     }
 
     @Override
-    public String generatePresignedUrl(String objectName){
-        // 指定生成的预签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
-        Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
+    public FileMetadataDTO getObjectMetadata(String objectName) {
+        if (!doesObjectExist(objectName)){
+            throw new ServiceException("OSS文件不存在");
+        }
+        ObjectMetadata metadata = ossClient.getObjectMetadata(properties.getBucket(), objectName);
+        return FileMetadataDTO.builder()
+                .contentLength(metadata.getContentLength())
+                .contentType(metadata.getContentType())
+                .contentMd5(metadata.getContentMD5())
+                .lastModified(metadata.getLastModified())
+                .contentEncoding(metadata.getContentEncoding())
+                .contentDisposition(metadata.getContentDisposition())
+                .build();
 
-        // 生成预签名URL。
-        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(properties.getBucket(), objectName, HttpMethod.PUT);
-        // 设置过期时间。
-        request.setExpiration(expiration);
-        // 通过HTTP PUT请求生成预签名URL。
-        URL url = ossClient.generatePresignedUrl(request);
-        return url.toString();
     }
+
+    @Override
+    public boolean doesObjectExist(String objectName) {
+        return ossClient.doesObjectExist(properties.getBucket(), objectName);
+    }
+
 }

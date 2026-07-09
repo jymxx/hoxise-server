@@ -1,14 +1,10 @@
 package cn.hoxise.module.movie.dal.entity;
 
 import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
-import cn.hoxise.module.movie.pojo.dto.PlayUrlDTO;
-import cn.hoxise.module.movie.pojo.dto.ResourceUrlDTO;
+import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 
 import java.io.Serial;
-import java.util.List;
-import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -44,22 +40,29 @@ public class MovieCatalogExtraDO extends BaseDO {
     private Long catalogId;
 
     /**
-     * 播放地址
+     * 文件id
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private PlayUrlDTO playUrl;
+    private String fileId;
 
     /**
-     * 资源地址列表
+     * 资源类型
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<ResourceUrlDTO> resourceUrl;
+    private MovieResourceTypeEnum resourceType;
 
     /**
-     * 扩展数据（保留字段）
+     * 其他云盘存储
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> extraData;
+    private String otherCloudUrl;
+
+    /**
+     * 显示名称
+     */
+    private String showName;
+
+    /**
+     * 排序
+     */
+    private Integer sort;
 
     /**
      * 密钥

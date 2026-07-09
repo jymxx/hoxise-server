@@ -4,6 +4,7 @@ import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.base.utils.file.FileUtils;
 import cn.hoxise.common.file.core.client.FileStorageClient;
 import cn.hoxise.common.file.core.config.FileStorageProperties;
+import cn.hoxise.common.file.core.pojo.FileMetadataDTO;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
@@ -34,12 +35,6 @@ public abstract class AbstractFileClient implements FileStorageClient {
     // 默认目录前缀
     protected static final String DEFAULT_FOLDER_NAME = "default";
 
-    // 临时文件目录
-    protected static final String TMP_FOLDER_NAME = "tmp";
-
-    // 正式文件目录
-    protected static final String FORMAL_FOLDER_NAME = "formal";
-
     public AbstractFileClient(FileStorageProperties.ClientProperties clientProperties) {
         if (BeanUtil.hasNullField(clientProperties)){
             log.error("-----！！！请检查文件存储配置.");
@@ -65,12 +60,15 @@ public abstract class AbstractFileClient implements FileStorageClient {
 
     @Override
     public FileStorageDTO uploadFile(MultipartFile file, String folderName) {
+        String originalFilename = file.getOriginalFilename();
+        if (Objects.isNull(originalFilename)){
+            originalFilename = "file_" + UUID.randomUUID();
+        }
         try (InputStream inputStream = file.getInputStream()) {
-            String extension = FileUtils.getExtension(file.getOriginalFilename());
-            String newFileName = UUID.randomUUID() + extension;
-            return uploadFile(inputStream,folderName, newFileName);
+            String newFileName = UUID.randomUUID() + "_" + originalFilename;
+            return uploadFile(inputStream, folderName, newFileName);
         } catch (IOException e) {
-            log.error("Oss文件处理流异常, fileName: {},{}", file.getOriginalFilename(),e.toString());
+            log.error("Oss文件处理流异常, fileName: {},{}", originalFilename,e.toString());
             throw new RuntimeException(e);
         }
     }
@@ -80,9 +78,19 @@ public abstract class AbstractFileClient implements FileStorageClient {
         return properties.getSerializerPrefix() + "/" + objectName;
     }
 
+
     @Override
-    public FileStorageDTO migrate(String tmpObjectName) {
-        throw new UnsupportedOperationException("当前存储实现不支持文件迁移操作");
+    public String generatePresignedUrl(String objectName) {
+        throw new UnsupportedOperationException("当前存储实现不支持生成预签名URL操作");
     }
 
+    @Override
+    public FileMetadataDTO getObjectMetadata(String objectName) {
+        throw new UnsupportedOperationException("当前存储实现不支持获取对象元数据操作");
+    }
+
+    @Override
+    public boolean doesObjectExist(String objectName) {
+        throw new UnsupportedOperationException("当前存储实现不支持判断文件是否存在");
+    }
 }

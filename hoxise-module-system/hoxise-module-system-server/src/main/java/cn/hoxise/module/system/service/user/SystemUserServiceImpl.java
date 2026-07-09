@@ -104,19 +104,14 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         }
 
         // 上传文件到头像目录 然后直接迁移
-        FileStorageDTO tmpFileDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(file, SystemConstants.USER_AVATAR_OSS_DIR);
-        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().migrate(tmpFileDTO.getObjectName());
-        // 更新用户头像
         long loginId = StpUtil.getLoginIdAsLong();
         SystemUserDO one = getById(loginId);
-        try{
-            if (!one.getAvatar().equals(defaultAvatar) && StrUtil.isNotBlank(one.getAvatar())) {
-                fileStorageClientFactory.getDefaultStorage().deleteFile(one.getAvatar());
-            }
-        }catch (Exception e){
-            log.warn("用户头像删除失败.{%s},{%s}".formatted(one, e));
+        if (!one.getAvatar().equals(defaultAvatar) && StrUtil.isNotBlank(one.getAvatar())) {
+            fileStorageClientFactory.getDefaultStorage().deleteFile(one.getAvatar());
         }
 
+        // 更新用户头像
+        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(file, SystemConstants.USER_AVATAR_OSS_DIR + "/" + loginId);
         baseMapper.update(Wrappers.lambdaUpdate(SystemUserDO.class)
                 .eq(SystemUserDO::getUserId, loginId)
                 .set(SystemUserDO::getAvatar, fileStorageDTO.getObjectName()));

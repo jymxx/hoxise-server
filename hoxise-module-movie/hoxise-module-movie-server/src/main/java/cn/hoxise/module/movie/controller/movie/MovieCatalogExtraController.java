@@ -1,20 +1,20 @@
 package cn.hoxise.module.movie.controller.movie;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
+import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.security.operatelog.core.annotations.OperateLog;
 import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
-import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
-import cn.hoxise.module.movie.pojo.dto.PlayUrlDTO;
-import cn.hoxise.module.movie.pojo.dto.ResourceUrlDTO;
+import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraSaveDTO;
+import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraUpdateDTO;
 import cn.hoxise.module.movie.service.MovieCatalogExtraService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,30 +28,44 @@ import java.util.List;
 @Validated
 public class MovieCatalogExtraController {
 
-    @Resource private MovieCatalogExtraService movieCatalogExtraService;
+    @Resource
+    private MovieCatalogExtraService movieCatalogExtraService;
 
-//    public CommonResult<Boolean> uploadFile(Long fileId,Long catalogId){
-//
-//    }
+    @SaCheckRole("manager")
+    @Operation(summary = "新增扩展信息")
+    @PostMapping("/save")
+    public CommonResult<Void> save(@Validated @RequestBody MovieCatalogExtraSaveDTO dto) {
+        movieCatalogExtraService.saveExtra(dto);
+        return CommonResult.ok();
+    }
 
-    @OperateLog
+    @SaCheckRole("manager")
+    @Operation(summary = "更新扩展信息")
+    @PutMapping("/update")
+    public CommonResult<Void> update(@Validated @RequestBody MovieCatalogExtraUpdateDTO dto) {
+        movieCatalogExtraService.updateExtra(dto);
+        return CommonResult.ok();
+    }
+
+    @SaCheckRole("manager")
+    @Operation(summary = "删除扩展信息")
+    @DeleteMapping("/delete/{id}")
+    public CommonResult<Void> delete(@PathVariable @NotNull Long id) {
+        movieCatalogExtraService.deleteExtra(id);
+        return CommonResult.ok();
+    }
+
     @Operation(summary = "检查是否存在可获取的信息")
     @GetMapping("/hasInfo")
-    public CommonResult<MovieExtraCheckVO> hasInfo(@NotNull Long catalogId){
+    @SaIgnore
+    public CommonResult<List<MovieExtraCheckVO>> hasInfo(@NotNull Long catalogId) {
         return CommonResult.success(movieCatalogExtraService.hasInfo(catalogId));
     }
 
-    @OperateLog // 显式记录get请求的操作日志
-    @Operation(summary = "获取播放地址")
-    @GetMapping("/getPlayUrl")
-    public CommonResult<PlayUrlDTO> getPlayUrl(@NotNull Long catalogId, String keySecret) {
-        return CommonResult.success(movieCatalogExtraService.getExtraInfo(catalogId, keySecret, MovieCatalogExtraDO::getPlayUrl));
-    }
-
-    @OperateLog // 显式记录get请求的操作日志
-    @Operation(summary = "获取资源地址")
-    @GetMapping("/getResourceUrl")
-    public CommonResult<List<ResourceUrlDTO>> getResourceUrl(@NotNull Long catalogId, String keySecret) {
-        return CommonResult.success(movieCatalogExtraService.getExtraInfo(catalogId, keySecret, MovieCatalogExtraDO::getResourceUrl));
+    @Operation(summary = "查询实际资源地址")
+    @GetMapping("/resourceUrl")
+    @SaIgnore
+    public CommonResult<String> getResourceUrl(@NotNull Long extraId, String secret) {
+        return CommonResult.success(movieCatalogExtraService.getResourceUrl(extraId, secret));
     }
 }

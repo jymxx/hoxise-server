@@ -12,7 +12,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,9 +31,6 @@ public class JacksonConfiguration {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer javaTimeCustomizer() {
         return builder -> builder
-                // 全局将 Long 序列化为 String，避免前端精度丢失
-                .serializerByType(Long.class, ToStringSerializer.instance)
-                .serializerByType(long.class, ToStringSerializer.instance)
                 //时间格式化
                 .serializerByType(LocalDate.class, LocalDateSerializer.INSTANCE)
                 .deserializerByType(LocalDate.class, LocalDateDeserializer.INSTANCE)
@@ -50,9 +46,6 @@ public class JacksonConfiguration {
     @Bean
     public Module timestampSupportModuleBean() {
         SimpleModule m = new SimpleModule("TimestampSupportModule");
-        // Long -> Number，避免前端精度丢失
-        m.addSerializer(Long.class, ToStringSerializer.instance);
-        m.addSerializer(Long.TYPE, ToStringSerializer.instance);
         // LocalDate / LocalTime
         m.addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
         m.addDeserializer(LocalDate.class, LocalDateDeserializer.INSTANCE);

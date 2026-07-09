@@ -4,11 +4,11 @@ import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.base.utils.img.ImgUtil;
 import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
-import cn.hoxise.module.movie.pojo.constants.MovieConstants;
 import cn.hoxise.module.movie.pojo.dto.bangumi.BangumiCharacterResponse;
 import cn.hoxise.module.movie.pojo.dto.bangumi.BangumiEpisodesResponse;
 import cn.hoxise.module.movie.pojo.dto.bangumi.BangumiSearchSubjectReq;
 import cn.hoxise.module.movie.pojo.dto.bangumi.BangumiSearchSubjectResponse;
+import cn.hoxise.module.system.enums.FileOssDirEnum;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -137,9 +137,18 @@ public class BangumiUtil {
         if (StrUtil.isBlank(url)){
             return "";
         }
-        //截取后缀
-        String filename = UUID.randomUUID() +"_Bangumi_Img.jpg";
-        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(ImgUtil.downloadImg(url), MovieConstants.BANGUMI_MINIO_FLODER, filename);
+        // 优先从URL中提取文件后缀，没读到则默认jpg
+        String extension = "jpg";
+        String path = url.contains("?") ? url.substring(0, url.indexOf("?")) : url;
+        String urlFileName = path.substring(path.lastIndexOf("/") + 1);
+        if (urlFileName.contains(".")) {
+            String suffix = urlFileName.substring(urlFileName.lastIndexOf(".") + 1);
+            if (StrUtil.isNotBlank(suffix) && suffix.length() <= 5) {
+                extension = suffix;
+            }
+        }
+        String filename = UUID.randomUUID() + "_Bangumi_Img." + extension;
+        FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(ImgUtil.downloadImg(url), FileOssDirEnum.MOVIE_BANGUMI_IMG.getOssDir(), filename);
         return fileStorageDTO.getObjectName();
     }
 }

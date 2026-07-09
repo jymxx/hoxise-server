@@ -1,5 +1,6 @@
 package cn.hoxise.module.movie.controller.movie.vo;
 
+import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,13 +19,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MovieExtraCheckVO {
 
-    @Schema(description = "是否存在播放地址")
-    private boolean hasPlayUrl;
+    @Schema(description = "主键 ID")
+    private Long id;
 
-    @Schema(description = "是否存在资源地址")
-    private boolean hasResourceUrl;
+    @Schema(description = "关联目录 ID")
+    private Long catalogId;
 
-    @Schema(description = "是否存在密钥")
+    @Schema(description = "资源类型")
+    private MovieResourceTypeEnum resourceType;
+
+    @Schema(description = "显示名称")
+    private String showName;
+
+    @Schema(description = "排序")
+    private Integer sort;
+
+    @Schema(description = "是否设置了密钥")
     private boolean hasSecret;
+
 
 }
