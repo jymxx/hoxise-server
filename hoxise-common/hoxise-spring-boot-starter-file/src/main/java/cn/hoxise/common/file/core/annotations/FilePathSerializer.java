@@ -22,21 +22,27 @@ public class FilePathSerializer extends JsonSerializer<Object> {
     @SneakyThrows
     @Override
     public void serialize(Object val, JsonGenerator gen, SerializerProvider serializers) {
-        String objectName = val == null ? null : String.valueOf(val);
-        // 如果是http开头的，直接返回
-        if (StrUtil.isBlank(objectName) || objectName.startsWith("http")) {
+        try{
+            String objectName = val == null ? null : String.valueOf(val);
+            // 如果是http开头的，直接返回
+            if (StrUtil.isBlank(objectName) || objectName.startsWith("http")) {
+                gen.writeObject(val);
+                return;
+            }
+
+            FileStorageClientFactory factory = SpringUtil.getBean(FileStorageClientFactory.class);
+            if (factory == null){
+                log.warn("序列化警告--factory为空");
+                gen.writeObject(val);
+                return;
+            }
+            // 直接访问的地址 配置了公共桶
+            String presignedUrl = factory.getDefaultStorage().getPresignedUrl(objectName);
+            gen.writeString(presignedUrl);
+        }catch (Exception e){
+            log.error("OSS文件访问地址序列化错误",e);
             gen.writeObject(val);
-            return;
         }
 
-        FileStorageClientFactory factory = SpringUtil.getBean(FileStorageClientFactory.class);
-        if (factory == null){
-            log.warn("序列化警告--factory为空");
-            gen.writeObject(val);
-            return;
-        }
-        // 直接访问的地址 配置了公共桶
-        String presignedUrl = factory.getDefaultStorage().getPresignedUrl(objectName);
-        gen.writeString(presignedUrl);
     }
 }

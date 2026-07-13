@@ -4,6 +4,7 @@ import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,11 +34,12 @@ public class MovieCatalogExtraSaveDTO {
     @Schema(description = "文件 ID")
     private String fileId;
 
-    @Schema(description = "其他云盘存储直链地址")
-    private String otherCloudUrl;
+    @Schema(description = "云盘存储地址")
+    private String cloudDriveUrl;
 
     @Schema(description = "显示名称")
     @NotBlank(message = "显示名称不能为空")
+    @Size(max = 20, message = "显示名称长度不能超过20")
     private String showName;
 
     @Schema(description = "排序")

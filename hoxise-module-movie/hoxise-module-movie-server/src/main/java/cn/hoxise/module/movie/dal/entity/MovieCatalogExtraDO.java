@@ -50,9 +50,9 @@ public class MovieCatalogExtraDO extends BaseDO {
     private MovieResourceTypeEnum resourceType;
 
     /**
-     * 其他云盘存储
+     * 云盘存储地址
      */
-    private String otherCloudUrl;
+    private String cloudDriveUrl;
 
     /**
      * 显示名称

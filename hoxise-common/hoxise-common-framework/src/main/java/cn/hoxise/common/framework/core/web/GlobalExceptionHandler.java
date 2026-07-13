@@ -109,6 +109,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 处理参数校验异常
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public CommonResult<?> illegalArgumentExceptionExceptionHandler(IllegalArgumentException ex) {
+        log.warn("[参数不正确]", ex);
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("参数异常:%s", ex.getMessage()));
+    }
+
+    /**
      * 处理业务异常 ServiceException
      * <p>
      */

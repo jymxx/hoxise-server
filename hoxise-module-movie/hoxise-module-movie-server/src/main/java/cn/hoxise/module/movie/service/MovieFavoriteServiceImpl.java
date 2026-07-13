@@ -29,8 +29,7 @@ public class MovieFavoriteServiceImpl extends ServiceImpl<MovieFavoriteMapper, M
     @Override
     public void favorite(Long catalogId) {
         Long userId = StpUtil.getLoginIdAsLong();
-        long count = this.count(Wrappers.lambdaQuery(MovieFavoriteDO.class)
-                .eq(MovieFavoriteDO::getUserId, userId));
+        long count = this.count(Wrappers.lambdaQuery(MovieFavoriteDO.class).eq(MovieFavoriteDO::getUserId, userId));
         if (count >= 100){
             throw new RuntimeException("收藏数量已达上限");
         }

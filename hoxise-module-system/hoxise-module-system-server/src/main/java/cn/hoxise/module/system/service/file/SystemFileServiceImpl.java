@@ -90,7 +90,6 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
         Assert.notBlank(fileDO.getObjectName(), "文件不存在");
         // 删除OSS文件
         fileStorageClientFactory.getDefaultStorage().deleteFile(fileDO.getObjectName());
-
         // 逻辑删除记录
         removeById(fileId);
     }

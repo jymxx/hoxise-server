@@ -9,6 +9,7 @@ import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraSaveDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraUpdateDTO;
 import cn.hoxise.module.system.api.file.FileApi;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -34,9 +35,9 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     @Override
     @Transactional
     public void saveExtra(MovieCatalogExtraSaveDTO dto) {
-        // OTHER_CLOUD 类型必须传 otherCloudUrl，其它类型必须传 fileId
-        if (dto.getResourceType() == MovieResourceTypeEnum.OTHER_CLOUD) {
-            Assert.notBlank(dto.getOtherCloudUrl(), "云盘资源必须提供链接地址");
+        // 云盘资源必须传地址，其它类型必须传 fileId
+        if (dto.getResourceType() == MovieResourceTypeEnum.CLOUD_DRIVE) {
+            Assert.notBlank(dto.getCloudDriveUrl(), "云盘资源必须提供链接地址");
         } else {
             Assert.notBlank(dto.getFileId(), "OSS资源必须提供文件ID");
             fileApi.bindFile(dto.getFileId());
@@ -45,7 +46,7 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
                 .catalogId(dto.getCatalogId())
                 .fileId(dto.getFileId())
                 .resourceType(dto.getResourceType())
-                .otherCloudUrl(dto.getOtherCloudUrl())
+                .cloudDriveUrl(dto.getCloudDriveUrl())
                 .showName(dto.getShowName())
                 .sort(dto.getSort())
                 .secret(dto.getSecret())
@@ -58,10 +59,11 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     public void updateExtra(MovieCatalogExtraUpdateDTO dto) {
         MovieCatalogExtraDO one = getById(dto.getId());
         Assert.notNull(one, "资源不存在");
+        Assert.isFalse(ObjUtil.isAllEmpty(dto.getSort(), dto.getShowName(), dto.getCloudDriveUrl()), "参数校验异常");
         LambdaUpdateWrapper<MovieCatalogExtraDO> wrapper = Wrappers.lambdaUpdate(MovieCatalogExtraDO.class)
                 .set(dto.getSort() != null,MovieCatalogExtraDO::getSort, dto.getSort())
                 .set(StrUtil.isNotBlank(dto.getShowName()),MovieCatalogExtraDO::getShowName, dto.getShowName())
-                .set(StrUtil.isNotBlank(dto.getOtherCloudUrl()) , MovieCatalogExtraDO::getOtherCloudUrl, dto.getOtherCloudUrl())
+                .set(StrUtil.isNotBlank(dto.getCloudDriveUrl()) , MovieCatalogExtraDO::getCloudDriveUrl, dto.getCloudDriveUrl())
                 .eq(MovieCatalogExtraDO::getId, dto.getId());
         this.update(wrapper);
     }
@@ -70,14 +72,18 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     @Transactional
     public void deleteExtra(Long id) {
         MovieCatalogExtraDO one = getById(id);
-        fileApi.deleteFile(one.getFileId()); // 删除文件
+        if (StrUtil.isNotBlank(one.getFileId())){
+            fileApi.deleteFile(one.getFileId()); // 删除文件
+        }
         this.removeById(id);
     }
 
     @Override
     public List<MovieExtraCheckVO> hasInfo(Long catalogId) {
         List<MovieCatalogExtraDO> extraList = this.list(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
-                .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
+                .eq(MovieCatalogExtraDO::getCatalogId, catalogId)
+                .orderByAsc(MovieCatalogExtraDO::getSort)
+                .orderByAsc(MovieCatalogExtraDO::getId));
 
         return extraList.stream()
                 .map(extra -> MovieExtraCheckVO.builder()
@@ -109,8 +115,8 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         }
 
         // OTHER_CLOUD 类型直接返回云盘地址，其余类型通过 fileApi 获取预览地址
-        if (extra.getResourceType() == MovieResourceTypeEnum.OTHER_CLOUD) {
-            return extra.getOtherCloudUrl();
+        if (extra.getResourceType() == MovieResourceTypeEnum.CLOUD_DRIVE) {
+            return extra.getCloudDriveUrl();
         }
         return fileApi.getAccessUrl(extra.getFileId()).getCheckedData();
     }

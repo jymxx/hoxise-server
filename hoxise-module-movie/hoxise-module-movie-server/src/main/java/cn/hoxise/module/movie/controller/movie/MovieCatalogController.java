@@ -4,12 +4,16 @@ import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.common.base.pojo.PageResult;
+import cn.hoxise.common.mybatis.utils.ConvertUtil;
 import cn.hoxise.module.movie.controller.movie.dto.MovieLibraryQueryDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieSimpleQueryDTO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieSimpleVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieStatVO;
+import cn.hoxise.module.movie.convert.MovieCatalogConvert;
+import cn.hoxise.module.movie.dal.entity.MovieCatalogDO;
 import cn.hoxise.module.movie.service.MovieCatalogService;
 import cn.hoxise.module.movie.service.MovieFavoriteService;
+import cn.hutool.core.lang.Assert;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -17,7 +21,9 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 影视目录控制类
@@ -82,6 +88,18 @@ public class MovieCatalogController {
     @SaIgnore
     public CommonResult<MovieStatVO> movieStat(@NotNull @PathVariable Long userid){
         return CommonResult.success(movieCatalogService.statCount(userid));
+    }
+
+    @Operation(summary = "获取影视目录详情")
+    @GetMapping("/detail")
+    @SaIgnore
+    public CommonResult<MovieSimpleVO> detail(@NotNull Long catalogId){
+        MovieSimpleVO vo = MovieCatalogConvert.INSTANCE.convert(movieCatalogService.getById(catalogId));
+        Assert.notNull(vo, "数据不存在");
+        List<MovieSimpleVO> result = List.of(vo);
+        movieFavoriteService.fillFavoriteInfo(result); // 填充收藏信息
+        movieCatalogService.handleNoLogin(result); // 处理未登录状态
+        return CommonResult.success(result.getFirst());
     }
 
 

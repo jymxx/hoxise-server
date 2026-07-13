@@ -1,5 +1,6 @@
 package cn.hoxise.module.system.controller.file;
 
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.hoxise.common.base.pojo.CommonResult;
 import cn.hoxise.module.system.controller.file.vo.PresignedUploadVO;
 import cn.hoxise.module.system.enums.FileOssDirEnum;
@@ -28,6 +29,7 @@ public class SystemFileController {
     @Resource
     private SystemFileService systemFileService;
 
+    @SaCheckRole("manager")
     @Operation(summary = "上传文件")
     @PostMapping("/upload")
     public CommonResult<String> upload(@NotNull MultipartFile file, @NotNull @RequestParam FileOssDirEnum bizType) {
@@ -40,6 +42,7 @@ public class SystemFileController {
         return CommonResult.success(systemFileService.getAccessUrl(fileId));
     }
 
+    @SaCheckRole("manager")
     @Operation(summary = "生成预签名上传 URL（前端直传 OSS）")
     @PostMapping("/generatePresignedUrl")
     public CommonResult<PresignedUploadVO> generatePresignedUrl(@NotBlank @RequestParam String fileName,

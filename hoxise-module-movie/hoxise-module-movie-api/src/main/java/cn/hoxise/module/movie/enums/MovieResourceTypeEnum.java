@@ -14,7 +14,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MovieResourceTypeEnum {
 
-    OTHER_CLOUD("other_cloud", "其他云盘存储，直链"),
+    CLOUD_DRIVE("cloud_drive", "云盘链接"),
     VIDEO("video", "视频"),
     RESOURCE_FILE("resource_file", "资源文件");
 
