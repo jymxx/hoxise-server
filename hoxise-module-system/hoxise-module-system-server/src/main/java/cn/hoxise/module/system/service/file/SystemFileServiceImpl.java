@@ -4,6 +4,7 @@ import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.common.file.core.pojo.FileMetadataDTO;
 import cn.hoxise.common.file.core.pojo.FileStorageDTO;
+import cn.hoxise.module.system.controller.file.dto.PresignedUploadReqDTO;
 import cn.hoxise.module.system.controller.file.vo.PresignedUploadVO;
 import cn.hoxise.module.system.dal.entity.SystemFileDO;
 import cn.hoxise.module.system.dal.mapper.SystemFileMapper;
@@ -145,15 +146,15 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
     }
 
     @Override
-    public PresignedUploadVO generatePresignedUrl(String fileName, FileOssDirEnum bizType) {
+    public PresignedUploadVO generatePresignedUrl(PresignedUploadReqDTO reqDTO) {
         // 生成唯一 objectName，与 uploadFile 保持一致的路径格式
-        String extension = FileUtil.getSuffix(fileName);
-        String objectName = bizType.getOssDir() + "/" + UUID.randomUUID() + extension;
+        String extension = FileUtil.getSuffix(reqDTO.getFileName());
+        String objectName = reqDTO.getBizType().getOssDir() + "/" + UUID.randomUUID() + extension;
 
         // 保存文件记录（UNBIND 状态，文件大小和类型等 bind 时从 OSS 获取）
         SystemFileDO fileDO = SystemFileDO.builder()
                 .objectName(objectName)
-                .originalName(fileName)
+                .originalName(reqDTO.getFileName())
                 .extension(extension)
                 .bindStatus(FileBindStatusEnum.UNBIND.getStatus())
                 .build();

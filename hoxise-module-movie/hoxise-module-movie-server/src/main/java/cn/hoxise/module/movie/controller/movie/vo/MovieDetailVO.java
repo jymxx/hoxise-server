@@ -2,10 +2,7 @@ package cn.hoxise.module.movie.controller.movie.vo;
 
 import cn.hoxise.common.base.utils.date.DateUtil;
 import cn.hoxise.common.file.core.annotations.FilePathFormat;
-import cn.hoxise.common.mybatis.core.type.StringListTypeHandler;
-import cn.hoxise.module.movie.dal.entity.BangumiDbInfoboxDO;
 import cn.hoxise.module.movie.enums.bangumi.BangumiSubjectTypeEnum;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -74,7 +71,6 @@ public class MovieDetailVO {
     /**
      * 标签列表
      */
-    @TableField(value = "tags",typeHandler = StringListTypeHandler.class)
     private List<String> tags;
 
     /**
@@ -86,7 +82,6 @@ public class MovieDetailVO {
     /**
      * 元标签列表
      */
-    @TableField(value = "meta_tags",typeHandler = StringListTypeHandler.class)
     private List<String> metaTags;
 
     /**
@@ -108,10 +103,5 @@ public class MovieDetailVO {
      * 总集数
      */
     private Integer totalEpisodes;
-
-    /**
-     *  infobox
-     */
-    private List<BangumiDbInfoboxDO> infobox;
 
 }

@@ -3,7 +3,6 @@ package cn.hoxise.module.movie.service.bangumi;
 import cn.hoxise.module.movie.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.module.movie.convert.MovieDbBangumiConvert;
 import cn.hoxise.module.movie.dal.entity.BangumiDbDO;
-import cn.hoxise.module.movie.dal.entity.BangumiDbInfoboxDO;
 import cn.hutool.core.lang.Assert;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,9 +23,6 @@ import java.util.List;
 public class BangumiDbServiceImpl extends ServiceImpl<MovieDbBangumiMapper, BangumiDbDO>
     implements BangumiDbService {
 
-    @Resource
-    private BangumiDbInfoboxService bangumiDbInfoboxService;
-
     @Override
     public BangumiDbDO getByBangumiId(Long bangumiId) {
         return getOne(Wrappers.lambdaQuery(BangumiDbDO.class).eq(BangumiDbDO::getBangumiId, bangumiId));
@@ -43,11 +39,7 @@ public class BangumiDbServiceImpl extends ServiceImpl<MovieDbBangumiMapper, Bang
         Assert.notNull(bangumiId, "参数不能为空");
         BangumiDbDO movieDb = getByBangumiId(bangumiId);
         Assert.notNull(movieDb, "未找到该数据的详细信息");
-        //信息框数据
-        List<BangumiDbInfoboxDO> service = bangumiDbInfoboxService.getByBangumiId(bangumiId);
-        MovieDetailVO convert = MovieDbBangumiConvert.INSTANCE.convert(movieDb);
-        convert.setInfobox(service);
-        return convert;
+        return MovieDbBangumiConvert.INSTANCE.convert(movieDb);
     }
 }
 

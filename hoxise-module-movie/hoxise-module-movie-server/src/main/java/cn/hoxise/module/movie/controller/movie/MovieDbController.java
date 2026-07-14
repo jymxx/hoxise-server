@@ -6,8 +6,10 @@ import cn.hoxise.common.file.core.client.FileStorageClientFactory;
 import cn.hoxise.module.movie.controller.movie.vo.MovieCharactersVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieDetailVO;
 import cn.hoxise.module.movie.controller.movie.vo.MovieEpisodesVO;
+import cn.hoxise.module.movie.dal.entity.BangumiDbInfoboxDO;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbCharacterService;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbEpisodeService;
+import cn.hoxise.module.movie.service.bangumi.BangumiDbInfoboxService;
 import cn.hoxise.module.movie.service.bangumi.BangumiDbService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,6 +40,8 @@ public class MovieDbController {
 
     @Resource private BangumiDbEpisodeService bangumiDbEpisodeService;
 
+    @Resource private BangumiDbInfoboxService bangumiDbInfoboxService;
+
     @Operation(summary = "获取影视详情")
     @GetMapping("/detail")
     @SaIgnore
@@ -57,5 +61,12 @@ public class MovieDbController {
     @SaIgnore
     public CommonResult<List<MovieEpisodesVO>> episodes(@NotNull Long bangumiId){
         return CommonResult.success(bangumiDbEpisodeService.listVoByBangumiId(bangumiId));
+    }
+
+    @Operation(summary = "获取信息框数据")
+    @GetMapping("/infobox")
+    @SaIgnore
+    public CommonResult<List<BangumiDbInfoboxDO>> infobox(@NotNull Long bangumiId){
+        return CommonResult.success(bangumiDbInfoboxService.getByBangumiId(bangumiId));
     }
 }

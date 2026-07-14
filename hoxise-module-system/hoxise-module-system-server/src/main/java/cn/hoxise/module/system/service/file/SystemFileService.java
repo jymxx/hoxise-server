@@ -1,5 +1,6 @@
 package cn.hoxise.module.system.service.file;
 
+import cn.hoxise.module.system.controller.file.dto.PresignedUploadReqDTO;
 import cn.hoxise.module.system.controller.file.vo.PresignedUploadVO;
 import cn.hoxise.module.system.dal.entity.SystemFileDO;
 import cn.hoxise.module.system.enums.FileOssDirEnum;
@@ -66,11 +67,10 @@ public interface SystemFileService extends IService<SystemFileDO> {
     /**
      * 生成预签名上传 URL（前端直传 OSS，保存记录并返回文件 ID）
      *
-     * @param fileName 原始文件名（含扩展名）
-     * @param bizType  业务类型（决定 OSS 目录）
+     * @param reqDTO 请求体（文件名 + 业务类型）
      * @return 预签名上传响应
      * @author hoxise
-     * @since 2026/07/09
+     * @since 2026/07/14
      */
-    PresignedUploadVO generatePresignedUrl(String fileName, FileOssDirEnum bizType);
+    PresignedUploadVO generatePresignedUrl(PresignedUploadReqDTO reqDTO);
 }

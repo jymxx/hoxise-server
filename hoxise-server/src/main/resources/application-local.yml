@@ -116,7 +116,7 @@ hoxise:
       serializer-prefix: http://localhost:9000/hoxise-java
     aliyun-oss:
       region: cn-chengdu
-      endpoint: oss-cn-chengdu.aliyuncs.com
+      endpoint: ${aliyun.oss.endpoint}
       bucket: ${aliyun.oss.bucket}
       access-key: ${aliyun.oss.accessKey}
       access-secret: ${aliyun.oss.accessSecret}
