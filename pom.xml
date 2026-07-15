@@ -59,6 +59,7 @@
         <aliyun-dypnsapi20170525.version>2.0.0</aliyun-dypnsapi20170525.version> <!--短信-->
         <aliyun-oss.version>3.18.5</aliyun-oss.version> <!--阿里云oss-->
         <dashscope-sdk-java.version>2.22.4</dashscope-sdk-java.version> <!--阿里云oss-->
+        <xxl-job.version>3.4.2</xxl-job.version>
     </properties>
 
     <dependencyManagement>

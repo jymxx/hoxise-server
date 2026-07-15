@@ -80,7 +80,7 @@ public abstract class AbstractFileClient implements FileStorageClient {
 
 
     @Override
-    public String generatePresignedUrl(String objectName) {
+    public String generatePresignedUrl(String objectName, String contentType) {
         throw new UnsupportedOperationException("当前存储实现不支持生成预签名URL操作");
     }
 

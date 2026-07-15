@@ -83,7 +83,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
     @Override
     public void modifyUserInfo(ModifyUserInfoDTO dto){
         long loginId = StpUtil.getLoginIdAsLong();
-        baseMapper.update(Wrappers.lambdaUpdate(SystemUserDO.class)
+        baseMapper.update(new SystemUserDO(),Wrappers.lambdaUpdate(SystemUserDO.class)
                 .eq(SystemUserDO::getUserId,loginId)
                 .set(StrUtil.isNotBlank(dto.getNickName()),SystemUserDO::getNickName,dto.getNickName())
         );
@@ -112,7 +112,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
         // 更新用户头像
         FileStorageDTO fileStorageDTO = fileStorageClientFactory.getDefaultStorage().uploadFile(file, SystemConstants.USER_AVATAR_OSS_DIR + "/" + loginId);
-        baseMapper.update(Wrappers.lambdaUpdate(SystemUserDO.class)
+        baseMapper.update(new SystemUserDO(),Wrappers.lambdaUpdate(SystemUserDO.class)
                 .eq(SystemUserDO::getUserId, loginId)
                 .set(SystemUserDO::getAvatar, fileStorageDTO.getObjectName()));
 

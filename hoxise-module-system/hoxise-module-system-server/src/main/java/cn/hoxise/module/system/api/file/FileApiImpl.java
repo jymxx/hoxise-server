@@ -29,6 +29,11 @@ public class FileApiImpl implements FileApi {
     }
 
     @Override
+    public CommonResult<String> getDownloadUrl(String fileId) {
+        return CommonResult.success(systemFileService.getDownloadUrl(fileId));
+    }
+
+    @Override
     public CommonResult<Void> bindFile(String fileId) {
         systemFileService.bindFile(fileId);
         return CommonResult.ok();

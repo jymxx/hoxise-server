@@ -18,7 +18,11 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map;
 
 /**
  * MovieCatalogExtraService 实现类
@@ -48,7 +52,6 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
                 .resourceType(dto.getResourceType())
                 .cloudDriveUrl(dto.getCloudDriveUrl())
                 .showName(dto.getShowName())
-                .sort(dto.getSort())
                 .secret(dto.getSecret())
                 .build();
         this.save(extra);
@@ -59,13 +62,13 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     public void updateExtra(MovieCatalogExtraUpdateDTO dto) {
         MovieCatalogExtraDO one = getById(dto.getId());
         Assert.notNull(one, "资源不存在");
-        Assert.isFalse(ObjUtil.isAllEmpty(dto.getSort(), dto.getShowName(), dto.getCloudDriveUrl()), "参数校验异常");
+        Assert.isFalse(ObjUtil.isAllEmpty( dto.getShowName(), dto.getCloudDriveUrl()), "参数校验异常");
         LambdaUpdateWrapper<MovieCatalogExtraDO> wrapper = Wrappers.lambdaUpdate(MovieCatalogExtraDO.class)
-                .set(dto.getSort() != null,MovieCatalogExtraDO::getSort, dto.getSort())
                 .set(StrUtil.isNotBlank(dto.getShowName()),MovieCatalogExtraDO::getShowName, dto.getShowName())
                 .set(StrUtil.isNotBlank(dto.getCloudDriveUrl()) , MovieCatalogExtraDO::getCloudDriveUrl, dto.getCloudDriveUrl())
                 .eq(MovieCatalogExtraDO::getId, dto.getId());
-        this.update(wrapper);
+
+        baseMapper.update(new MovieCatalogExtraDO(), wrapper);
     }
 
     @Override
@@ -81,9 +84,16 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     @Override
     public List<MovieExtraCheckVO> hasInfo(Long catalogId) {
         List<MovieCatalogExtraDO> extraList = this.list(Wrappers.lambdaQuery(MovieCatalogExtraDO.class)
-                .eq(MovieCatalogExtraDO::getCatalogId, catalogId)
-                .orderByAsc(MovieCatalogExtraDO::getSort)
-                .orderByAsc(MovieCatalogExtraDO::getId));
+                .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
+
+        // 按 视频 > 资源文件 > 云盘链接 排序
+        Map<MovieResourceTypeEnum, Integer> order = Map.of(
+                MovieResourceTypeEnum.VIDEO, 0,
+                MovieResourceTypeEnum.RESOURCE_FILE, 1,
+                MovieResourceTypeEnum.CLOUD_DRIVE, 2
+        );
+        extraList.sort(Comparator.comparingInt((MovieCatalogExtraDO e) -> order.getOrDefault(e.getResourceType(), 99))
+                .thenComparing(MovieCatalogExtraDO::getId));
 
         return extraList.stream()
                 .map(extra -> MovieExtraCheckVO.builder()
@@ -91,7 +101,6 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
                         .catalogId(extra.getCatalogId())
                         .resourceType(extra.getResourceType())
                         .showName(extra.getShowName())
-                        .sort(extra.getSort())
                         .hasSecret(StrUtil.isNotBlank(extra.getSecret()))
                         .build())
                 .toList();
@@ -118,6 +127,6 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         if (extra.getResourceType() == MovieResourceTypeEnum.CLOUD_DRIVE) {
             return extra.getCloudDriveUrl();
         }
-        return fileApi.getAccessUrl(extra.getFileId()).getCheckedData();
+        return fileApi.getDownloadUrl(extra.getFileId()).getCheckedData();
     }
 }

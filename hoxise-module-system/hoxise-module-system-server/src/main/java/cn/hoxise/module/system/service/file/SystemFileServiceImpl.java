@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 文件服务实现
@@ -69,11 +68,10 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
         // 从 OSS 查询实际文件元数据
         FileMetadataDTO metadata = fileStorageClientFactory.getDefaultStorage().getObjectMetadata(one.getObjectName());
         // 更新记录：绑定状态 + OSS 实际文件信息
-        update(Wrappers.lambdaUpdate(SystemFileDO.class)
-                .eq(SystemFileDO::getId, fileId)
-                .set(SystemFileDO::getBindStatus, FileBindStatusEnum.BIND.getStatus())
-                .set(SystemFileDO::getFileSize, metadata.getContentLength())
-                .set(SystemFileDO::getFileType, metadata.getContentType()));
+        one.setBindStatus(FileBindStatusEnum.BIND.getStatus());
+        one.setFileSize(metadata.getContentLength());
+        one.setFileType(metadata.getContentType());
+        this.updateById(one);
     }
 
     @Override
@@ -83,6 +81,15 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
             return null;
         }
         return fileStorageClientFactory.getDefaultStorage().getPresignedUrl(fileDO.getObjectName());
+    }
+
+    @Override
+    public String getDownloadUrl(String fileId) {
+        SystemFileDO fileDO = getById(fileId);
+        if (fileDO == null) {
+            return null;
+        }
+        return fileStorageClientFactory.getDefaultStorage().getPresignedUrl(fileDO.getObjectName(), true);
     }
 
     @Override
@@ -139,7 +146,8 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
                 baseMapper.deleteById(fileDO.getId());
                 count++;
             } catch (Exception e) {
-                log.warn("清理过期文件失败: {}", fileDO.getObjectName(), e);
+                // 忽略异常 避免影响删除剩余文件
+                log.error("清理过期文件失败: {}", fileDO.getObjectName(), e);
             }
         }
         return count;
@@ -149,7 +157,7 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
     public PresignedUploadVO generatePresignedUrl(PresignedUploadReqDTO reqDTO) {
         // 生成唯一 objectName，与 uploadFile 保持一致的路径格式
         String extension = FileUtil.getSuffix(reqDTO.getFileName());
-        String objectName = reqDTO.getBizType().getOssDir() + "/" + UUID.randomUUID() + extension;
+        String objectName = reqDTO.getBizType().getOssDir() + "/" + reqDTO.getFileName();
 
         // 保存文件记录（UNBIND 状态，文件大小和类型等 bind 时从 OSS 获取）
         SystemFileDO fileDO = SystemFileDO.builder()
@@ -161,7 +169,7 @@ public class SystemFileServiceImpl extends ServiceImpl<SystemFileMapper, SystemF
         save(fileDO);
 
         // 生成 PUT 预签名 URL
-        String uploadUrl = fileStorageClientFactory.getDefaultStorage().generatePresignedUrl(objectName);
+        String uploadUrl = fileStorageClientFactory.getDefaultStorage().generatePresignedUrl(objectName, reqDTO.getFileType());
 
         return PresignedUploadVO.builder()
                 .uploadUrl(uploadUrl)

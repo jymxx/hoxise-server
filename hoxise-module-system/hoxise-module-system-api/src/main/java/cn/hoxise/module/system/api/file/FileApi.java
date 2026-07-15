@@ -34,6 +34,11 @@ public interface FileApi {
     @Parameter(name = "fileId", description = "文件 ID", required = true)
     CommonResult<String> getAccessUrl(@RequestParam("fileId") String fileId);
 
+    @Operation(summary = "获取文件下载 URL")
+    @GetMapping(PREFIX + "/getDownloadUrl")
+    @Parameter(name = "fileId", description = "文件 ID", required = true)
+    CommonResult<String> getDownloadUrl(@RequestParam("fileId") String fileId);
+
     @Operation(summary = "绑定文件（临时目录迁移到正式目录）")
     @PutMapping(PREFIX + "/bind")
     @Parameter(name = "fileId", description = "文件 ID", required = true)

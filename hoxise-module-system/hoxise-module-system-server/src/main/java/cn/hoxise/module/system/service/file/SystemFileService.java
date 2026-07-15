@@ -46,6 +46,17 @@ public interface SystemFileService extends IService<SystemFileDO> {
     String getAccessUrl(String fileId);
 
     /**
+     * 根据文件ID获取下载URL
+     * 与getAccessUrl不同的是 会强制浏览器下载而不是预览例如图片文件
+     *
+     * @param fileId 文件ID
+     * @return 下载URL
+     * @author hoxise
+     * @since 2026/07/09 11:30:08
+     */
+    String getDownloadUrl(String fileId);
+
+    /**
      * 删除文件（物理删除OSS文件 + 逻辑删除记录）
      *
      * @param fileId 文件ID

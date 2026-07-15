@@ -103,8 +103,8 @@ hoxise:
     # Oss文件清理
     file-clean:
       # 阿里云使用临时目录, 通过配置自动清理, 因此这里不开启
-      enabled: false  # 是否启用
-      expire-days: 3      # 计划过期天数
+      enabled: true  # 是否启用
+      expire-days: 2      # 计划过期天数
       cron: "0 0 2 * * ?" # 每天凌晨2点执行
     # 默认存储类型
     default-type: aliyunOss

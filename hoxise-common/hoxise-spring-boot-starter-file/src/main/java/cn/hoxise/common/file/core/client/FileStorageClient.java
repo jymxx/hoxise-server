@@ -88,6 +88,17 @@ public interface FileStorageClient {
     String getPresignedUrl(String objectName);
 
     /**
+     * 获取预览/下载地址
+     *
+     * @param objectName 对象名称
+     * @param download   true 强制下载（Content-Disposition: attachment），false 预览
+     * @return 预签名URL
+     * @author hoxise
+     * @since 2026/07/15
+     */
+    String getPresignedUrl(String objectName, boolean download);
+
+    /**
      * 获取可直接访问的绝对路径地址
      * OSS需要配置公开桶
      *
@@ -102,10 +113,11 @@ public interface FileStorageClient {
      * 生成预签名 URL（用于前端直传或临时访问）
      *
      * @param objectName 对象名称
+     * @param contentType 文件内容类型
      * @author hoxise
      * @since 2026/07/09 11:29:01
      */
-    String generatePresignedUrl(String objectName);
+    String generatePresignedUrl(String objectName, String contentType);
 
     /**
      * 获取对象元数据（文件大小、MIME 类型等，不下载文件内容）

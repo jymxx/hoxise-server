@@ -19,6 +19,10 @@ public class PresignedUploadReqDTO {
     @NotBlank(message = "文件名不能为空")
     private String fileName;
 
+    @Schema(description = "文件类型", example = "image/jpeg")
+    @NotBlank(message = "文件类型不能为空")
+    private String fileType;
+
     @Schema(description = "业务类型", example = "MOVIE_RESOURCE")
     @NotNull(message = "业务类型不能为空")
     private FileOssDirEnum bizType;

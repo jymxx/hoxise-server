@@ -163,7 +163,7 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
         bangumiManageService.checkExistOrUpdate(updateDbDTO.getBangumiId(),false);
 
         //挂接数据
-        this.update(Wrappers.lambdaUpdate(MovieCatalogDO.class)
+        baseMapper.update(new MovieCatalogDO(),Wrappers.lambdaUpdate(MovieCatalogDO.class)
                 .eq(MovieCatalogDO::getId,updateDbDTO.getCatalogId())
                 .set(MovieCatalogDO::getBangumiId,updateDbDTO.getBangumiId()));
 

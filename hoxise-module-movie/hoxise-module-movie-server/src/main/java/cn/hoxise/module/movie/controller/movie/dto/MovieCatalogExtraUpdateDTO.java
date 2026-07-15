@@ -29,9 +29,6 @@ public class MovieCatalogExtraUpdateDTO {
     @Size(max = 20, message = "显示名称长度不能超过20")
     private String showName;
 
-    @Schema(description = "排序")
-    private Integer sort;
-
     @Schema(description = "云盘存储地址")
     private String cloudDriveUrl;
 

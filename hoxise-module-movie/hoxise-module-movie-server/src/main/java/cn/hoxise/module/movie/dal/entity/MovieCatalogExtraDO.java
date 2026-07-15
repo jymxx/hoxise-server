@@ -60,11 +60,6 @@ public class MovieCatalogExtraDO extends BaseDO {
     private String showName;
 
     /**
-     * 排序
-     */
-    private Integer sort;
-
-    /**
      * 密钥
      */
     private String secret;

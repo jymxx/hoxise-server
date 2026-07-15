@@ -8,6 +8,7 @@ import io.minio.http.Method;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -85,6 +86,24 @@ public class MinioOssClient extends AbstractFileClient {
         try{
             minioClient.statObject(StatObjectArgs.builder().bucket(properties.getBucket()).object(objectName).build());
             return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(properties.getBucket()).object(objectName).build());
+        }catch (Exception e){
+            log.error("minio获取文件预览地址异常,objectName:{},{}", objectName,e.toString());
+            throw new ServiceException("获取文件预览地址异常");
+        }
+    }
+
+    @Override
+    public String getPresignedUrl(String objectName, boolean download) {
+        try{
+            minioClient.statObject(StatObjectArgs.builder().bucket(properties.getBucket()).object(objectName).build());
+            GetPresignedObjectUrlArgs.Builder builder = GetPresignedObjectUrlArgs.builder()
+                    .method(Method.GET)
+                    .bucket(properties.getBucket())
+                    .object(objectName);
+            if (download) {
+                builder.extraQueryParams(Map.of("response-content-disposition", "attachment"));
+            }
+            return minioClient.getPresignedObjectUrl(builder.build());
         }catch (Exception e){
             log.error("minio获取文件预览地址异常,objectName:{},{}", objectName,e.toString());
             throw new ServiceException("获取文件预览地址异常");

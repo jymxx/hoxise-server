@@ -75,13 +75,15 @@ public class AliyunOssClient extends AbstractFileClient {
     }
 
     @Override
-    public String generatePresignedUrl(String objectName){
+    public String generatePresignedUrl(String objectName,String contentType){
         // 指定生成的预签名URL过期时间，单位为毫秒。本示例以设置过期时间为1小时为例。
         Date expiration = new Date(new Date().getTime() + 3600 * 1000L);
         // 生成预签名URL。
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(properties.getBucket(), objectName, HttpMethod.PUT);
         // 设置过期时间。
         request.setExpiration(expiration);
+        // 设置Content-Type。
+        request.setContentType(contentType);
         // 通过HTTP PUT请求生成预签名URL。
         URL url = ossClient.generatePresignedUrl(request);
         return url.toString();
@@ -100,21 +102,37 @@ public class AliyunOssClient extends AbstractFileClient {
     public void deleteFile(String objectName) {
         if (!doesObjectExist(objectName)){
             log.warn("目标删除文件不存在,objectName:{}", objectName);
+            return;
         }
         ossClient.deleteObject(properties.getBucket(), objectName);
     }
 
     @Override
     public String getPresignedUrl(String objectName) {
+        return getPresignedUrl(objectName, false);
+    }
+
+    @Override
+    public String getPresignedUrl(String objectName, boolean download) {
         if (!doesObjectExist(objectName)){
             throw new ServiceException("OSS文件不存在");
         }
         // 设置预签名URL过期时间，单位为毫秒。
-        long expireTime = 3600 * 1000L * 12;//12小时
+        long expireTime = 3600 * 1000L * 12; //12小时
         Date expiration = new Date(new Date().getTime() + expireTime);
-        // 生成以GET方法访问的预签名URL。本示例没有额外请求头，其他人可以直接通过浏览器访问相关内容。
-        URL url = ossClient.generatePresignedUrl(properties.getBucket(), objectName, expiration);
-        return url.toString();
+
+        if (download) {
+            // 让浏览器能识别直接下载
+            GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(
+                    properties.getBucket(), objectName, HttpMethod.GET);
+            request.setExpiration(expiration);
+            ResponseHeaderOverrides headers = new ResponseHeaderOverrides();
+            headers.setContentDisposition("attachment");
+            request.setResponseHeaders(headers);
+            return ossClient.generatePresignedUrl(request).toString();
+        }
+
+        return ossClient.generatePresignedUrl(properties.getBucket(), objectName, expiration).toString();
     }
 
     @Override

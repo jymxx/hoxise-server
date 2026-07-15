@@ -29,6 +29,8 @@
         <module>hoxise-spring-boot-starter-redis</module>
         <!--mq-->
         <module>hoxise-spring-boot-starter-mq</module>
+        <!--定时任务-->
+        <module>hoxise-spring-boot-starter-job</module>
     </modules>
 
 </project>

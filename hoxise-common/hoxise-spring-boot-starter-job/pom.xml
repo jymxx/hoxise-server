@@ -8,12 +8,12 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>hoxise-spring-boot-starter-mq</artifactId>
+    <artifactId>hoxise-spring-boot-starter-job</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>
 
     <description>
-        消息队列,如rabbitmq
+        定时任务
     </description>
 
     <dependencies>
@@ -24,10 +24,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- 实现对 RabbitMQ 的自动化配置 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job.version}</version>
         </dependency>
 
     </dependencies>

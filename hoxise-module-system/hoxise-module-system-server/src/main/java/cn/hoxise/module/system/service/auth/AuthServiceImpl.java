@@ -138,9 +138,9 @@ public class AuthServiceImpl implements AuthService {
      */
     private void afterLogin(SystemUserDO systemUserDO) {
         //更新登录时间
-        systemUserService.update(Wrappers.lambdaUpdate(SystemUserDO.class)
-                .eq(SystemUserDO::getUserId, systemUserDO.getUserId())
-                .set(SystemUserDO::getLastLoginTime, LocalDateTime.now()));
+        SystemUserDO one = systemUserService.getById(systemUserDO);
+        one.setLastLoginTime(LocalDateTime.now());
+        systemUserService.updateById(one);
     }
 
 
