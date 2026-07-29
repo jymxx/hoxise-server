@@ -57,7 +57,7 @@ public class AliyunSmsClient {
         Assert.notBlank(mobile, "手机号码不能为空");
         SendSmsVerifyCodeRequest request = new SendSmsVerifyCodeRequest();
         request.setPhoneNumber(mobile);
-        request.setSignName("速通互联验证码"); //签名
+        request.setSignName("恒创联众"); //签名
         request.setTemplateCode("100001");// 验证码模板
         String param = """
                 {"code":"##code##","min":"5"}

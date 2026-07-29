@@ -1,6 +1,7 @@
-package cn.hoxise.module.movie.enums;
+package cn.hoxise.module.movie.enums.movie;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,18 +13,19 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum MovieResourceTypeEnum {
+public enum ExtraResourceTypeEnum {
 
     CLOUD_DRIVE("cloud_drive", "云盘链接"),
     VIDEO("video", "视频"),
     RESOURCE_FILE("resource_file", "资源文件");
 
     @EnumValue
+    @JsonValue
     private final String code;
     private final String description;
 
-    public static MovieResourceTypeEnum getByCode(String code) {
-        for (MovieResourceTypeEnum value : values()) {
+    public static ExtraResourceTypeEnum getByCode(String code) {
+        for (ExtraResourceTypeEnum value : values()) {
             if (value.code.equals(code)) {
                 return value;
             }

@@ -1,6 +1,5 @@
 package cn.hoxise.module.movie.controller.movie.dto;
 
-import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,8 +27,8 @@ public class MovieCatalogExtraSaveDTO {
     private Long catalogId;
 
     @Schema(description = "资源类型")
-    @NotNull(message = "资源类型不能为空")
-    private MovieResourceTypeEnum resourceType;
+    @NotBlank(message = "资源类型不能为空")
+    private String resourceType;
 
     @Schema(description = "文件 ID")
     private String fileId;

@@ -1,6 +1,6 @@
 package cn.hoxise.module.movie.controller.movie.vo;
 
-import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
+import cn.hoxise.module.movie.enums.movie.ExtraResourceTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +26,7 @@ public class MovieExtraCheckVO {
     private Long catalogId;
 
     @Schema(description = "资源类型")
-    private MovieResourceTypeEnum resourceType;
+    private ExtraResourceTypeEnum resourceType;
 
     @Schema(description = "显示名称")
     private String showName;

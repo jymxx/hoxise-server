@@ -42,6 +42,6 @@ public abstract class BaseDO implements Serializable {
      * 是否删除 逻辑删除标记
      */
     @TableLogic
-    private Boolean deleted;
+    private Boolean isDeleted;
 
 }

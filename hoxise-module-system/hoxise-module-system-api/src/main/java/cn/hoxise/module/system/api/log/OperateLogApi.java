@@ -38,7 +38,6 @@ public interface OperateLogApi{
      */
     @Async
     default void asyncCreateOperateLog(OperateLogCreateReqDTO operateLog) {
-        //todo 改造MQ?
         createOperateLog(operateLog);
     }
 }

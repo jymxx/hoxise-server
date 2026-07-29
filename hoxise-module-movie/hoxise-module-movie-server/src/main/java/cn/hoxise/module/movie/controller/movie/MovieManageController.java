@@ -44,7 +44,6 @@ public class MovieManageController {
         return CommonResult.success(bangumiManageService.queryByNameFromBangumi(name));
     }
 
-    @OperateLog
     @Operation(summary = "更新指定Bangumi信息")
     @PutMapping("/updateDb")
     public CommonResult<Boolean> updateDb(@Validated MovieUpdateDbDTO dto) {
@@ -52,7 +51,6 @@ public class MovieManageController {
         return CommonResult.ok();
     }
 
-    @OperateLog
     @Operation(summary = "删除指定数据,逻辑删除")
     @DeleteMapping("/deleteCatalog/{catalogId}")
     public CommonResult<Boolean> delete(@PathVariable @NotNull Long catalogId) {
@@ -60,7 +58,6 @@ public class MovieManageController {
         return CommonResult.ok();
     }
 
-    @OperateLog
     @Operation(summary = "扫描上传")
     @PostMapping("/scanUpload")
     @SaCheckLogin
@@ -69,7 +66,6 @@ public class MovieManageController {
         return CommonResult.ok();
     }
 
-    @OperateLog
     @Operation(summary = "自动匹配自己的数据")
     @PostMapping("/autoMatch")
     public CommonResult<Boolean> autoMatch() {

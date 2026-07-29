@@ -4,7 +4,7 @@ import cn.hoxise.common.base.exception.ServiceException;
 import cn.hoxise.module.movie.controller.movie.vo.MovieExtraCheckVO;
 import cn.hoxise.module.movie.dal.entity.MovieCatalogExtraDO;
 import cn.hoxise.module.movie.dal.mapper.MovieCatalogExtraMapper;
-import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
+import cn.hoxise.module.movie.enums.movie.ExtraResourceTypeEnum;
 import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraSaveDTO;
 import cn.hoxise.module.movie.controller.movie.dto.MovieCatalogExtraUpdateDTO;
 import cn.hoxise.module.system.api.file.FileApi;
@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map;
 
 /**
@@ -39,8 +37,11 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
     @Override
     @Transactional
     public void saveExtra(MovieCatalogExtraSaveDTO dto) {
+        String resourceType = dto.getResourceType();
+        ExtraResourceTypeEnum typeEnum = ExtraResourceTypeEnum.getByCode(resourceType);
+        Assert.notNull(typeEnum,"资源类型不能为空");
         // 云盘资源必须传地址，其它类型必须传 fileId
-        if (dto.getResourceType() == MovieResourceTypeEnum.CLOUD_DRIVE) {
+        if (typeEnum == ExtraResourceTypeEnum.CLOUD_DRIVE) {
             Assert.notBlank(dto.getCloudDriveUrl(), "云盘资源必须提供链接地址");
         } else {
             Assert.notBlank(dto.getFileId(), "OSS资源必须提供文件ID");
@@ -49,7 +50,7 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         MovieCatalogExtraDO extra = MovieCatalogExtraDO.builder()
                 .catalogId(dto.getCatalogId())
                 .fileId(dto.getFileId())
-                .resourceType(dto.getResourceType())
+                .resourceType(typeEnum)
                 .cloudDriveUrl(dto.getCloudDriveUrl())
                 .showName(dto.getShowName())
                 .secret(dto.getSecret())
@@ -87,10 +88,10 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
                 .eq(MovieCatalogExtraDO::getCatalogId, catalogId));
 
         // 按 视频 > 资源文件 > 云盘链接 排序
-        Map<MovieResourceTypeEnum, Integer> order = Map.of(
-                MovieResourceTypeEnum.VIDEO, 0,
-                MovieResourceTypeEnum.RESOURCE_FILE, 1,
-                MovieResourceTypeEnum.CLOUD_DRIVE, 2
+        Map<ExtraResourceTypeEnum, Integer> order = Map.of(
+                ExtraResourceTypeEnum.VIDEO, 0,
+                ExtraResourceTypeEnum.RESOURCE_FILE, 1,
+                ExtraResourceTypeEnum.CLOUD_DRIVE, 2
         );
         extraList.sort(Comparator.comparingInt((MovieCatalogExtraDO e) -> order.getOrDefault(e.getResourceType(), 99))
                 .thenComparing(MovieCatalogExtraDO::getId));
@@ -124,7 +125,7 @@ public class MovieCatalogExtraServiceImpl extends ServiceImpl<MovieCatalogExtraM
         }
 
         // OTHER_CLOUD 类型直接返回云盘地址，其余类型通过 fileApi 获取预览地址
-        if (extra.getResourceType() == MovieResourceTypeEnum.CLOUD_DRIVE) {
+        if (extra.getResourceType() == ExtraResourceTypeEnum.CLOUD_DRIVE) {
             return extra.getCloudDriveUrl();
         }
         return fileApi.getDownloadUrl(extra.getFileId()).getCheckedData();

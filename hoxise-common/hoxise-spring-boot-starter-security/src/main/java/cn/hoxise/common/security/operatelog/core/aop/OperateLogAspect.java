@@ -144,6 +144,10 @@ public class OperateLogAspect {
     }
 
     private static void fillUserFields(OperateLogBaseDTO operateLogObj) {
+        if (!StpUtil.isLogin()) {
+            log.warn("记录操作日志时，用户未登录，userId 设置为空");
+            return;
+        }
         operateLogObj.setUserId(StpUtil.getLoginIdAsLong());
     }
 
@@ -320,6 +324,9 @@ public class OperateLogAspect {
     }
 
     private static boolean isIgnoreArgs(Object object) {
+        if (object == null) {
+            return true;  // null 参数直接忽略
+        }
         Class<?> clazz = object.getClass();
         // 处理数组的情况
         if (clazz.isArray()) {

@@ -62,9 +62,9 @@ public class MovieCatalogExtraController {
         return CommonResult.success(movieCatalogExtraService.hasInfo(catalogId));
     }
 
+    @OperateLog // 记录日志
     @Operation(summary = "查询实际资源地址")
     @GetMapping("/resourceUrl")
-    @SaIgnore
     public CommonResult<String> getResourceUrl(@NotNull Long extraId, String secret) {
         return CommonResult.success(movieCatalogExtraService.getResourceUrl(extraId, secret));
     }

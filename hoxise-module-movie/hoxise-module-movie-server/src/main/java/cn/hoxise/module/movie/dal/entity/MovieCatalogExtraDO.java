@@ -1,7 +1,7 @@
 package cn.hoxise.module.movie.dal.entity;
 
 import cn.hoxise.common.mybatis.core.dataobject.BaseDO;
-import cn.hoxise.module.movie.enums.MovieResourceTypeEnum;
+import cn.hoxise.module.movie.enums.movie.ExtraResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serial;
@@ -47,7 +47,7 @@ public class MovieCatalogExtraDO extends BaseDO {
     /**
      * 资源类型
      */
-    private MovieResourceTypeEnum resourceType;
+    private ExtraResourceTypeEnum resourceType;
 
     /**
      * 云盘存储地址

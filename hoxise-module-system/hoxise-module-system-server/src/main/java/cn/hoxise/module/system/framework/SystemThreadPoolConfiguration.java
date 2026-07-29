@@ -1,6 +1,7 @@
 package cn.hoxise.module.system.framework;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +22,12 @@ public class SystemThreadPoolConfiguration {
      *
      * @return 线程池执行器
      */
+    @Primary
     @Bean("systemTaskExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(2);//核心线程数
-        executor.setMaxPoolSize(5);//最大线程数
+        executor.setCorePoolSize(3);//核心线程数
+        executor.setMaxPoolSize(10);//最大线程数
         executor.setQueueCapacity(100);//队列容量
         executor.setKeepAliveSeconds(60);//线程空闲时间
         executor.setThreadNamePrefix("hoxise-module-system-async-");//线程前缀名

@@ -43,8 +43,6 @@ public class MovieCatalogServiceImpl extends ServiceImpl<MovieCatalogMapper, Mov
 
     @Resource private RedisUtil redisUtil;
 
-    @Resource private MovieFavoriteService movieFavoriteService;
-
     @Override
     public Page<MovieCatalogDO> page(MovieSimpleQueryDTO queryDTO){
         return baseMapper.pageList(queryDTO);
